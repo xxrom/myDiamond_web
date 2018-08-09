@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 
 import './Header.css';
-import logo from '../../assets/Header/logo1_gray.png';
+import logo from '../../assets/Header/blisterprom-0-white.png';
 
 class Header extends Component {
   render() {
@@ -13,13 +13,13 @@ class Header extends Component {
             <li className="li">
               <Link className="liBtn" to="/">
                 <div className="logo-wrapper">
-                  <img src={logo} alt="chernyshov-logo" className="logo" />
+                  <img src={logo} alt="blisterprom-logo" className="logo" />
                 </div>
               </Link>
             </li>
             <li className="li">
               <Link className="liBtn" to="/">
-                Магазин
+                Таблица
               </Link>
             </li>
             <li className="li">
