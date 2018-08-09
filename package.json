@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server --port $PORT --host 0.0.0.0",
-    "start:dev": "webpack-dev-server",
-    "build": "webpack --mode production"
+    "start": "node server.js",
+    "dev": "webpack-dev-server",
+    "build": "webpack --mode production",
+    "postinstall": "webpack --mode production"
   },
   "keywords": [],
   "author": "",
