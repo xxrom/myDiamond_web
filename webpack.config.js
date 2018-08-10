@@ -15,7 +15,7 @@ module.exports = {
     filename: 'index_bundle.js',
   },
 
-  devtool: 'inline-source-map',
+  devtool: 'eval',
   devServer: {
     contentBase: './dist',
     hot: true,

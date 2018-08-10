@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node server.js",
-    "dev": "webpack-dev-server --port 3000 --history-api-fallback",
+    "dev": "webpack-dev-server --port 3000 --history-api-fallback --compress",
     "build": "webpack --mode production",
     "postinstall": "webpack --mode production"
   },

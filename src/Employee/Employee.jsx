@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom';
 import Paper from '@material-ui/core/Paper';
 
 import './Employee.css';
@@ -14,8 +13,6 @@ class Employee extends Component {
       number: /^[ ]{0,}[0-9]+[ ]{0,}$/,
       date: /^[0-9]{4}-[0-9]{2}-[0-9]{2}$/i,
     };
-
-    console.log(regexp.name);
 
     this.labels = [
       {
@@ -81,6 +78,7 @@ class Employee extends Component {
         this.checkInputs
       );
     };
+    this.sendData = this.sendData.bind(this);
   }
 
   checkInputs() {
@@ -92,31 +90,37 @@ class Employee extends Component {
     });
   }
 
+  sendData() {
+    console.log('click');
+    console.log('send');
+  }
+
   render() {
     console.log(this.state);
-    const TextInputs = this.labels.map(
-      ({ label, key, regexp, type, defaultValue }) => (
-        <div className="div-input-wrapper" key={key}>
-          <TextField
-            label={label}
-            className="input"
-            onChange={this.handleOnChange(key, regexp)}
-            error={this.state[key].valid === false}
-            type={type}
-            defaultValue={defaultValue}
-            value={this.state[key].value}
-            fullWidth
-          />
-        </div>
-      )
-    );
+    const TextInputs = this.labels.map(({ label, key, regexp, type }) => (
+      <div className="div-input-wrapper" key={key}>
+        <TextField
+          label={label}
+          className="input"
+          onChange={this.handleOnChange(key, regexp)}
+          error={this.state[key].valid === false}
+          type={type}
+          value={this.state[key].value}
+          fullWidth
+        />
+      </div>
+    ));
 
     return (
       <Paper className="employee-wrapper">
         <h2 className="employee-text">Добавить нового сотрудника</h2>
         <Paper className="inputs-wrapper">{TextInputs}</Paper>
 
-        <button className={`add-btn ${this.state.disableBtn ? '' : 'valid'}`}>
+        <button
+          className={`add-btn ${this.state.disableBtn ? '' : 'valid'}`}
+          disabled={this.state.disableBtn}
+          onClick={this.sendData}
+        >
           Добавить сотрудника
         </button>
       </Paper>
