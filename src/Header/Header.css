@@ -1,56 +1,68 @@
-.nav {
-  margin: 0;
-  padding: 0;
+:root {
+  --text-active-color: #22b1cd;
+  --text-normal-color: #b8b6b4;
+  --dark-background: #171a21;
+  --header-height: 5rem;
 }
+
 .ul {
   margin: 0;
-  padding: 0.5em;
+  width: 100vw;
+  box-sizing: border-box;
 
   display: flex;
   justify-content: flex-start;
-  align-items: center;
+  align-items: flex-start;
 
-  background-color: #171a21;
-}
-
-.li {
-  list-style-type: none;
-  padding: 0.6em;
-  /* background-color: #000; */
-}
-.li:hover {
-  cursor: pointer;
-}
-.li:hover .liBtn {
-  color: #fff;
+  background-color: var(--dark-background);
 }
 
 .liBtn {
+  display: flex;
+
+  align-items: center;
+
+  list-style-type: none;
+
+  height: var(--header-height);
+  padding: 0 1rem;
+
   text-decoration: none;
 
   font-size: 1.2em;
   text-transform: uppercase;
-  color: #b8b6b4;
+
+  color: var(--text-normal-color);
   font-family: 'Motiva Sans', Sans-serif;
+  box-sizing: border-box;
+  border-bottom: 5px solid var(--text-normal-color);
+}
+.liBtn:hover {
+  border-bottom: 5px solid #dddddc;
+  cursor: pointer;
+}
+
+.liBtn.active {
+  color: var(--text-active-color);
+  border-bottom: 5px solid var(--text-active-color);
+}
+
+.liBtn:focus {
+  background-color: #b8b6b417;
 }
 
 .logo-wrapper {
   position: relative;
   display: flex;
   overflow: hidden;
-  height: 4em;
-  width: 7em;
+  height: var(--header-height);
+  width: var(--header-height);
 
-  margin-right: 2em;
+  margin-right: 4rem;
 }
 .logo {
   position: absolute;
-  height: 5rem;
-
-  left: 0em;
-  top: -0.15em;
+  height: 100%;
 
   color: red;
-
-  /* background-color: skyblue; */
 }
