@@ -59,41 +59,66 @@ class Employee extends Component {
       },
     ];
 
-    console.log('r1 ', regexp.name.test('name name'));
-    console.log('r2 ', regexp.name.test('name 32'));
-
-    this.state = {};
+    this.state = {
+      disableBtn: true,
+    };
     this.labels.map(
-      ({ key, defaultValue }) => (this.state[key] = defaultValue)
+      ({ key, defaultValue, regexp }, index) =>
+        (this.state[key] = {
+          value: defaultValue,
+          valid: regexp.test(defaultValue),
+        })
     );
 
-    this.handleOnChange = (key) => (event) => {
-      this.setState({
-        [key]: event.target.value,
-      });
+    this.handleOnChange = (key, regexp) => (event) => {
+      this.setState(
+        {
+          [key]: {
+            value: event.target.value,
+            valid: regexp.test(event.target.value),
+          },
+        },
+        this.checkInputs
+      );
     };
+  }
+
+  checkInputs() {
+    let valid = 0;
+    this.labels.forEach(({ key }) => (!this.state[key].valid ? valid++ : ''));
+    console.log(`valid = ${valid}`);
+    this.setState({
+      disableBtn: !!valid,
+    });
   }
 
   render() {
     console.log(this.state);
     const TextInputs = this.labels.map(
       ({ label, key, regexp, type, defaultValue }) => (
-        <TextField
-          label={label}
-          key={label}
-          className="input"
-          onChange={this.handleOnChange(key)}
-          error={regexp.test(this.state[key]) === false}
-          type={type}
-          defaultValue={defaultValue}
-        />
+        <div className="div-input-wrapper" key={key}>
+          <TextField
+            label={label}
+            className="input"
+            onChange={this.handleOnChange(key, regexp)}
+            error={this.state[key].valid === false}
+            type={type}
+            defaultValue={defaultValue}
+            value={this.state[key].value}
+            fullWidth
+          />
+        </div>
       )
     );
 
     return (
       <Paper className="employee-wrapper">
-        <h2>Добавить нового работника</h2>
-        <div>{TextInputs}</div>
+        <h2 className="employee-text">Добавить нового сотрудника</h2>
+        <Paper className="inputs-wrapper">{TextInputs}</Paper>
+
+        <button className={`add-btn ${this.state.disableBtn ? '' : 'valid'}`}>
+          Добавить сотрудника
+        </button>
       </Paper>
     );
   }
