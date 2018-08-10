@@ -32,7 +32,7 @@ class Table extends Component {
     return (
       <div className="table-wrapper">
         <TableUI className="table">
-          <TableHeader header={header} />
+          {HOC.IsEmpty({ dataName: 'header', header })(TableHeader)}
           <TableData data={data} header={header} />
         </TableUI>
       </div>
