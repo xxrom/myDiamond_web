@@ -93,9 +93,11 @@ class Employee extends Component {
   sendData() {
     console.log('click');
     console.log('send');
-    const obj = {};
-    this.labels.forEach(({ key }) => (obj[key] = this.state[key].value));
-    console.log(obj);
+    const employeeData = {};
+    this.labels.forEach(
+      ({ key }) => (employeeData[key] = this.state[key].value)
+    );
+    console.log(employeeData);
 
     // const url = 'https://my-diamond-postgresql.herokuapp.com/api/employee'
     const url = 'http://localhost:8080/api/employee';
@@ -106,14 +108,37 @@ class Employee extends Component {
         'Content-Type': 'application/json',
       },
       mode: 'cors',
-      body: JSON.stringify(obj),
+      body: JSON.stringify(employeeData),
     })
       .then((res) => {
         console.log(`POST: ${url} // res status = ${res.status}`);
         return res.json();
       })
       .then((data) => {
-        console.log('data', data);
+        console.log('employee Table data', data);
+        const { employee_id } = data.data;
+        const rateData = {
+          ...employeeData,
+          employee_id,
+        };
+
+        fetch('http://localhost:8080/api/rate', {
+          method: 'POST',
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+          },
+          mode: 'cors',
+          body: JSON.stringify(rateData),
+        })
+          .then((res) => {
+            console.log(`POST: ${url} // res status = ${res.status}`);
+            return res.json();
+          })
+          .then((data) => {
+            console.log('rate Table data', data);
+          })
+          .catch((err) => console.log(err));
       })
       .catch((err) => console.log(err));
   }
