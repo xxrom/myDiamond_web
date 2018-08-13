@@ -21,6 +21,14 @@ class Header extends Component {
         <NavLink className="liBtn" to="/employee" activeClassName="active">
           Сотрудники
         </NavLink>
+
+        <NavLink
+          className="liBtn"
+          to="/employee-table"
+          activeClassName="active"
+        >
+          Таблица Сотрудников
+        </NavLink>
       </ul>
     );
   }

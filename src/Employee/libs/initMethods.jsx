@@ -1,9 +1,9 @@
 export default function() {
-  this.checkInputs = (labels, state, setState) => () => {
+  this.checkInputs = (labels) => () => {
     let valid = 0;
-    labels.forEach(({ key }) => (!state[key].valid ? valid++ : ''));
+    labels.forEach(({ key }) => (!this.state[key].valid ? valid++ : ''));
     console.log(`valid = ${valid}`);
-    setState({
+    this.setState({
       disableBtn: !!valid,
     });
   };
@@ -16,7 +16,7 @@ export default function() {
           valid: regexp.test(event.target.value),
         },
       },
-      this.checkInputs(this.labels, this.state, this.setState.bind(this))
+      this.checkInputs(this.labels).bind(this)
     );
   };
 }
