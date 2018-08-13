@@ -2,39 +2,39 @@ export default function() {
   this.state = {
     columns: [
       {
-        Header: 'Employee',
+        Header: 'Сотрудник',
         columns: [
           {
-            Header: 'employee_id',
+            Header: 'Номер Сотрудника',
             accessor: 'employee_id',
           },
           {
-            Header: 'name',
+            Header: 'Фамилия Имя',
             accessor: 'name',
           },
         ],
       },
       {
-        Header: 'Rate',
+        Header: 'Тариф',
         columns: [
           {
-            Header: 'rate_id',
+            Header: 'Номер Тарифа',
             accessor: 'rate_id',
           },
           {
-            Header: 'rate_week_day',
+            Header: 'Тариф-будни',
             accessor: 'rate_week_day',
           },
           {
-            Header: 'rate_week_end',
+            Header: 'Тариф-выходной',
             accessor: 'rate_week_end',
           },
           {
-            Header: 'start_date',
+            Header: 'Начало тарифа',
             accessor: 'start_date',
           },
           {
-            Header: 'end_date',
+            Header: 'Конец тарифа',
             accessor: 'end_date',
           },
         ],

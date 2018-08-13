@@ -25,8 +25,8 @@ class Table extends Component {
     return (
       <div className="table-wrapper">
         <TableUI className="table">
-          {HOC.IsEmpty({ dataName: 'header', header })(TableHeader)}
-          {HOC.IsEmpty({ dataName: 'data', data, header })(TableData)}
+          {HOC.isEmpty({ dataName: 'header', header })(TableHeader)}
+          {HOC.isEmpty({ dataName: 'data', data, header })(TableData)}
         </TableUI>
       </div>
     );

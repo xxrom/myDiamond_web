@@ -1,8 +1,12 @@
 import React from 'react';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import './isEmpty.css';
 
 export default ({ dataName, ...props }) => (WrapperComponent) =>
   props[dataName].length === 0 ? (
-    <h1>Нет данных.</h1>
+    <div className="wrapper">
+      <CircularProgress color="secondary" />
+    </div>
   ) : (
     <WrapperComponent {...props} />
   );

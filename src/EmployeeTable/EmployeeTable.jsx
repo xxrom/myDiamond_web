@@ -3,7 +3,8 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 
-import { fetchTableData, initMethods, initState } from './libs';
+import * as HOC from '../HOC';
+import { initMethods, initState } from './libs';
 
 class EmployeeTable extends Component {
   constructor(props) {
@@ -13,7 +14,7 @@ class EmployeeTable extends Component {
   }
 
   componentDidMount() {
-    fetchTableData.call(this);
+    this.fetchTableData();
   }
 
   render() {
@@ -21,25 +22,22 @@ class EmployeeTable extends Component {
 
     const editEmployee = (row) => (
       <div>
-        <button onClick={this.onClickDelete(row)}>Удалить</button>
-        <button onClick={this.onClickEdit(row)}>Изменить</button>
+        <button onClick={this.onClickDelete(row)}>Удалить Сотрудника</button>
+        <button onClick={this.onClickEdit(row)}>Изменить Сотрудника</button>
       </div>
     );
 
     return (
       <div>
         <h1>Employee Table</h1>
-        {data.length === 0 ? (
-          ''
-        ) : (
-          <ReactTable
-            data={data}
-            columns={columns}
-            defaultPageSize={10}
-            className="-striped -highlight"
-            SubComponent={(row) => editEmployee(row)}
-          />
-        )}
+        {HOC.isEmpty({
+          dataName: 'data',
+          data,
+          columns,
+          defaultPageSize: 10,
+          className: '-striped -highlight',
+          SubComponent: (row) => editEmployee(row),
+        })(ReactTable)}
       </div>
     );
   }
