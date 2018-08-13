@@ -5,7 +5,7 @@ import './isEmpty.css';
 export default ({ dataName, ...props }) => (WrapperComponent) =>
   props[dataName].length === 0 ? (
     <div className="wrapper">
-      <CircularProgress color="secondary" />
+      <CircularProgress />
     </div>
   ) : (
     <WrapperComponent {...props} />
