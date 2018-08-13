@@ -30,7 +30,7 @@ class EmployeeTable extends Component {
     return (
       <div>
         <h1>Employee Table</h1>
-        {HOC.isEmpty({
+        {HOC.empty({
           dataName: 'data',
           data,
           columns,
