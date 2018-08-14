@@ -23,7 +23,7 @@ function fetchData({
       );
       return res.json();
     })
-    .then((data) => thenFunction(data))
+    .then(thenFunction)
     .catch((err) => console.log(err));
 }
 
