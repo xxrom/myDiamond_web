@@ -1,41 +1,26 @@
+import { fetchData } from './';
+
 function deleteRatesByEmployeeId(employee_id) {
-  const urlRate = `http://localhost:8080/api/rate/by-employee-id/${employee_id}`;
-  // const url = `https://my-diamond-postgresql.herokuapp.com/api/rate/by-employee-id/${employee_id}`;
-  return fetch(urlRate, {
-    method: 'DELETE',
-    headers: {
-      'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    },
-  })
-    .then((res) => {
-      console.log(`DELETE: ${urlRate} // res status = ${res.status}`);
-      return res.json();
-    })
-    .then(({ data }) => {
-      console.log('return data', data);
-      return data;
-    })
-    .catch((err) => console.log(err));
+  return fetchData({
+    url: 'rate/by-employee-id/',
+    id: employee_id,
+    fetchOptionsMethod: 'DELETE',
+  });
 }
 
 function deleteEmployeeByEmployeeId(employee_id) {
-  const urlEmployee = `http://localhost:8080/api/employee/${employee_id}`;
-  // const url = `https://my-diamond-postgresql.herokuapp.com/api/employee/${employee_id}`;
-  return fetch(urlEmployee, {
-    method: 'DELETE',
-    headers: {
-      'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
-    },
-  })
-    .then((res) => {
-      console.log(`DELETE: ${urlEmployee} // res status = ${res.status}`);
-      return res.json();
-    })
-    .then(({ data }) => {
-      console.log('return data', data);
-      return data;
-    })
-    .catch((err) => console.log(err));
+  return fetchData({
+    url: 'employee/',
+    id: employee_id,
+    fetchOptionsMethod: 'DELETE',
+  });
 }
 
-export { deleteRatesByEmployeeId, deleteEmployeeByEmployeeId };
+function fetchTableData() {
+  return fetchData({
+    url: 'employee-table/',
+    thenFunction: ({ data }) => this.setState({ data }),
+  });
+}
+
+export { deleteRatesByEmployeeId, deleteEmployeeByEmployeeId, fetchTableData };

@@ -9,6 +9,7 @@ import Table from './Table';
 
 class App extends Component {
   render() {
+    console.log('ENV', process.env.NODE_ENV);
     return (
       <div>
         <Route path="/" component={Header} />
