@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import Paper from '@material-ui/core/Paper';
 
-import './Employee.css';
-import { TextInputs } from './templates';
-import { constructorInit, initMethods, sendData } from './libs';
+import './AddEmployee.css';
+import { TextInputs, SubmitButton } from './templates';
+import { constructorInit, initMethods } from './libs';
 
-class Employee extends Component {
+class AddEmployee extends Component {
   constructor(props) {
     super(props);
     constructorInit.call(this);
@@ -21,21 +21,18 @@ class Employee extends Component {
         <h2 className="employee-text">Добавить нового сотрудника</h2>
 
         <TextInputs
-          state={this.state}
+          values={this.state.values}
           labels={this.labels}
           handleOnChange={this.handleOnChange}
         />
 
-        <button
-          className={`add-btn ${this.state.disableBtn ? '' : 'valid'}`}
-          disabled={this.state.disableBtn}
-          onClick={sendData(this.labels, this.state)}
-        >
-          Добавить сотрудника
-        </button>
+        <SubmitButton
+          disableBtn={this.state.disableBtn}
+          sendData={this.sendData}
+        />
       </Paper>
     );
   }
 }
 
-export default Employee;
+export default AddEmployee;

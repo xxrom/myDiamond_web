@@ -1,7 +1,7 @@
-export default (labels, state) => async () => {
+export default (labels, values) => async () => {
   console.log('send');
   const employeeData = {};
-  labels.forEach(({ key }) => (employeeData[key] = state[key].value));
+  labels.forEach(({ key }) => (employeeData[key] = values[key].value));
   console.log(employeeData);
 
   // const employeeUrl = 'https://my-diamond-postgresql.herokuapp.com/api/employee'

@@ -49,13 +49,13 @@ export default function() {
 
   this.state = {
     disableBtn: true,
+    values: {},
   };
 
-  this.labels.map(
-    ({ key, defaultValue, regexp }, index) =>
-      (this.state[key] = {
-        value: defaultValue,
-        valid: regexp.test(defaultValue),
-      })
-  );
+  this.labels.map(({ key, defaultValue, regexp }) => {
+    this.state.values[key] = {
+      value: defaultValue,
+      valid: regexp.test(defaultValue),
+    };
+  });
 }

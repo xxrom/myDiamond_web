@@ -3,7 +3,7 @@ import { hot } from 'react-hot-loader';
 import { Route } from 'react-router-dom';
 
 import Header from './Header';
-import Employee from './Employee';
+import AddEmployee from './AddEmployee';
 import EmployeeTable from './EmployeeTable';
 import Table from './Table';
 
@@ -14,7 +14,7 @@ class App extends Component {
       <div>
         <Route path="/" component={Header} />
         <Route path="/" exact component={Table} />
-        <Route path="/employee" component={Employee} />
+        <Route path="/add-employee" component={AddEmployee} />
         <Route path="/employee-table" component={EmployeeTable} />
       </div>
     );

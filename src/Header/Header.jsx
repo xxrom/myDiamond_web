@@ -18,8 +18,8 @@ class Header extends Component {
           Заказы
         </NavLink>
 
-        <NavLink className="liBtn" to="/employee" activeClassName="active">
-          Сотрудники
+        <NavLink className="liBtn" to="/add-employee" activeClassName="active">
+          Добавить сотрудника
         </NavLink>
 
         <NavLink
@@ -27,7 +27,7 @@ class Header extends Component {
           to="/employee-table"
           activeClassName="active"
         >
-          Таблица Сотрудников
+          Таблица сотрудников
         </NavLink>
       </ul>
     );
