@@ -27,5 +27,5 @@ export default function() {
     );
   };
 
-  this.sendData = sendData(this.labels, this.state.values);
+  this.sendData = sendData(this.labels);
 }

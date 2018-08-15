@@ -1,4 +1,4 @@
-export default (labels, values) => async () => {
+export default (labels) => (values) => async () => {
   console.log('send');
   const employeeData = {};
   labels.forEach(({ key }) => (employeeData[key] = values[key].value));

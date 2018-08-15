@@ -12,7 +12,6 @@ class AddEmployee extends Component {
   };
   constructor(props) {
     super(props);
-    console.log(props);
     constructorInit.call(this, props);
   }
 
@@ -33,7 +32,7 @@ class AddEmployee extends Component {
 
         <SubmitButton
           disableBtn={this.state.disableBtn}
-          sendData={this.sendData}
+          sendData={this.sendData(this.state.values)}
         />
       </Paper>
     );

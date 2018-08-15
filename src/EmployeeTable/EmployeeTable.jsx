@@ -5,6 +5,8 @@ import 'react-table/react-table.css';
 
 import * as HOC from '../HOC';
 import { initMethods, initState } from './libs';
+import AddEmployee from '../AddEmployee';
+import { labels } from '../EmployeeForm/libs';
 
 class EmployeeTable extends Component {
   constructor(props) {
@@ -24,6 +26,7 @@ class EmployeeTable extends Component {
       <div>
         <button onClick={this.onClickDelete(row)}>Удалить Сотрудника</button>
         <button onClick={this.onClickEdit(row)}>Изменить Сотрудника</button>
+        <AddEmployee labels={labels} />
       </div>
     );
 
