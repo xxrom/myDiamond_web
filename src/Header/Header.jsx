@@ -18,7 +18,7 @@ class Header extends Component {
           Заказы
         </NavLink>
 
-        <NavLink className="liBtn" to="/add-employee" activeClassName="active">
+        <NavLink className="liBtn" to="/employee-form" activeClassName="active">
           Добавить сотрудника
         </NavLink>
 

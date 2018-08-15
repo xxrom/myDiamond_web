@@ -1,4 +1,4 @@
-import { fetchData } from './';
+import { fetchData } from './fetch-api';
 
 function deleteRatesByEmployeeId(employee_id) {
   return fetchData({

@@ -31,10 +31,10 @@ class EmployeeTable extends Component {
       <div>
         <h1>Employee Table</h1>
         {HOC.isEmpty({
-          dataName: 'data',
           data,
           columns,
-          defaultPageSize: 10,
+          dataName: 'data',
+          defaultPageSize: 20,
           className: '-striped -highlight',
           SubComponent: (row) => editEmployee(row),
         })(ReactTable)}
