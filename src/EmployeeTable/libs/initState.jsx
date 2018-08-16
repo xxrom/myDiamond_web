@@ -1,3 +1,4 @@
+import { timeToString } from './';
 export default function() {
   this.state = {
     columns: [
@@ -31,11 +32,13 @@ export default function() {
           },
           {
             Header: 'Начало тарифа',
-            accessor: 'start_date',
+            id: 'start_date',
+            accessor: (d) => timeToString(d.start_date),
           },
           {
             Header: 'Конец тарифа',
-            accessor: 'end_date',
+            id: 'end_date',
+            accessor: (d) => timeToString(d.end_date),
           },
         ],
       },
