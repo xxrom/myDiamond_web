@@ -22,8 +22,6 @@ class AddEmployee extends Component {
   render() {
     return (
       <Paper className="employee-wrapper">
-        <h2 className="employee-text">Добавить нового сотрудника</h2>
-
         <TextInputs
           values={this.state.values}
           labels={this.labels}

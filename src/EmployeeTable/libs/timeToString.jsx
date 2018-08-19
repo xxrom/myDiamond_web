@@ -3,7 +3,7 @@ export default function(str) {
   const addHours = 23;
 
   // добавляем плюс 23 часа, в миллисекундах к дате
-  const dateNumber = Date.parse(str) + addHours * 1000 * 3600;
+  const dateNumber = Date.parse(str); // + addHours * 1000 * 3600;
 
   // преобразуем к строке
   const dateString = new Date(dateNumber).toISOString();
