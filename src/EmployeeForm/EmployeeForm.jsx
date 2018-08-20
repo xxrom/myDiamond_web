@@ -1,18 +1,22 @@
 import React, { Component } from 'react';
 
-import AddEmployee from '../AddEmployee';
+import AddEmployee from '../common/AddEmployee';
 import { labels } from './libs';
+import { SubmitButton } from './templates';
 
 class EmployeeForm extends Component {
-  render() {
-    const onSubmit = () => {
+  constructor(props) {
+    super(props);
+    this.onSubmit = () => {
       console.log('OnSubmit');
     };
+  }
+  render() {
     return (
       <div>
         <h3>Добавить нового сотрудника</h3>
-        <AddEmployee labels={labels} onSumbit={onSubmit} />
-        <button onClick={this.onClick}>Добавить</button>
+        <AddEmployee labels={labels} />
+        <SubmitButton onSubmit={this.onSubmit} />
       </div>
     );
   }
