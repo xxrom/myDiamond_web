@@ -21,18 +21,11 @@ class AddEmployee extends Component {
 
   render() {
     return (
-      <Paper className="employee-wrapper">
-        <TextInputs
-          values={this.state.values}
-          labels={this.labels}
-          handleOnChange={this.handleOnChange}
-        />
-
-        <SubmitButton
-          disableBtn={this.state.disableBtn}
-          sendData={this.sendData(this.state.values)}
-        />
-      </Paper>
+      <TextInputs
+        values={this.state.values}
+        labels={this.labels}
+        handleOnChange={this.handleOnChange}
+      />
     );
   }
 }

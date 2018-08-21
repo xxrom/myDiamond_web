@@ -5,7 +5,7 @@ import 'react-table/react-table.css';
 
 import * as HOC from '../HOC';
 import { initMethods, initState, timeToString } from './libs';
-import AddEmployee from '../AddEmployee';
+import AddEmployee from '../common/AddEmployee';
 import { labels } from '../EmployeeForm/libs';
 
 class EmployeeTable extends Component {

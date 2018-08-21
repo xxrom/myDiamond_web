@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import TextField from '@material-ui/core/TextField';
 import Paper from '@material-ui/core/Paper';
 
-const TextInputs = ({ labels, handleOnChange, values }) => (
+const TextInputs = ({ labels = [], handleOnChange, values }) => (
   <Paper className="inputs-wrapper">
     {labels.map(({ label, key, regexp, type }) => (
       <div className="div-input-wrapper" key={key}>

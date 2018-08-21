@@ -1,6 +1,6 @@
 import regexp from './regexp';
 
-export default [
+const employee_label = [
   {
     label: 'Фамилия Имя',
     key: 'name',
@@ -8,6 +8,9 @@ export default [
     type: 'text',
     defaultValue: 'ФамилияИмя',
   },
+];
+
+const rate_label = [
   {
     label: 'Тариф-будни',
     key: 'rate_week_day',
@@ -41,3 +44,5 @@ export default [
     ),
   },
 ];
+
+export { employee_label, rate_label };

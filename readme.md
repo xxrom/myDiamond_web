@@ -1,5 +1,7 @@
-## `BlisterProm` \_ changeLog
+## Project Structure
 
-09.09.2018
-
-- залили полностью все на `heroku`, все открывается! (https://my-diamond-web.herokuapp.com/)
+# `myDiamond_web` folder
+* |
+* |- assets - статические данные (картинки)
+* |- src - данные по странице
+* |- ui - sketch дизайн

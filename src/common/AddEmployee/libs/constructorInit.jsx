@@ -6,7 +6,7 @@ export default function({ labels }) {
 
   this.labels = labels;
 
-  this.labels.map(({ key, defaultValue, regexp }) => {
+  labels.forEach(({ key, defaultValue, regexp }) => {
     this.state.values[key] = {
       value: defaultValue,
       valid: regexp.test(defaultValue),
