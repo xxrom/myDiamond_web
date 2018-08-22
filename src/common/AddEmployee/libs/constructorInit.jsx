@@ -1,6 +1,5 @@
 export default function({ labels }) {
   this.state = {
-    disableBtn: true,
     values: {},
   };
 
