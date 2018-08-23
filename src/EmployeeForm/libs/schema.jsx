@@ -1,6 +1,6 @@
 import regexp from './regexp';
 
-const employee_label = [
+const employee = [
   {
     label: 'Фамилия Имя',
     key: 'name',
@@ -9,14 +9,15 @@ const employee_label = [
     defaultValue: 'ФамилияИмя',
   },
 ];
-const employee_values = [
-  {
-    key: 'name',
-    value: 'ФамилияИмя',
-  },
-];
 
-const rate_label = [
+const employee_values = {
+  name: {
+    value: 'ФамилияИмя',
+    valid: false,
+  },
+};
+
+const rate = [
   {
     label: 'Тариф-будни',
     key: 'rate_week_day',
@@ -50,5 +51,23 @@ const rate_label = [
     ),
   },
 ];
+const rate_values = {
+  rate_week_day: {
+    value: '100',
+    valid: false,
+  },
+  rate_week_end: {
+    value: '200',
+    valid: false,
+  },
+  start_date: {
+    value: '2018-01-01',
+    valid: false,
+  },
+  end_date: {
+    value: '2018-01-01',
+    valid: false,
+  },
+};
 
-export { employee_label, employee_values, rate_label };
+export { employee, employee_values, rate, rate_values };

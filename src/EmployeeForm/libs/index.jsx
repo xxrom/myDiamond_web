@@ -1,4 +1,4 @@
-import * as labels from './labels';
+import * as schema from './schema';
 import regexp from './regexp';
 
-export { labels, regexp };
+export { schema, regexp };

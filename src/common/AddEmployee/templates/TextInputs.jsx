@@ -6,14 +6,13 @@ import Paper from '@material-ui/core/Paper';
 
 const TextInputs = ({ labels = [], handleOnChange, values }) => (
   <Paper className="inputs-wrapper">
-    {labels.map(({ label, key, regexp, type }) => (
+    {labels.map(({ label, key, regexp }) => (
       <div className="div-input-wrapper" key={key}>
         <TextField
           label={label}
           className="input"
-          onChange={handleOnChange(key, regexp)}
+          onChange={handleOnChange(key, regexp, type)}
           error={values[key].valid === false}
-          type={type}
           value={values[key].value}
           fullWidth
         />
