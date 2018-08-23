@@ -9,6 +9,12 @@ const employee_label = [
     defaultValue: 'ФамилияИмя',
   },
 ];
+const employee_values = [
+  {
+    key: 'name',
+    value: 'ФамилияИмя',
+  },
+];
 
 const rate_label = [
   {
@@ -45,4 +51,4 @@ const rate_label = [
   },
 ];
 
-export { employee_label, rate_label };
+export { employee_label, employee_values, rate_label };
