@@ -55,6 +55,7 @@
   cursor: pointer;
 }
 
+/* Set content for Plus + */
 .delete-btn:before,
 .delete-btn:after {
   content: '';
@@ -80,4 +81,11 @@
   height: 0.1rem;
   margin-top: -1px;
   transform: rotate(45deg);
+}
+
+.delete-btn:hover:before {
+  transform: rotate(90deg);
+}
+.delete-btn:hover:after {
+  transform: rotate(180deg);
 }
