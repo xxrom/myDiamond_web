@@ -5,7 +5,24 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 import './AddEmployee.css';
 
-const AddEmployee = ({ name, schema, handleOnChange, values }) => (
+/**
+ * Список полей выводящийся по схеме (schema)
+ *
+ * @param {*} {
+ *   name,
+ *   schema,
+ *   handleOnChange,
+ *   handleOnDelete,
+ *   values,
+ * }
+ */
+const AddEmployee = ({
+  name,
+  schema,
+  handleOnChange,
+  handleOnDelete,
+  values,
+}) => (
   <Paper className="inputs-wrapper">
     {schema.map(({ label, key, regexp }) => (
       <div className="div-input-wrapper" key={`${label}${key}`}>
@@ -19,6 +36,7 @@ const AddEmployee = ({ name, schema, handleOnChange, values }) => (
         />
       </div>
     ))}
+    <button onClick={handleOnDelete(name)}>Удалить</button>
   </Paper>
 );
 
@@ -27,6 +45,7 @@ AddEmployee.propTypes = {
   schema: PropTypes.array.isRequired,
   values: PropTypes.object.isRequired,
   handleOnChange: PropTypes.func.isRequired,
+  handleOnDelete: PropTypes.func.isRequired,
 };
 
 export default AddEmployee;

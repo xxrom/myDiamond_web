@@ -55,7 +55,7 @@ class EmployeeForm extends Component {
     // Генерим новую структуру с учетом расположения эелментов
     this.structure = this._structure.map((item, index) => ({
       ...item,
-      name: `${name}${index}`,
+      name: `${item.name}${index}`,
     }));
 
     // хранилище всех переменных по key = structure.name
@@ -100,13 +100,23 @@ class EmployeeForm extends Component {
    * Удаления блока
    */
   onDelBlock = () => {
-    console.log('del block');
-    this._structure.pop();
-    const deletedBlock = this.structure.pop();
+    const lastIndexForDelet = this.structure.length - 1;
+    this.delBlockByIndex(lastIndexForDelet);
+  };
+
+  /**
+   * Удалить из this.structure по номеру в массивае
+   * @param index {number} - номер в массиве для удаления
+   */
+  delBlockByIndex = (index) => {
+    console.log(`del by index ${index}`);
+    // Удаляем блок и далее перемещаем его в const
+    const deletedBlock = this.structure.splice(index, 1)[0];
+    this._structure.splice(index, 1);
 
     const values = { ...this.state.values };
     delete values[deletedBlock.name];
-    console.log(values);
+
     this.setState({
       values: {
         ...values,
@@ -114,9 +124,21 @@ class EmployeeForm extends Component {
     });
   };
 
+  /**
+   * Удаление из this.structure по имени блока
+   *
+   * @param findName {string} - имя блока
+   */
+  onDelByName = (findName) => (e) =>
+    this.structure.map(
+      ({ name }, index) =>
+        name === findName
+          ? // Если нашли нужный индекс, то удаляем его сразу
+            this.delBlockByIndex(index)
+          : ''
+    );
+
   render() {
-    console.log(this.structure);
-    console.log(this.state);
     const Diamond = this.structure.map(({ name, schema }) => (
       <AddEmployee
         key={name}
@@ -124,6 +146,7 @@ class EmployeeForm extends Component {
         schema={schema}
         values={this.state.values[name]}
         handleOnChange={this.handleOnChange}
+        handleOnDelete={this.onDelByName}
       />
     ));
 
@@ -132,7 +155,7 @@ class EmployeeForm extends Component {
         <h3 className="title">Добавить нового сотрудника</h3>
         {Diamond}
         <button onClick={this.onAddBlock}>Добавить rate</button>
-        <button onClick={this.onDelBlock}>Удалить rate</button>
+        <button onClick={this.onDelBlock}>Удалить последний rate</button>
         <SubmitButton
           onSubmit={this.onSubmit}
           disabled={true}
