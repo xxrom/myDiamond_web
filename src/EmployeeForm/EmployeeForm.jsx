@@ -151,16 +151,17 @@ class EmployeeForm extends Component {
     ));
 
     return (
-      <div>
+      <div className="employee-from">
         <h3 className="title">Добавить нового сотрудника</h3>
         {Diamond}
-        <button onClick={this.onAddBlock}>Добавить rate</button>
-        <button onClick={this.onDelBlock}>Удалить последний rate</button>
+
         <SubmitButton
           onSubmit={this.onSubmit}
           disabled={true}
           buttonTitle="Добавить сотрудника"
         />
+
+        <button className="add-employee-btn" onClick={this.onAddBlock} />
       </div>
     );
   }

@@ -1,3 +1,55 @@
+.employee-from {
+  position: relative;
+  margin: 1rem;
+}
+
 .title {
-  margin-left: 1rem;
+  margin-left: 0.5rem;
+}
+
+/* ADD EMPLOYEE BTN */
+.add-employee-btn {
+  position: absolute;
+
+  width: 40px;
+  height: 40px;
+
+  right: 0rem;
+
+  border-radius: 5px;
+
+  border: 2px solid var(--text-active-color);
+}
+
+/* Set content for X + */
+.add-employee-btn:before,
+.add-employee-btn:after {
+  content: '';
+  position: absolute;
+  background-color: black;
+  transition: transform 0.25s ease-out;
+}
+/* Vertical line */
+.add-employee-btn:before {
+  top: 25%;
+  left: 50%;
+  width: 0.2rem;
+  height: 50%;
+  margin-left: -1px;
+}
+
+/* horizontal line */
+.add-employee-btn:after {
+  top: 50%;
+  left: 25%;
+  width: 50%;
+  height: 0.2rem;
+  margin-top: -1.5px;
+}
+
+.add-employee-btn:hover:before {
+  transform: rotate(180deg);
+}
+.add-employee-btn:hover:after {
+  transform: rotate(180deg);
 }

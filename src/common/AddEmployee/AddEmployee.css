@@ -5,7 +5,7 @@
 
   padding: 0 0.5rem 0.5rem 0;
 
-  margin: 0.5rem;
+  margin: 0.5rem 0;
 }
 
 .div-input-wrapper {
@@ -37,6 +37,7 @@
   box-sizing: border-box;
 }
 
+/* DELETE BTN */
 .delete-btn {
   position: absolute;
 
@@ -49,13 +50,13 @@
   margin: 0.1rem;
 
   border: 0px;
-  background-color: red;
+  background-color: #f44336;
 
   border-radius: 0.2rem;
   cursor: pointer;
 }
 
-/* Set content for Plus + */
+/* Set content for X + */
 .delete-btn:before,
 .delete-btn:after {
   content: '';
