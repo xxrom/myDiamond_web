@@ -8,13 +8,11 @@ import './AddEmployee.css';
 /**
  * Список полей выводящийся по схеме (schema)
  *
- * @param {*} {
- *   name,
- *   schema,
- *   handleOnChange,
- *   handleOnDelete,
- *   values,
- * }
+ * @param {string} name - имя блока
+ * @param {array} schema - схема всего блока
+ * @param {object} values - значения для инпутов и валидация
+ * @param {func} handleOnChange - вызов ф по изменению
+ * @param {func} handleOnDelete - вызов ф по клику на удалить
  */
 const AddEmployee = ({
   name,
@@ -36,7 +34,7 @@ const AddEmployee = ({
         />
       </div>
     ))}
-    <button onClick={handleOnDelete(name)}>Удалить</button>
+    <button className="delete-btn" onClick={handleOnDelete(name)} />
   </Paper>
 );
 
