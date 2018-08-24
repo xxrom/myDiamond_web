@@ -40,13 +40,26 @@ class EmployeeForm extends Component {
       schema: schema.rate,
       schemaValues: schema.rate_values,
     };
-    this.structure = [structureEmployee, structureRate];
+    const structure = [
+      structureEmployee,
+      structureRate,
+      structureRate,
+      structureRate,
+      structureRate,
+      structureRate,
+    ];
 
-    const values = {};
+    // генерим новую структуру с учетом расположения эелментов
+    this.structure = structure.map((item, index) => ({
+      ...item,
+      name: `${name}${index}`,
+    }));
 
-    this.structure.forEach(
-      ({ name, schemaValues }) => (values[name] = schemaValues)
-    );
+    // хранилище всех переменных по key = structure.name
+    const values = {}; // TODO: попробовать сразу в this.state
+
+    // закидываем ключи в хранилище переменных
+    this.structure.forEach((item) => (values[item.name] = item.schemaValues));
 
     this.state = { values };
   }
