@@ -42,6 +42,7 @@ class EmployeeForm extends Component {
       schema: schema.rate,
       schemaValues: schema.rate_values,
     };
+    // TODO: в случае в датами доработать цепочку дат друг за другом
     // Скрытая новая структуру =)
     this._structure = [
       this._structureEmployee,

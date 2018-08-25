@@ -17,8 +17,9 @@
   right: 0rem;
 
   border-radius: 5px;
-
   border: 2px solid var(--text-active-color);
+
+  cursor: pointer;
 }
 
 /* Set content for X + */
