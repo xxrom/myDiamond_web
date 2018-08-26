@@ -13,6 +13,12 @@ class EmployeeForm extends Component {
       console.log('OnSubmit');
     };
 
+    /**
+     * Изменение полей блоков
+     * @param {string} name - имя блока всего
+     * @param {string} key - идентификатор поля
+     * @param {object} regexp - валидация поля
+     */
     this.handleOnChange = (name, key, regexp) => (event) => {
       console.log('handleOnChange parent 1', event.target.value);
       console.log(`${name} ${key}`);
@@ -53,7 +59,7 @@ class EmployeeForm extends Component {
       this._structureRate,
     ];
 
-    // Генерим новую структуру с учетом расположения эелментов
+    // Генерим новую структуру с учетом расположения элементов
     this.structure = this._structure.map((item, index) => ({
       ...item,
       name: `${item.name}${index}`,
@@ -154,6 +160,7 @@ class EmployeeForm extends Component {
     return (
       <div className="employee-from">
         <h3 className="title">Добавить нового сотрудника</h3>
+
         {Diamond}
 
         <SubmitButton

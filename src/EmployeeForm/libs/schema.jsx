@@ -1,5 +1,16 @@
 import regexp from './regexp';
 
+/**
+ * [name] - имя схемы
+ *
+ * @param {array} - массив объектов,
+ * который который описывает поведение поля ввода
+ * * {string} label - заглавие поля ввода
+ * * {string} key - идентификатор поля
+ * * {object} regexp - валидация поля
+ * * {string} type - тип поля ['text', 'date']
+ * * {string} defaultValue - дефолтное значение
+ */
 const employee = [
   {
     label: 'Фамилия Имя',
@@ -10,7 +21,19 @@ const employee = [
   },
 ];
 
+/**
+ * [name]_values - имя схемы
+ *
+ * {string} status - [
+ *  'mustBe' - этот блок полей должен быть, его нельзя удалять!
+ * ]
+ *
+ * @param {object} [name][key] - объект со значениями для каждого поля оп key
+ * * {string} value - значение поля
+ * * {boolean} valid - валидация прошла?
+ */
 const employee_values = {
+  status: 'mustBe',
   name: {
     value: 'ФамилияИмя',
     valid: false,
