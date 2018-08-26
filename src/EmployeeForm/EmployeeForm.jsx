@@ -36,32 +36,22 @@ class EmployeeForm extends Component {
       });
     };
 
-    // Скрытая структура сотрудника
-    this._structureEmployee = {
-      name: 'employee',
-      schema: schema.employee,
-      schemaValues: schema.employee_values,
-      settings: schema.employee_settings,
-    };
-    // Скрытая структура рэйта
-    this._structureRate = {
-      name: 'rate',
-      schema: schema.rate,
-      schemaValues: schema.rate_values,
-      settings: schema.rate_settings,
-    };
-    // TODO: в случае в датами доработать цепочку дат друг за другом
-    // Скрытая новая структуру =)
-    this._structure = [
-      this._structureEmployee,
-      this._structureRate,
-      this._structureRate,
-      this._structureRate,
-      this._structureRate,
-      this._structureRate,
-    ];
+    const getStructure = (name, schema) => ({
+      name: name,
+      schema: schema[name],
+      values: schema[`${name}_values`],
+      settings: schema[`${name}_settings`],
+    });
 
-    // Генерим новую структуру с учетом расположения элементов
+    // Скрытые структуры
+    this._structureEmployee = getStructure('employee', schema);
+    this._structureRate = getStructure('rate', schema);
+
+    // TODO: в случае в датами доработать цепочку дат друг за другом
+    // Общая Скрытая новая структура =)
+    this._structure = [this._structureEmployee, this._structureRate];
+
+    // Генерим публичную новую структуру с учетом расположения элементов
     this.structure = this._structure.map((item, index) => ({
       ...item,
       name: `${item.name}${index}`,
@@ -71,7 +61,7 @@ class EmployeeForm extends Component {
     const values = {}; // TODO: попробовать сразу в this.state
 
     // закидываем ключи в хранилище переменных
-    this.structure.forEach((item) => (values[item.name] = item.schemaValues));
+    this.structure.forEach((item) => (values[item.name] = item.values));
 
     this.state = { values };
   }
@@ -95,12 +85,12 @@ class EmployeeForm extends Component {
     });
 
     // Вытаскиваем данные из только что добавленного элемента
-    const { name, schemaValues } = this.structure[addedIndex];
-    // Добавляем schemaValues для нового блока
+    const { name, values } = this.structure[addedIndex];
+    // Добавляем values[schema] для нового блока
     this.setState({
       values: {
         ...this.state.values,
-        [name]: schemaValues,
+        [name]: values,
       },
     });
   };
@@ -109,8 +99,8 @@ class EmployeeForm extends Component {
    * Удаления блока
    */
   onDelBlock = () => {
-    const lastIndexForDelet = this.structure.length - 1;
-    this.delBlockByIndex(lastIndexForDelet);
+    const lastIndexForDelete = this.structure.length - 1;
+    this.delBlockByIndex(lastIndexForDelete);
   };
 
   /**
