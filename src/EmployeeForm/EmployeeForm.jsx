@@ -41,12 +41,14 @@ class EmployeeForm extends Component {
       name: 'employee',
       schema: schema.employee,
       schemaValues: schema.employee_values,
+      settings: schema.employee_settings,
     };
     // Скрытая структура рэйта
     this._structureRate = {
       name: 'rate',
       schema: schema.rate,
       schemaValues: schema.rate_values,
+      settings: schema.rate_settings,
     };
     // TODO: в случае в датами доработать цепочку дат друг за другом
     // Скрытая новая структуру =)
@@ -146,11 +148,12 @@ class EmployeeForm extends Component {
     );
 
   render() {
-    const Diamond = this.structure.map(({ name, schema }) => (
+    const Diamond = this.structure.map(({ name, schema, settings }) => (
       <AddEmployee
         key={name}
         name={name}
         schema={schema}
+        settings={settings}
         values={this.state.values[name]}
         handleOnChange={this.handleOnChange}
         handleOnDelete={this.onDelByName}

@@ -24,20 +24,23 @@ const employee = [
 /**
  * [name]_values - имя схемы
  *
- * {string} status - [
- *  'mustBe' - этот блок полей должен быть, его нельзя удалять!
- * ]
- *
  * @param {object} [name][key] - объект со значениями для каждого поля оп key
  * * {string} value - значение поля
  * * {boolean} valid - валидация прошла?
  */
 const employee_values = {
-  status: 'mustBe',
   name: {
     value: 'ФамилияИмя',
     valid: false,
   },
+};
+
+/**
+ * Дополнительный настройки данного блока
+ * @param {boolean} delete - этот блок можно или нет удалить
+ */
+const employee_settings = {
+  delete: false,
 };
 
 const rate = [
@@ -92,5 +95,15 @@ const rate_values = {
     valid: false,
   },
 };
+const rate_settings = {
+  delete: true,
+};
 
-export { employee, employee_values, rate, rate_values };
+export {
+  employee,
+  employee_values,
+  employee_settings,
+  rate,
+  rate_values,
+  rate_settings,
+};

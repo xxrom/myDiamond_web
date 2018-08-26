@@ -54,12 +54,10 @@ class AddEmployee extends Component {
     );
   };
   render() {
-    const { name, schema, handleOnChange, values } = this.props;
-    console.log(`values => ${values}`, values);
-    const button =
-      values.status !== 'mustBe' ? (
-        <button className="delete-btn" onClick={this.onDelete(name)} />
-      ) : null;
+    const { name, schema, handleOnChange, values, settings } = this.props;
+    const button = settings.delete ? (
+      <button className="delete-btn" onClick={this.onDelete(name)} />
+    ) : null;
 
     return (
       <Paper style={this.state.styles.inputsWrapper} className="inputs-wrapper">
@@ -100,6 +98,7 @@ AddEmployee.propTypes = {
   name: PropTypes.string.isRequired,
   schema: PropTypes.array.isRequired,
   values: PropTypes.object.isRequired,
+  settings: PropTypes.object.isRequired,
   handleOnChange: PropTypes.func.isRequired,
   handleOnDelete: PropTypes.func.isRequired,
 };
