@@ -34,31 +34,6 @@ module.exports = {
           loader: 'babel-loader',
         },
       },
-      // {
-      //   test: /\.css$/,
-      //   exclude: /node_modules/,
-
-      //   use: [
-      //     {
-      //       loader: 'style-loader',
-      //     },
-      //     {
-      //       loader: 'css-loader',
-      //       options: {
-      //         importLoaders: 1,
-      //       },
-      //     },
-      //     {
-      //       loader: 'postcss-nested',
-      //     },
-      //     {
-      //       loader: 'sass-loader',
-      //     },
-      //     {
-      //       loader: 'postcss-loader',
-      //     },
-      //   ],
-      // },
       {
         test: /\.css$/,
         use: [
@@ -72,7 +47,7 @@ module.exports = {
                 // require('postcss-for'),
                 // require('postcss-simple-vars'),
                 // require('postcss-custom-properties'),
-                require('postcss-nested'),
+                require('postcss-nested'), // &__test { ... }
                 // require('postcss-color-function'),
                 require('autoprefixer')({
                   browsers: ['last 2 versions', 'ie > 9'],
