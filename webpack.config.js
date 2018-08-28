@@ -34,10 +34,55 @@ module.exports = {
           loader: 'babel-loader',
         },
       },
+      // {
+      //   test: /\.css$/,
+      //   exclude: /node_modules/,
+
+      //   use: [
+      //     {
+      //       loader: 'style-loader',
+      //     },
+      //     {
+      //       loader: 'css-loader',
+      //       options: {
+      //         importLoaders: 1,
+      //       },
+      //     },
+      //     {
+      //       loader: 'postcss-nested',
+      //     },
+      //     {
+      //       loader: 'sass-loader',
+      //     },
+      //     {
+      //       loader: 'postcss-loader',
+      //     },
+      //   ],
+      // },
       {
         test: /\.css$/,
-        use: ['style-loader', 'css-loader'],
+        use: [
+          'style-loader',
+          'css-loader',
+          {
+            loader: 'postcss-loader',
+            options: {
+              plugins: [
+                // require('postcss-import'),
+                // require('postcss-for'),
+                // require('postcss-simple-vars'),
+                // require('postcss-custom-properties'),
+                require('postcss-nested'),
+                // require('postcss-color-function'),
+                require('autoprefixer')({
+                  browsers: ['last 2 versions', 'ie > 9'],
+                }),
+              ],
+            },
+          },
+        ],
       },
+
       {
         test: /\.(jpe?g|png)$/,
         use: [

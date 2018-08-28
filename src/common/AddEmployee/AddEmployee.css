@@ -23,9 +23,9 @@
 
   border-radius: 0px;
   /* box-shadow: -1px 1px 0px rgba(0, 0, 0, 0.42); */
-}
-.div-input-wrapper:first-child {
-  flex-grow: 2;
+  &:first-child {
+    flex-grow: 2;
+  }
 }
 
 .employee-text {
