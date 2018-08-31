@@ -27,4 +27,4 @@ TextInputs.propTypes = {
   values: PropTypes.object.isRequired,
 };
 
-export default TextInputs;
+export { TextInputs };

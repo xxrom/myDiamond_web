@@ -33,6 +33,7 @@ class AddEmployee extends Component {
    * @param {object} e - уже сам вызов произошел по клику
    */
   onDelete = (name) => (e) => {
+    console.log('name', name);
     // Сначала скрываем блок (сжимаем его)
     this.setState({
       styles: {
@@ -40,29 +41,28 @@ class AddEmployee extends Component {
         inputsWrapper: styles.inputsWrapperHide,
       },
     });
-    setTimeout(
-      function(name) {
-        // Полностью скрываем блок из html
-        this.setState({
-          styles: {
-            ...this.state.styles,
-            inputsWrapper: styles.inputsWrapperDeleted,
-          },
-        });
-        // Возвращаем функцию
-        return this.props.handleOnDelete(name);
-      }.bind(this),
-      500
-    );
+    setTimeout(() => {
+      console.log('delete 1', name);
+      // Полностью скрываем блок из html
+      this.setState({
+        styles: {
+          ...this.state.styles,
+          inputsWrapper: styles.inputsWrapperDeleted,
+        },
+      });
+      // Возвращаем функцию
+      this.props.handleOnDelete(name);
+    }, 500);
   };
   render() {
     const { name, schema, handleOnChange, values, settings } = this.props;
-    const button = settings.delete ? (
+
+    const deleteButton = settings.delete ? (
       <DeleteButtonSmall className="delete-btn" onClick={this.onDelete(name)} />
     ) : null;
 
     return (
-      <Paper style={this.state.styles.inputsWrapper} className="inputs-wrapper">
+      <Paper className={`inputs-wrapper ${this.state.styles.inputsWrapper}`}>
         {schema.map(({ label, key, regexp }) => (
           <div className="div-input-wrapper" key={`${label}${key}`}>
             <TextField
@@ -75,7 +75,7 @@ class AddEmployee extends Component {
             />
           </div>
         ))}
-        {button}
+        {deleteButton}
       </Paper>
     );
   }

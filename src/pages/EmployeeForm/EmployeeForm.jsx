@@ -128,7 +128,8 @@ class EmployeeForm extends Component {
    *
    * @param findName {string} - имя блока
    */
-  onDelByName = (findName) => (e) =>
+  onDelByName = (findName) => {
+    console.log('deleteByName', findName);
     this.structure.map(
       ({ name }, index) =>
         name === findName
@@ -136,6 +137,7 @@ class EmployeeForm extends Component {
             this.delBlockByIndex(index)
           : ''
     );
+  };
 
   render() {
     const Diamond = this.structure.map(({ name, schema, settings }) => (
@@ -166,9 +168,5 @@ class EmployeeForm extends Component {
     );
   }
 }
-// <AddEmployee
-//   labels={labels.rate_label}
-//   handleOnChange={this.handleOnChange}
-// />
 
 export { EmployeeForm };
