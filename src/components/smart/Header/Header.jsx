@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { NavLink } from 'react-router-dom';
 
 import './Header.css';
-import logo from '../../assets/Header/blisterprom-0-white.png';
+import logo from '../../../../assets/Header/blisterprom-0-white.png';
 
 class Header extends Component {
   render() {
@@ -34,4 +34,4 @@ class Header extends Component {
   }
 }
 
-export default Header;
+export { Header };

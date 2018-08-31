@@ -21,4 +21,4 @@ class SubmitButton extends Component {
   }
 }
 
-export default SubmitButton;
+export { SubmitButton };

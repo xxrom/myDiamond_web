@@ -2,10 +2,8 @@ import React, { Component } from 'react';
 import { hot } from 'react-hot-loader';
 import { Route } from 'react-router-dom';
 
-import Header from './Header';
-import EmployeeForm from './EmployeeForm';
-import EmployeeTable from './EmployeeTable';
-import Table from './Table';
+import { Header } from './components/smart/';
+import { EmployeeForm, EmployeeTable, Table } from './pages/';
 
 class App extends Component {
   render() {

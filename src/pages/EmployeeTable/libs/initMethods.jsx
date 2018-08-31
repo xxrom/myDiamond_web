@@ -1,4 +1,4 @@
-import { api } from '../../common';
+import { api } from '../../../libs/api';
 
 export default function() {
   this.onClickDelete = (row) => () => {

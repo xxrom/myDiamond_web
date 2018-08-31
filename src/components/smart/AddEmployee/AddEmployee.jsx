@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
+
+import { DeleteButtonSmall } from '../../common/';
 import './AddEmployee.css';
 
 /**
@@ -56,7 +58,7 @@ class AddEmployee extends Component {
   render() {
     const { name, schema, handleOnChange, values, settings } = this.props;
     const button = settings.delete ? (
-      <button className="delete-btn" onClick={this.onDelete(name)} />
+      <DeleteButtonSmall className="delete-btn" onClick={this.onDelete(name)} />
     ) : null;
 
     return (
@@ -103,4 +105,4 @@ AddEmployee.propTypes = {
   handleOnDelete: PropTypes.func.isRequired,
 };
 
-export default AddEmployee;
+export { AddEmployee };

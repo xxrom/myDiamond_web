@@ -1,8 +1,8 @@
 import React, { Component } from 'react';
 
-import AddEmployee from '../common/AddEmployee';
+import { AddEmployee } from '../../components/smart/';
+import { SubmitButton } from '../../components/common/';
 import { schema } from './libs';
-import { SubmitButton } from './templates';
 
 import './EmployeeForm.css';
 
@@ -158,10 +158,9 @@ class EmployeeForm extends Component {
 
         <SubmitButton
           onSubmit={this.onSubmit}
-          disabled={true}
+          disabled={false}
           buttonTitle="Добавить сотрудника"
         />
-
         <button className="add-employee-btn" onClick={this.onAddBlock} />
       </div>
     );
@@ -172,4 +171,4 @@ class EmployeeForm extends Component {
 //   handleOnChange={this.handleOnChange}
 // />
 
-export default EmployeeForm;
+export { EmployeeForm };

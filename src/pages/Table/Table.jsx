@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+// import PropTypes from 'prop-types';
 import TableUI from '@material-ui/core/Table';
 
 import './Table.css';
 import fetchTableData from './libs/fetchTableData';
 import { TableHeader, TableData } from './templates';
-import * as HOC from '../HOC';
+import * as HOC from '../../HOC';
 
 class Table extends Component {
   constructor(props) {
@@ -34,4 +34,4 @@ class Table extends Component {
   }
 }
 
-export default Table;
+export { Table };

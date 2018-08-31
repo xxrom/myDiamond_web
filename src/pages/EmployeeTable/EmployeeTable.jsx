@@ -3,9 +3,9 @@ import React, { Component } from 'react';
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 
-import * as HOC from '../HOC';
+import * as HOC from '../../HOC';
 import { initMethods, initState, timeToString } from './libs';
-import AddEmployee from '../common/AddEmployee';
+import { AddEmployee } from '../../components/smart/';
 import { labels } from '../EmployeeForm/libs';
 
 class EmployeeTable extends Component {
@@ -67,4 +67,4 @@ class EmployeeTable extends Component {
   }
 }
 
-export default EmployeeTable;
+export { EmployeeTable };
