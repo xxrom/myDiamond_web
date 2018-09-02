@@ -13,44 +13,60 @@ import './AddEmployee.css';
  * @param {string} name - имя блока
  * @param {array} schema - схема всего блока
  * @param {object} values - значения для инпутов и валидация
+ * @param {object} settings - настройки блока
+ * @see {bool} settings.delete - можно удалять или нет блок
  * @param {func} handleOnChange - вызов ф по изменению
  * @param {func} handleOnDelete - вызов ф по клику на удалить
  */
 class AddEmployee extends Component {
+  static = {
+    name: PropTypes.string.isRequired,
+    schema: PropTypes.array.isRequired,
+    values: PropTypes.object.isRequired,
+    settings: PropTypes.object.isRequired,
+    handleOnChange: PropTypes.func.isRequired,
+    handleOnDelete: PropTypes.func.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
-      styles: {
-        inputsWrapper: styles.inputsWrapper,
+      class: {
+        inputsWrapper: '',
       },
     };
+  }
+
+  componentDidMount() {
+    // Aнимация добавления элемента AddEmployee
+    setTimeout(() => {
+      this.setState({
+        class: {
+          ...this.state.class,
+          inputsWrapper: 'inputs-wrapper_max-height',
+        },
+      });
+    }, 0);
   }
 
   /**
    * Удаление блока по его имени (name)
    *
    * @param {string} name - имя блока (передаем из .map)
-   * @param {object} e - уже сам вызов произошел по клику
+   * @param {object} _ - уже сам вызов произошел по клику
    */
-  onDelete = (name) => (e) => {
+  onDelete = (name) => (_) => {
     console.log('name', name);
     // Сначала скрываем блок (сжимаем его)
     this.setState({
-      styles: {
-        ...this.state.styles,
-        inputsWrapper: styles.inputsWrapperHide,
+      class: {
+        ...this.state.class,
+        inputsWrapper: 'inputs-wrapper_hide',
       },
     });
+
     setTimeout(() => {
-      console.log('delete 1', name);
-      // Полностью скрываем блок из html
-      this.setState({
-        styles: {
-          ...this.state.styles,
-          inputsWrapper: styles.inputsWrapperDeleted,
-        },
-      });
-      // Возвращаем функцию
+      // Передаем сигнал выше =)
       this.props.handleOnDelete(name);
     }, 500);
   };
@@ -62,7 +78,7 @@ class AddEmployee extends Component {
     ) : null;
 
     return (
-      <Paper className={`inputs-wrapper ${this.state.styles.inputsWrapper}`}>
+      <Paper className={`inputs-wrapper ${this.state.class.inputsWrapper}`}>
         {schema.map(({ label, key, regexp }) => (
           <div className="div-input-wrapper" key={`${label}${key}`}>
             <TextField
@@ -80,29 +96,5 @@ class AddEmployee extends Component {
     );
   }
 }
-
-const styles = {
-  inputsWrapper: {
-    maxHeight: '1000px',
-  },
-  inputsWrapperHide: {
-    padding: 0,
-    margin: 0,
-    maxHeight: '0px',
-    backgroundColor: 'gray',
-  },
-  inputsWrapperDeleted: {
-    display: 'none',
-  },
-};
-
-AddEmployee.propTypes = {
-  name: PropTypes.string.isRequired,
-  schema: PropTypes.array.isRequired,
-  values: PropTypes.object.isRequired,
-  settings: PropTypes.object.isRequired,
-  handleOnChange: PropTypes.func.isRequired,
-  handleOnDelete: PropTypes.func.isRequired,
-};
 
 export { AddEmployee };
