@@ -30,8 +30,8 @@ const employee = [
  */
 const employee_values = {
   name: {
-    value: 'ФамилияИмя',
-    valid: false,
+    value: 'Фамилия Имя',
+    valid: true,
   },
 };
 
@@ -42,6 +42,8 @@ const employee_values = {
 const employee_settings = {
   delete: false,
 };
+
+// ============================
 
 const rate = [
   {
@@ -80,19 +82,19 @@ const rate = [
 const rate_values = {
   rate_week_day: {
     value: '100',
-    valid: false,
+    valid: true,
   },
   rate_week_end: {
     value: '200',
-    valid: false,
+    valid: true,
   },
   start_date: {
     value: '2018-01-01',
-    valid: false,
+    valid: true,
   },
   end_date: {
     value: '2018-01-01',
-    valid: false,
+    valid: true,
   },
 };
 const rate_settings = {

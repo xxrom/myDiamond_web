@@ -47,7 +47,7 @@ class EmployeeForm extends Component {
     this._structureEmployee = getStructure('employee', schema);
     this._structureRate = getStructure('rate', schema);
 
-    // TODO: в случае в датами доработать цепочку дат друг за другом
+    // TODO: в случае с датами доработать цепочку дат друг за другом
     // Общая Скрытая новая структура =)
     this._structure = [this._structureEmployee, this._structureRate];
 

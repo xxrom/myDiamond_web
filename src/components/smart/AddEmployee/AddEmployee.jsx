@@ -68,8 +68,9 @@ class AddEmployee extends Component {
     setTimeout(() => {
       // Передаем сигнал выше =)
       this.props.handleOnDelete(name);
-    }, 500);
+    }, 500); // задержка перед удаление для анимации
   };
+
   render() {
     const { name, schema, handleOnChange, values, settings } = this.props;
 
