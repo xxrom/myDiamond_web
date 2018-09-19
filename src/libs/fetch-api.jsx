@@ -5,6 +5,7 @@ function fetchData({
   fetchOptionsHeader = {
     'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
   },
+  body = {},
   thenFunction = ({ data }) => data,
 }) {
   let web = `http://localhost:8080/api/`;
@@ -16,10 +17,14 @@ function fetchData({
   return fetch(`${web}${url}${id}`, {
     method: fetchOptionsMethod,
     headers: fetchOptionsHeader,
+    body: JSON.stringify(body),
   })
     .then((res) => {
       console.log(
-        `${fetchOptionsMethod}: ${web}${url}${id} // res status = ${res.status}`
+        `${fetchOptionsMethod}: ${web}${url}${id} // res status = ${
+          res.status
+        }`,
+        res
       );
       return res.json();
     })

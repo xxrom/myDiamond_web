@@ -3,14 +3,61 @@ import React, { Component } from 'react';
 import { AddEmployee } from '../../components/smart/';
 import { SubmitButton } from '../../components/common/';
 import { schema } from './libs';
+import { api } from '../../libs/';
 
 import './EmployeeForm.css';
 
 class EmployeeForm extends Component {
   constructor(props) {
     super(props);
-    this.onSubmit = () => {
-      console.log('OnSubmit');
+
+    function getEmployeeObj(data) {
+      // TODO: Хардкод для ==> employee0 <==
+      const employee = data.employee0;
+      const sendEmployeeObj = {};
+
+      console.log('employee', employee);
+      // Формируем объект Employee для отправки на бэк
+      for (const val in employee) {
+        console.log('values ', val);
+        sendEmployeeObj[val] = employee[val].value;
+      }
+
+      return sendEmployeeObj;
+    }
+
+    function getRateArray(employeeId, data) {
+      // проходимся по всему объекту
+      return Object.keys(data)
+        .filter((rate) => rate.includes('rate')) // фильтруем объект по 'rate'
+        .map((val) =>
+          Object.keys(data[val]) // объект вытаскиваем из data
+            .reduce(
+              // Формируем объект с данными
+              (sum, item) => ({
+                ...sum,
+                [item]: data[val][item].value,
+              }),
+              { employee_id: employeeId }
+            )
+        );
+    }
+
+    this.onSubmit = async () => {
+      console.log('OnSubmit', this.state.values);
+
+      // Добавляем нового сотрудника
+      const sendEmployeeObj = getEmployeeObj(this.state.values);
+      console.log('sendEmployee Obj', sendEmployeeObj);
+
+      // const employeeId = await api.postNewEmployee(sendEmployeeObj);
+      const employeeId = 97;
+      console.log(`employeeId`, employeeId);
+
+      // Добавляем для нового сотрудника его ставки
+      const sendRateArr = getRateArray(employeeId, this.state.values);
+      console.log('sendRateArr obj', sendRateArr);
+      const rateId = await api.postNewRate(sendRateArr);
     };
 
     /**
@@ -48,6 +95,7 @@ class EmployeeForm extends Component {
     this._structureRate = getStructure('rate', schema);
 
     // TODO: в случае с датами доработать цепочку дат друг за другом
+    // 02 - 05 => 05 - 06 => 06 - 09
     // Общая Скрытая новая структура =)
     this._structure = [this._structureEmployee, this._structureRate];
 

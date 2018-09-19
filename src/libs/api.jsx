@@ -1,5 +1,6 @@
 import { fetchData } from './fetch-api';
 
+// EMPLOYEE
 function deleteRatesByEmployeeId(employee_id) {
   return fetchData({
     url: 'rate/by-employee-id/',
@@ -23,4 +24,48 @@ function fetchTableData() {
   });
 }
 
-export { deleteRatesByEmployeeId, deleteEmployeeByEmployeeId, fetchTableData };
+async function postNewEmployee(body) {
+  const ans = await fetchData({
+    url: '/employee',
+    fetchOptionsMethod: 'POST',
+    fetchOptionsHeader: {
+      'Content-type': 'application/json',
+    },
+    body,
+  });
+
+  console.log('ans', ans);
+
+  return ans;
+}
+
+/**
+ *
+ * @param {array} body - массив с объектами, каждый нужно передать отдельно
+ */
+async function postNewRate(body = []) {
+  const ans = await Promise.all(
+    body.map((item) =>
+      fetchData({
+        url: '/rate',
+        fetchOptionsMethod: 'POST',
+        fetchOptionsHeader: {
+          'Content-type': 'application/json',
+        },
+        body: item,
+      })
+    )
+  );
+
+  console.log('ans', ans);
+
+  return ans;
+}
+
+export {
+  deleteRatesByEmployeeId,
+  deleteEmployeeByEmployeeId,
+  fetchTableData,
+  postNewEmployee,
+  postNewRate,
+};
