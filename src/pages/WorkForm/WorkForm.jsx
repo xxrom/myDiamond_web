@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 
 import './WorkForm.css';
 
+import { schema } from './libs/';
+
 /**
  * Список полей выводящийся по схеме (schema)
  *
@@ -20,7 +22,7 @@ class WorkForm extends Component {
     };
   }
   render() {
-    return <h1>WorkForm</h1>;
+    return <h3>Добавить новую работу.</h3>;
   }
 }
 

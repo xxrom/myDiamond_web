@@ -1,4 +1,4 @@
-import regexp from './regexp';
+import { regexp } from '../../../libs';
 
 /**
  * [name] - имя схемы

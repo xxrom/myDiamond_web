@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { AddEmployee } from '../../components/smart/';
 import { SubmitButton } from '../../components/common/';
 import { schema } from './libs';
-import { api } from '../../libs/';
+import { api, structure } from '../../libs/';
 
 import './EmployeeForm.css';
 
@@ -11,47 +11,46 @@ class EmployeeForm extends Component {
   constructor(props) {
     super(props);
 
-    function getEmployeeObj(data) {
-      // TODO: Хардкод для ==> employee0 <==
-      const employee = data.employee0;
-      const sendEmployeeObj = {};
+    this.onSubmit = async () => {
+      function getEmployeeObj(data) {
+        // TODO: Хардкод для ==> employee0 <==
+        const employee = data.employee0;
+        const sendEmployeeObj = {};
 
-      console.log('employee', employee);
-      // Формируем объект Employee для отправки на бэк
-      for (const val in employee) {
-        console.log('values ', val);
-        sendEmployeeObj[val] = employee[val].value;
+        console.log('employee', employee);
+        // Формируем объект Employee для отправки на бэк
+        for (const val in employee) {
+          console.log('values ', val);
+          sendEmployeeObj[val] = employee[val].value;
+        }
+
+        return sendEmployeeObj;
       }
 
-      return sendEmployeeObj;
-    }
+      function getRateArray(employeeId, data) {
+        // проходимся по всему объекту
+        return Object.keys(data)
+          .filter((rate) => rate.includes('rate')) // фильтруем объект по 'rate'
+          .map((val) =>
+            Object.keys(data[val]) // объект вытаскиваем из data
+              .reduce(
+                // Формируем объект с данными
+                (sum, item) => ({
+                  ...sum,
+                  [item]: data[val][item].value,
+                }),
+                { employee_id: employeeId }
+              )
+          );
+      }
 
-    function getRateArray(employeeId, data) {
-      // проходимся по всему объекту
-      return Object.keys(data)
-        .filter((rate) => rate.includes('rate')) // фильтруем объект по 'rate'
-        .map((val) =>
-          Object.keys(data[val]) // объект вытаскиваем из data
-            .reduce(
-              // Формируем объект с данными
-              (sum, item) => ({
-                ...sum,
-                [item]: data[val][item].value,
-              }),
-              { employee_id: employeeId }
-            )
-        );
-    }
-
-    this.onSubmit = async () => {
       console.log('OnSubmit', this.state.values);
 
       // Добавляем нового сотрудника
       const sendEmployeeObj = getEmployeeObj(this.state.values);
       console.log('sendEmployee Obj', sendEmployeeObj);
 
-      // const employeeId = await api.postNewEmployee(sendEmployeeObj);
-      const employeeId = 97;
+      const employeeId = await api.postNewEmployee(sendEmployeeObj);
       console.log(`employeeId`, employeeId);
 
       // Добавляем для нового сотрудника его ставки
@@ -83,16 +82,9 @@ class EmployeeForm extends Component {
       });
     };
 
-    const getStructure = (name, schema) => ({
-      name: name,
-      schema: schema[name],
-      values: schema[`${name}_values`],
-      settings: schema[`${name}_settings`],
-    });
-
     // Скрытые структуры
-    this._structureEmployee = getStructure('employee', schema);
-    this._structureRate = getStructure('rate', schema);
+    this._structureEmployee = structure.get('employee', schema);
+    this._structureRate = structure.get('rate', schema);
 
     // TODO: в случае с датами доработать цепочку дат друг за другом
     // 02 - 05 => 05 - 06 => 06 - 09
