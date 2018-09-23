@@ -11,6 +11,9 @@ class EmployeeForm extends Component {
   constructor(props) {
     super(props);
 
+    /**
+     * Отправляет данные на сервер
+     */
     this.onSubmit = async () => {
       function getEmployeeObj(data) {
         // TODO: Хардкод для ==> employee0 <==
@@ -43,8 +46,6 @@ class EmployeeForm extends Component {
               )
           );
       }
-
-      console.log('OnSubmit', this.state.values);
 
       // Добавляем нового сотрудника
       const sendEmployeeObj = getEmployeeObj(this.state.values);
@@ -83,27 +84,30 @@ class EmployeeForm extends Component {
     };
 
     // Скрытые структуры
-    this._structureEmployee = structure.get('employee', schema);
-    this._structureRate = structure.get('rate', schema);
+    // this._structureEmployee = structure.get('employee', schema);
+    // this._structureRate = structure.get('rate', schema);
 
     // TODO: в случае с датами доработать цепочку дат друг за другом
     // 02 - 05 => 05 - 06 => 06 - 09
     // Общая Скрытая новая структура =)
-    this._structure = [this._structureEmployee, this._structureRate];
+    // this._structure = [this._structureEmployee, this._structureRate];
 
     // Генерим публичную новую структуру с учетом расположения элементов
-    this.structure = this._structure.map((item, index) => ({
-      ...item,
-      name: `${item.name}${index}`,
-    }));
+    // this.structure = this._structure.map((item, index) => ({
+    //   ...item,
+    //   name: `${item.name}${index}`,
+    // }));
 
     // хранилище всех переменных по key = structure.name
-    const values = {}; // TODO: попробовать сразу в this.state
+    // const values = {}; // TODO: попробовать сразу в this.state
 
-    // закидываем ключи в хранилище переменных
-    this.structure.forEach((item) => (values[item.name] = item.values));
+    // // закидываем ключи в хранилище переменных
+    // this.structure.forEach((item) => (values[item.name] = item.values));
 
-    this.state = { values };
+    // this.state = { values };
+    this.state = {
+      ...structure.makeStructure(['employee', 'rate'], schema),
+    };
   }
 
   /**
@@ -144,13 +148,13 @@ class EmployeeForm extends Component {
   };
 
   /**
-   * Удалить из this.structure по номеру в массивае
+   * Удалить из this.state.structure по номеру в массивае
    * @param index {number} - номер в массиве для удаления
    */
   delBlockByIndex = (index) => {
     console.log(`del by index ${index}`);
     // Удаляем блок и далее перемещаем его в const
-    const deletedBlock = this.structure.splice(index, 1)[0];
+    const deletedBlock = this.state.structure.splice(index, 1)[0];
     this._structure.splice(index, 1);
 
     const values = { ...this.state.values };
@@ -164,13 +168,13 @@ class EmployeeForm extends Component {
   };
 
   /**
-   * Удаление из this.structure по имени блока
+   * Удаление из this.state.structure по имени блока
    *
    * @param findName {string} - имя блока
    */
   onDelByName = (findName) => {
     console.log('deleteByName', findName);
-    this.structure.map(
+    this.state.structure.map(
       ({ name }, index) =>
         name === findName
           ? // Если нашли нужный индекс, то удаляем его сразу
@@ -180,7 +184,7 @@ class EmployeeForm extends Component {
   };
 
   render() {
-    const Diamond = this.structure.map(({ name, schema, settings }) => (
+    const Diamond = this.state.structure.map(({ name, schema, settings }) => (
       <AddEmployee
         key={name}
         name={name}
