@@ -24,24 +24,16 @@ const makeStructure = (schema) => {
   console.log('structureSkeleton', structureSkeleton);
 
   // Основная структура
-  let innerIndex = 0; // внутренний счетчик
-  const structure = structureSkeleton.reduce((sum, item, index) => {
-    if (
-      sum[sum.length - 1] &&
-      sum[sum.length - 1].name.indexOf(item.name) === -1
-    ) {
-      // Сбрасываем счетчик если новое имя начинается
-      innerIndex = 0;
-    }
-
-    return [
+  const structure = structureSkeleton.reduce(
+    (sum, item) => [
       ...sum,
       {
         ...item,
-        name: `${item.name}${innerIndex++}`,
+        name: `${item.name}0`, // Всегда 0 т.к. инициализация начальная
       },
-    ];
-  }, []);
+    ],
+    []
+  );
 
   // Инициализация полей ввода
   const values = structure.reduce(
