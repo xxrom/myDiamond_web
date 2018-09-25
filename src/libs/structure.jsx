@@ -24,10 +24,24 @@ const makeStructure = (schema) => {
   console.log('structureSkeleton', structureSkeleton);
 
   // Основная структура
-  const structure = structureSkeleton.map((item, index) => ({
-    ...item,
-    name: `${item.name}${index}`,
-  }));
+  let innerIndex = 0; // внутренний счетчик
+  const structure = structureSkeleton.reduce((sum, item, index) => {
+    if (
+      sum[sum.length - 1] &&
+      sum[sum.length - 1].name.indexOf(item.name) === -1
+    ) {
+      // Сбрасываем счетчик если новое имя начинается
+      innerIndex = 0;
+    }
+
+    return [
+      ...sum,
+      {
+        ...item,
+        name: `${item.name}${innerIndex++}`,
+      },
+    ];
+  }, []);
 
   // Инициализация полей ввода
   const values = structure.reduce(

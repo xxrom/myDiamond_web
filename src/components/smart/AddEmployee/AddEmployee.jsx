@@ -74,9 +74,14 @@ class AddEmployee extends Component {
   render() {
     const { name, schema, handleOnChange, values, settings } = this.props;
 
-    const deleteButton = settings.delete ? (
-      <DeleteButtonSmall className="delete-btn" onClick={this.onDelete(name)} />
-    ) : null;
+    // name.indexOf('0') самый первый элемент нельзя удалять
+    const deleteButton =
+      settings.delete && name.indexOf('0') === -1 ? (
+        <DeleteButtonSmall
+          className="delete-btn"
+          onClick={this.onDelete(name)}
+        />
+      ) : null;
 
     return (
       <Paper className={`inputs-wrapper ${this.state.class.inputsWrapper}`}>
