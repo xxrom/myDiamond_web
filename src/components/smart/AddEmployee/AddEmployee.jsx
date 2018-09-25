@@ -53,10 +53,8 @@ class AddEmployee extends Component {
    * Удаление блока по его имени (name)
    *
    * @param {string} name - имя блока (передаем из .map)
-   * @param {object} _ - уже сам вызов произошел по клику
    */
-  onDelete = (name) => (_) => {
-    console.log('name', name);
+  onDelete = (name) => () => {
     // Сначала скрываем блок (сжимаем его)
     this.setState({
       class: {

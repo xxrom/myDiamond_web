@@ -55,7 +55,10 @@ class EmployeeForm extends Component {
       console.log(`employeeId`, employeeId);
 
       // Добавляем для нового сотрудника его ставки
-      const sendRateArr = getRateArray(employeeId, this.state.values);
+      const sendRateArr = getRateArray(
+        employeeId.employee_id,
+        this.state.values
+      );
       console.log('sendRateArr obj', sendRateArr);
       const rateId = await api.postNewRate(sendRateArr);
     };
