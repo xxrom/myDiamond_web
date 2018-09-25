@@ -7,19 +7,24 @@ const get = (name, schema) => ({
 
 /**
  * Создаем структуру полей ввода
- * @param {array} structureNames - массив названий схем объектов
+ * @param
  * @param {object} schema - схема с разметкой данных о полях
  * @returns {object} объект схемы и значений полей
  */
-const makeStructure = (structureNames, schema) => {
+const makeStructure = (schema) => {
+  // {array} structureNames - массив названий схем объектов
+  const structureNames = Object.keys(schema).filter(
+    (item) => item.indexOf('_') === -1 // в именах не существует '_'
+  );
   console.log('structureName', structureNames);
-  // Вспомогательная структура
-  const _structure = structureNames.map((item) => get(item, schema));
 
-  console.log('_structure', _structure);
+  // Вспомогательная структура
+  const structureSkeleton = structureNames.map((item) => get(item, schema));
+
+  console.log('structureSkeleton', structureSkeleton);
 
   // Основная структура
-  const structure = _structure.map((item, index) => ({
+  const structure = structureSkeleton.map((item, index) => ({
     ...item,
     name: `${item.name}${index}`,
   }));
@@ -33,10 +38,13 @@ const makeStructure = (structureNames, schema) => {
     {}
   );
 
-  console.log('Structure', structure, 'values', values);
+  console.log('Structure', structure);
+  console.log('structureSkeleton', structureSkeleton);
+  console.log('values', values);
 
   return {
     structure,
+    structureSkeleton,
     values,
   };
 };

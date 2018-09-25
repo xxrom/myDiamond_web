@@ -106,7 +106,7 @@ class EmployeeForm extends Component {
 
     // this.state = { values };
     this.state = {
-      ...structure.makeStructure(['employee', 'rate'], schema),
+      ...structure.makeStructure(schema),
     };
   }
 
