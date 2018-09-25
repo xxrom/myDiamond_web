@@ -116,20 +116,21 @@ class EmployeeForm extends Component {
   onAddBlock = () => {
     console.log('add rate');
     // Добавляем новый блок к скрытой начальной структуре
-    this._structure.push(this._structureRate);
+    // FIXME: подумать как убрать хардкод индекса ...
+    this.state.structureSkeleton.push(this.state.structureSkeleton[1]); // 'rate' - structure
 
     // Вычисляем параметры нового элемента
-    const addedIndex = this._structure.length - 1;
-    const addedItem = this._structure[addedIndex];
+    const addedIndex = this.state.structureSkeleton.length - 1;
+    const addedItem = this.state.structureSkeleton[addedIndex];
     console.log(addedItem);
     // В структуру закидываем все его данные и генерим имя
-    this.structure.push({
+    this.state.structure.push({
       ...addedItem,
       name: `${addedItem.name}${addedIndex}`,
     });
 
     // Вытаскиваем данные из только что добавленного элемента
-    const { name, values } = this.structure[addedIndex];
+    const { name, values } = this.state.structure[addedIndex];
     // Добавляем values[schema] для нового блока
     this.setState({
       values: {
@@ -148,14 +149,14 @@ class EmployeeForm extends Component {
   };
 
   /**
-   * Удалить из this.state.structure по номеру в массивае
+   * Удалить из this.state.structure по номеру в массиве
    * @param index {number} - номер в массиве для удаления
    */
   delBlockByIndex = (index) => {
     console.log(`del by index ${index}`);
     // Удаляем блок и далее перемещаем его в const
     const deletedBlock = this.state.structure.splice(index, 1)[0];
-    this._structure.splice(index, 1);
+    this.state.structureSkeleton.splice(index, 1);
 
     const values = { ...this.state.values };
     delete values[deletedBlock.name];
