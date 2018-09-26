@@ -29,7 +29,7 @@ const work = [
     defaultValue: '',
   },
   {
-    label: 'Дневной идентификатор ID',
+    label: 'Дневной ID',
     key: 'name_day_id',
     regexp: regexp.number,
     type: 'text',
@@ -45,20 +45,20 @@ const work = [
 ];
 
 const work_values = {
-  rate_week_day: {
-    value: '100',
+  date: {
+    value: String(new Date().toISOString().slice(0, 10)),
     valid: true,
   },
-  rate_week_end: {
-    value: '200',
-    valid: true,
+  employee_id: {
+    value: '',
+    valid: false,
   },
-  start_date: {
-    value: '2018-01-01',
-    valid: true,
+  name_day_id: {
+    value: '',
+    valid: false,
   },
-  end_date: {
-    value: '2018-01-01',
+  full_time: {
+    value: '480',
     valid: true,
   },
 };
@@ -115,7 +115,7 @@ const article = [
 
 const article_values = {
   article: {
-    value: '',
+    value: 'TEST 343',
     valid: true,
   },
   time: {

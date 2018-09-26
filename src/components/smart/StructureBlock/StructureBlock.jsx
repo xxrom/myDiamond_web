@@ -5,7 +5,7 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 
 import { DeleteButtonSmall } from '../../common/';
-import './AddEmployee.css';
+import './StructureBlock.css';
 
 /**
  * Список полей выводящийся по схеме (schema)
@@ -18,7 +18,7 @@ import './AddEmployee.css';
  * @param {func} handleOnChange - вызов ф по изменению
  * @param {func} handleOnDelete - вызов ф по клику на удалить
  */
-class AddEmployee extends Component {
+class StructureBlock extends Component {
   static = {
     name: PropTypes.string.isRequired,
     schema: PropTypes.array.isRequired,
@@ -38,7 +38,7 @@ class AddEmployee extends Component {
   }
 
   componentDidMount() {
-    // Aнимация добавления элемента AddEmployee
+    // Aнимация добавления элемента StructureBlock
     setTimeout(() => {
       this.setState({
         class: {
@@ -72,6 +72,7 @@ class AddEmployee extends Component {
   render() {
     const { name, schema, handleOnChange, values, settings } = this.props;
 
+    console.log('values', values);
     // name.indexOf('0') самый первый элемент нельзя удалять
     const deleteButton =
       settings.delete && name.indexOf('0') === -1 ? (
@@ -101,4 +102,27 @@ class AddEmployee extends Component {
   }
 }
 
-export { AddEmployee };
+/**
+ * Изменение полей блоков
+ * @param {string} name - имя блока всего
+ * @param {string} key - идентификатор поля
+ * @param {object} regexp - валидация поля
+ */
+const handleOnChange = (name, key, regexp) => (event) => {
+  console.log('handleOnChange parent 1', event.target.value);
+  console.log(`${name} ${key}`);
+  this.setState({
+    values: {
+      ...this.state.values,
+      [name]: {
+        ...this.state.values[name],
+        [key]: {
+          value: event.target.value,
+          valid: regexp.test(event.target.value),
+        },
+      },
+    },
+  });
+};
+
+export { StructureBlock, handleOnChange };

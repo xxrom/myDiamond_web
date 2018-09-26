@@ -43,11 +43,49 @@ async function postNewEmployee(body) {
  *
  * @param {array} body - массив с объектами, каждый нужно передать отдельно
  */
-async function postNewRate(body = []) {
+async function postNewRateArray(body = []) {
   const ans = await Promise.all(
     body.map((item) =>
       fetchData({
         url: '/rate',
+        fetchOptionsMethod: 'POST',
+        fetchOptionsHeader: {
+          'Content-type': 'application/json',
+        },
+        body: item,
+      })
+    )
+  );
+
+  console.log('ans', ans);
+
+  return ans;
+}
+
+async function postNewWork(body) {
+  const ans = await fetchData({
+    url: '/work',
+    fetchOptionsMethod: 'POST',
+    fetchOptionsHeader: {
+      'Content-type': 'application/json',
+    },
+    body,
+  });
+
+  console.log('ans', ans);
+
+  return ans;
+}
+
+/**
+ *
+ * @param {array} body - массив с объектами, каждый нужно передать отдельно
+ */
+async function postNewArticleArray(body = []) {
+  const ans = await Promise.all(
+    body.map((item) =>
+      fetchData({
+        url: '/article',
         fetchOptionsMethod: 'POST',
         fetchOptionsHeader: {
           'Content-type': 'application/json',
@@ -67,5 +105,7 @@ export {
   deleteEmployeeByEmployeeId,
   fetchTableData,
   postNewEmployee,
-  postNewRate,
+  postNewRateArray,
+  postNewWork,
+  postNewArticleArray,
 };
