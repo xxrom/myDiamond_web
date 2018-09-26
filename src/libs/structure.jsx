@@ -55,4 +55,47 @@ const makeStructure = (schema) => {
   };
 };
 
-export { makeStructure };
+// Обработка и подготовка данных перед отправкой на бэк
+const prepare = {
+  /**
+   * I.этап: Формируем объект для отправки на бэк
+   * вытаскиваем из объекта для каждого его ключа - .value key
+   * @param {object} data - объект со значениями
+   * @param {string} objectName - имя объекта из data, откуда вытаскиваем
+   */
+  getObject: function(data, objectName) {
+    // TODO: Хардкод для objectName ... (work0, employee0)
+    const dataObject = data[objectName];
+    const sendObject = {};
+
+    // Формируем объект Employee для отправки на бэк
+    for (const val in dataObject) {
+      sendObject[val] = dataObject[val].value;
+    }
+
+    return sendObject;
+  },
+  /**
+   * II.этап: Формируем массив для отправки на бэк
+   * @param {object} mainObjectId - объект с данными (main_id)
+   * @param {string} mainObjectName - ключ, который вытаскиваем из mainObjectId
+   * @param {object} data - .state.values лежат все значения полей ввода
+   * @param {string} structureName - фильтр для отбора объектов данных
+   */
+  getArray: (mainObjectId, mainObjectName, data, structureName) =>
+    Object.keys(data) // Проходимся по всему объекту
+      .filter((arr) => arr.includes(structureName)) // structureName 'rate'
+      .map((val) =>
+        Object.keys(data[val]) // Объект вытаскиваем из data
+          .reduce(
+            // Формируем объект с данными
+            (sum, item) => ({
+              ...sum,
+              [item]: data[val][item].value,
+            }),
+            { [mainObjectName]: mainObjectId[mainObjectName] } // Дописываем ID
+          )
+      ),
+};
+
+export { makeStructure, prepare };

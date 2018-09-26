@@ -106,47 +106,23 @@ class EmployeeForm extends Component {
    * Отправляет данные на сервер
    */
   onSubmit = async () => {
-    function getObject(data, objectName) {
-      // TODO: Хардкод для objectName ... (work0, employee0)
-      const dataObject = data[objectName];
-      const sendObject = {};
-
-      console.log('dataObject', dataObject);
-      // Формируем объект Employee для отправки на бэк
-      for (const val in dataObject) {
-        console.log('values ', val);
-        sendObject[val] = dataObject[val].value;
-      }
-
-      return sendObject;
-    }
-
-    function getRateArray(employeeId, data) {
-      // проходимся по всему объекту
-      return Object.keys(data)
-        .filter((rate) => rate.includes('rate')) // фильтруем объект по 'rate'
-        .map((val) =>
-          Object.keys(data[val]) // объект вытаскиваем из data
-            .reduce(
-              // Формируем объект с данными
-              (sum, item) => ({
-                ...sum,
-                [item]: data[val][item].value,
-              }),
-              { employee_id: employeeId }
-            )
-        );
-    }
-
     // Добавляем нового сотрудника
-    const sendEmployeeObj = getEmployeeObj(this.state.values, 'employee0');
+    const sendEmployeeObj = structure.prepare.getObject(
+      this.state.values,
+      'employee0'
+    );
     console.log('sendEmployeeObj', sendEmployeeObj);
 
     const employeeId = await api.postNewEmployee(sendEmployeeObj);
     console.log(`employeeId`, employeeId);
 
     // Добавляем для нового сотрудника его ставки
-    const sendRateArr = getRateArray(employeeId.employee_id, this.state.values);
+    const sendRateArr = structure.prepare.getArray(
+      employeeId,
+      'employee_id',
+      this.state.values,
+      'rate'
+    );
     console.log('sendRateArr obj', sendRateArr);
     const rateId = await api.postNewRateArray(sendRateArr);
   };

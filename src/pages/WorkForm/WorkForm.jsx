@@ -116,48 +116,27 @@ class WorkForm extends Component {
    * Отправляет данные на сервер
    */
   onSubmit = async () => {
-    function getObject(data, objectName) {
-      // TODO: Хардкод для objectName ... (work0, employee0)
-      const dataObject = data[objectName];
-      const sendObject = {};
-
-      console.log('dataObject', dataObject);
-      // Формируем объект Employee для отправки на бэк
-      for (const val in dataObject) {
-        console.log('values ', val);
-        sendObject[val] = dataObject[val].value;
-      }
-
-      return sendObject;
-    }
-
-    function getArticleArray(workId, data) {
-      // проходимся по всему объекту
-      return Object.keys(data)
-        .filter((rate) => rate.includes('article')) // фильтруем объект по 'rate'
-        .map((val) =>
-          Object.keys(data[val]) // объект вытаскиваем из data
-            .reduce(
-              // Формируем объект с данными
-              (sum, item) => ({
-                ...sum,
-                [item]: data[val][item].value,
-              }),
-              { work_id: workId }
-            )
-        );
-    }
+    // TODO: валидация this.state.values что все значения валидны!!
+    // ...
 
     // Добавляем новую работу
     // FIXME: сотрудник ID нужно выпадающий список Имен сотрудников с их ID
-    const sendWorkObject = getObject(this.state.values, 'work0');
+    const sendWorkObject = structure.prepare.getObject(
+      this.state.values,
+      'work0'
+    );
     console.log('sendWorkObject', sendWorkObject);
 
     const workId = await api.postNewWork(sendWorkObject);
     console.log(`workId`, workId);
 
     // Добавляем для сотрудника его работы
-    const sendArticleArr = getArticleArray(workId.work_id, this.state.values);
+    const sendArticleArr = structure.prepare.getArray(
+      workId,
+      'work_id',
+      this.state.values,
+      'article'
+    );
     console.log('sendArticleArr', sendArticleArr);
     const articleId = await api.postNewArticleArray(sendArticleArr);
   };
