@@ -5,6 +5,8 @@ import { SubmitButton } from '../../components/common/';
 import { schema } from './libs';
 import { api, structure } from '../../libs/';
 
+import Snackbar from '@material-ui/core/Snackbar';
+
 import './EmployeeForm.css';
 
 class EmployeeForm extends Component {
@@ -109,6 +111,9 @@ class EmployeeForm extends Component {
     const { values } = this.state;
     if (!structure.validate.values(values)) {
       console.log('NotValid !!!');
+      this.setState({
+        open: true,
+      });
       return;
     }
 
@@ -131,6 +136,7 @@ class EmployeeForm extends Component {
   };
 
   render() {
+    console.log('this.state', this.state);
     const Diamond = this.state.structure.map(({ name, schema, settings }) => (
       <StructureBlock
         key={name}

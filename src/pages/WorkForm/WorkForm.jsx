@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
+import Snackbar from '@material-ui/core/Snackbar';
 
 import './WorkForm.css';
 
@@ -21,6 +22,7 @@ class WorkForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      open: false,
       ...structure.makeStructure(schema),
     };
   }
@@ -69,6 +71,7 @@ class WorkForm extends Component {
     const { name, values } = this.state.structure[addedIndex];
     // Добавляем values[schema] для нового блока
     this.setState({
+      ...this.state.values,
       values: {
         ...this.state.values,
         [name]: values,
@@ -106,6 +109,7 @@ class WorkForm extends Component {
     delete values[deletedBlock.name];
 
     this.setState({
+      ...this.state.values,
       values: {
         ...values,
       },
@@ -119,8 +123,10 @@ class WorkForm extends Component {
     const { values } = this.state;
     if (!structure.validate.values(values)) {
       console.log('NotValid !!!');
+      this.setState({ open: true });
       return;
     }
+    return;
 
     // Добавляем новую работу
     // FIXME: сотрудник ID нужно выпадающий список Имен сотрудников с их ID
@@ -141,7 +147,12 @@ class WorkForm extends Component {
     const articleId = await api.postNewArticleArray(sendArticleArr);
   };
 
+  handleClose = () => {
+    this.setState({ open: false });
+  };
+
   render() {
+    console.log('this.state', this.state);
     const Diamond = this.state.structure.map(({ name, schema, settings }) => (
       <StructureBlock
         key={name}
@@ -153,6 +164,7 @@ class WorkForm extends Component {
         handleOnDelete={this.handleOnDelete}
       />
     ));
+    console.log('this.state.open', this.state.open);
     return (
       <div className="work-from">
         <h3>Добавить новую работу.</h3>
@@ -164,6 +176,24 @@ class WorkForm extends Component {
           buttonTitle="Добавить работу"
         />
         <button className="add-employee-btn" onClick={this.onAddBlock} />
+
+        <Snackbar
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
+          autoHideDuration={6000}
+          open={this.state.open}
+          onClose={this.handleClose}
+          ContentProps={{
+            'aria-describedby': 'message-id',
+          }}
+          message={
+            <span id="message-id">
+              NOT VALIDDDD FIX ME PLEAS MOTHERFUCKER!!!!!!
+            </span>
+          }
+        />
       </div>
     );
   }

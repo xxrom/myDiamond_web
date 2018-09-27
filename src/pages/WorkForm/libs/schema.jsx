@@ -70,7 +70,7 @@ const work_settings = {
 
 const article = [
   {
-    label: 'Артикуль',
+    label: 'Артикул',
     key: 'article',
     regexp: regexp.text,
     type: 'text',
