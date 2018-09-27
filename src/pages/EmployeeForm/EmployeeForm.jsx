@@ -106,11 +106,14 @@ class EmployeeForm extends Component {
    * Отправляет данные на сервер
    */
   onSubmit = async () => {
+    const { values } = this.state;
+    if (!structure.validate.values(values)) {
+      console.log('NotValid !!!');
+      return;
+    }
+
     // Добавляем нового сотрудника
-    const sendEmployeeObj = structure.prepare.getObject(
-      this.state.values,
-      'employee0'
-    );
+    const sendEmployeeObj = structure.prepare.getObject(values, 'employee0');
     console.log('sendEmployeeObj', sendEmployeeObj);
 
     const employeeId = await api.postNewEmployee(sendEmployeeObj);
@@ -120,7 +123,7 @@ class EmployeeForm extends Component {
     const sendRateArr = structure.prepare.getArray(
       employeeId,
       'employee_id',
-      this.state.values,
+      values,
       'rate'
     );
     console.log('sendRateArr obj', sendRateArr);

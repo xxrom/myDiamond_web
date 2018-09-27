@@ -55,6 +55,34 @@ const makeStructure = (schema) => {
   };
 };
 
+const validate = {
+  /**
+   * Провалидировать все-все занчения .valid === true
+   * @param {object} values - объект значений
+   */
+  values: function(values) {
+    console.log('values', values);
+
+    let isValid = true;
+    Object.keys(values).map((keyName) => {
+      const checkObject = values[keyName];
+      console.log('checkObject', checkObject);
+
+      const checkKeysArray = Object.keys(checkObject);
+      const validateArray = checkKeysArray.filter(
+        (key) => !checkObject[key].valid
+      );
+      console.log('validate', validateArray);
+      if (validateArray.length > 0) {
+        console.log('notValid', validateArray.length);
+        isValid = false;
+      }
+    });
+
+    return isValid;
+  },
+};
+
 // Обработка и подготовка данных перед отправкой на бэк
 const prepare = {
   /**
@@ -98,4 +126,4 @@ const prepare = {
       ),
 };
 
-export { makeStructure, prepare };
+export { makeStructure, prepare, validate };

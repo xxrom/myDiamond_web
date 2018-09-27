@@ -116,15 +116,15 @@ class WorkForm extends Component {
    * Отправляет данные на сервер
    */
   onSubmit = async () => {
-    // TODO: валидация this.state.values что все значения валидны!!
-    // ...
+    const { values } = this.state;
+    if (!structure.validate.values(values)) {
+      console.log('NotValid !!!');
+      return;
+    }
 
     // Добавляем новую работу
     // FIXME: сотрудник ID нужно выпадающий список Имен сотрудников с их ID
-    const sendWorkObject = structure.prepare.getObject(
-      this.state.values,
-      'work0'
-    );
+    const sendWorkObject = structure.prepare.getObject(values, 'work0');
     console.log('sendWorkObject', sendWorkObject);
 
     const workId = await api.postNewWork(sendWorkObject);
@@ -134,7 +134,7 @@ class WorkForm extends Component {
     const sendArticleArr = structure.prepare.getArray(
       workId,
       'work_id',
-      this.state.values,
+      values,
       'article'
     );
     console.log('sendArticleArr', sendArticleArr);
