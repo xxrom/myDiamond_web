@@ -123,10 +123,12 @@ class WorkForm extends Component {
     const { values } = this.state;
     if (!structure.validate.values(values)) {
       console.log('NotValid !!!');
-      this.setState({ openValidationMessage: true });
+      this.setState({
+        openValidationMessage: true,
+        validateMessageType: 'validationError',
+      });
       return;
     }
-    return;
 
     // Добавляем новую работу
     // FIXME: сотрудник ID нужно выпадающий список Имен сотрудников с их ID
@@ -145,10 +147,14 @@ class WorkForm extends Component {
     );
     console.log('sendArticleArr', sendArticleArr);
     const articleId = await api.postNewArticleArray(sendArticleArr);
+
+    this.setState({
+      openValidationMessage: true,
+      validateMessageType: 'successfulSending',
+    });
   };
 
   render() {
-    console.log('this.state', this.state);
     const Diamond = this.state.structure.map(({ name, schema, settings }) => (
       <StructureBlock
         key={name}
@@ -177,7 +183,7 @@ class WorkForm extends Component {
         <SnackbarPop
           open={this.state.openValidationMessage}
           onClose={() => this.setState({ openValidationMessage: false })}
-          message={'Проверьте введенные данные'}
+          messageType={this.state.validateMessageType}
         />
       </div>
     );
