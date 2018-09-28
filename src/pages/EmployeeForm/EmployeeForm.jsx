@@ -1,11 +1,9 @@
 import React, { Component } from 'react';
 
 import { StructureBlock } from '../../components/smart/';
-import { SubmitButton } from '../../components/common/';
+import { SubmitButton, SnackbarPop } from '../../components/common/';
 import { schema } from './libs';
 import { api, structure } from '../../libs/';
-
-import Snackbar from '@material-ui/core/Snackbar';
 
 import './EmployeeForm.css';
 
@@ -13,6 +11,7 @@ class EmployeeForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      openValidationMessage: false,
       ...structure.makeStructure(schema),
     };
   }
@@ -112,7 +111,7 @@ class EmployeeForm extends Component {
     if (!structure.validate.values(values)) {
       console.log('NotValid !!!');
       this.setState({
-        open: true,
+        openValidationMessage: true,
       });
       return;
     }
@@ -136,7 +135,6 @@ class EmployeeForm extends Component {
   };
 
   render() {
-    console.log('this.state', this.state);
     const Diamond = this.state.structure.map(({ name, schema, settings }) => (
       <StructureBlock
         key={name}
@@ -161,6 +159,12 @@ class EmployeeForm extends Component {
           buttonTitle="Добавить сотрудника"
         />
         <button className="add-employee-btn" onClick={this.onAddBlock} />
+
+        <SnackbarPop
+          open={this.state.openValidationMessage}
+          onClose={() => this.setState({ openValidationMessage: false })}
+          message={'Проверьте введенные данные'}
+        />
       </div>
     );
   }

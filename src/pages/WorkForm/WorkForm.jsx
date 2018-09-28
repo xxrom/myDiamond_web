@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import Snackbar from '@material-ui/core/Snackbar';
 
 import './WorkForm.css';
 
 import { StructureBlock, handleOnChange } from '../../components/smart';
-import { SubmitButton } from '../../components/common';
+import { SubmitButton, Snackbar } from '../../components/common';
 import { api, structure } from '../../libs/';
 import { schema } from './libs/';
+import { SnackbarPop } from '../../components/common/SnackbarPop';
 
 /**
  * Список полей выводящийся по схеме (schema)
@@ -22,7 +22,7 @@ class WorkForm extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      open: false,
+      openValidationMessage: false,
       ...structure.makeStructure(schema),
     };
   }
@@ -123,7 +123,7 @@ class WorkForm extends Component {
     const { values } = this.state;
     if (!structure.validate.values(values)) {
       console.log('NotValid !!!');
-      this.setState({ open: true });
+      this.setState({ openValidationMessage: true });
       return;
     }
     return;
@@ -147,10 +147,6 @@ class WorkForm extends Component {
     const articleId = await api.postNewArticleArray(sendArticleArr);
   };
 
-  handleClose = () => {
-    this.setState({ open: false });
-  };
-
   render() {
     console.log('this.state', this.state);
     const Diamond = this.state.structure.map(({ name, schema, settings }) => (
@@ -164,35 +160,24 @@ class WorkForm extends Component {
         handleOnDelete={this.handleOnDelete}
       />
     ));
-    console.log('this.state.open', this.state.open);
+
     return (
       <div className="work-from">
         <h3>Добавить новую работу.</h3>
         {Diamond}
+
+        <button className="add-employee-btn" onClick={this.onAddBlock} />
 
         <SubmitButton
           onSubmit={this.onSubmit}
           disabled={false}
           buttonTitle="Добавить работу"
         />
-        <button className="add-employee-btn" onClick={this.onAddBlock} />
 
-        <Snackbar
-          anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
-          }}
-          autoHideDuration={6000}
-          open={this.state.open}
-          onClose={this.handleClose}
-          ContentProps={{
-            'aria-describedby': 'message-id',
-          }}
-          message={
-            <span id="message-id">
-              NOT VALIDDDD FIX ME PLEAS MOTHERFUCKER!!!!!!
-            </span>
-          }
+        <SnackbarPop
+          open={this.state.openValidationMessage}
+          onClose={() => this.setState({ openValidationMessage: false })}
+          message={'Проверьте введенные данные'}
         />
       </div>
     );
