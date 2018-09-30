@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import './WorkForm.css';
 
 import { StructureBlock, handleOnChange } from '../../components/smart';
-import { SubmitButton, Snackbar } from '../../components/common';
+import { SubmitButton } from '../../components/common';
 import { api, structure } from '../../libs/';
 import { schema } from './libs/';
-import { SnackbarPop } from '../../components/common/SnackbarPop';
+import { SnackbarPop } from '../../components/common/';
 
 /**
  * Список полей выводящийся по схеме (schema)
@@ -23,6 +23,7 @@ class WorkForm extends Component {
     super(props);
     this.state = {
       openValidationMessage: false,
+      validateMessageType: '',
       ...structure.makeStructure(schema),
     };
   }
