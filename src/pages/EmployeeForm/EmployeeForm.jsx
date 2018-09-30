@@ -12,6 +12,7 @@ class EmployeeForm extends Component {
     super(props);
     this.state = {
       openValidationMessage: false,
+      validateMessageType: '',
       ...structure.makeStructure(schema),
     };
   }
@@ -112,6 +113,7 @@ class EmployeeForm extends Component {
       console.log('NotValid !!!');
       this.setState({
         openValidationMessage: true,
+        validateMessageType: 'validationError',
       });
       return;
     }
@@ -132,6 +134,11 @@ class EmployeeForm extends Component {
     );
     console.log('sendRateArr obj', sendRateArr);
     const rateId = await api.postNewRateArray(sendRateArr);
+
+    this.setState({
+      openValidationMessage: true,
+      validateMessageType: 'successfulSending',
+    });
   };
 
   render() {
@@ -163,7 +170,7 @@ class EmployeeForm extends Component {
         <SnackbarPop
           open={this.state.openValidationMessage}
           onClose={() => this.setState({ openValidationMessage: false })}
-          message={'Проверьте введенные данные'}
+          messageType={this.state.validateMessageType}
         />
       </div>
     );
