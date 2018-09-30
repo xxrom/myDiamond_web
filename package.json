@@ -9,6 +9,9 @@
     "build": "webpack --mode production",
     "postinstall": "webpack --mode production"
   },
+  "engines": {
+    "node": "10.5.0"
+  },
   "keywords": [],
   "author": "",
   "license": "ISC",
