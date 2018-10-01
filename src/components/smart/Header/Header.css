@@ -9,34 +9,27 @@
   margin: 0;
   width: 100vw;
   box-sizing: border-box;
-
   display: flex;
   justify-content: flex-start;
   align-items: flex-start;
-
   background-color: var(--dark-background);
 }
 
 .liBtn {
   display: flex;
-
   align-items: center;
-
   list-style-type: none;
-
   height: var(--header-height);
   padding: 0 1rem;
-
   text-decoration: none;
-
   font-size: 1.2em;
   text-transform: uppercase;
-
   color: var(--text-normal-color);
   font-family: 'Motiva Sans', Sans-serif;
   box-sizing: border-box;
   border-bottom: 5px solid var(--text-normal-color);
 }
+
 .liBtn:hover {
   border-bottom: 5px solid #dddddc;
   cursor: pointer;
@@ -57,12 +50,11 @@
   overflow: hidden;
   height: var(--header-height);
   width: var(--header-height);
-
   margin-right: 4rem;
 }
+
 .logo {
   position: absolute;
   height: 100%;
-
   color: red;
 }

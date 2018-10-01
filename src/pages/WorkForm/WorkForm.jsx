@@ -15,10 +15,6 @@ import { SnackbarPop } from '../../components/common/';
  * @param {string} name - имя блока
  */
 class WorkForm extends Component {
-  static = {
-    // name: PropTypes.string.isRequired,
-  };
-
   constructor(props) {
     super(props);
     this.state = {
