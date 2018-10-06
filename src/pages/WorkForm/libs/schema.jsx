@@ -25,7 +25,7 @@ const work = [
     label: 'Сотрудник ID',
     key: 'employee_id',
     regexp: regexp.number,
-    type: 'text',
+    type: 'list',
     defaultValue: '',
   },
   {

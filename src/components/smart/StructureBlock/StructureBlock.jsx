@@ -3,6 +3,11 @@ import PropTypes from 'prop-types';
 
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import MenuItem from '@material-ui/core/MenuItem';
+import Select from '@material-ui/core/Select';
+import FormControl from '@material-ui/core/FormControl';
 
 import { DeleteButtonSmall } from '../../common/';
 import './StructureBlock.css';
@@ -69,10 +74,15 @@ class StructureBlock extends Component {
     }, 500); // задержка перед удаление для анимации
   };
 
+  handleChange = (event) => {
+    this.setState({ [event.target.name]: event.target.value });
+  };
+
   render() {
     const { name, schema, handleOnChange, values, settings } = this.props;
 
     console.log('values', values);
+    console.log(this.state);
     // name.indexOf('0') самый первый элемент нельзя удалять
     const deleteButton =
       settings.delete && name.indexOf('0') === -1 ? (
@@ -84,18 +94,50 @@ class StructureBlock extends Component {
 
     return (
       <Paper className={`inputs-wrapper ${this.state.class.inputsWrapper}`}>
-        {schema.map(({ label, key, regexp }) => (
-          <div className="div-input-wrapper" key={`${label}${key}`}>
-            <TextField
-              label={label}
-              className="input"
-              onChange={handleOnChange(name, key, regexp)}
-              error={!values[key].valid}
-              value={values[key].value}
-              fullWidth
-            />
-          </div>
-        ))}
+        {schema.map(({ label, key, regexp, type }) => {
+          if (type === 'list') {
+            return (
+              <div className="div-input-wrapper" key={`${label}${key}`}>
+                <FormControl
+                  className="div-input-wrapper"
+                  key={`${label}${key}`}
+                >
+                  <InputLabel shrink htmlFor="age-label-placeholder">
+                    Age_Number
+                  </InputLabel>
+                  <Select
+                    value={this.state.ageNumber}
+                    onChange={this.handleChange}
+                    input={
+                      <Input name="ageNumber" id="age-label-placeholder" />
+                    }
+                    displayEmpty
+                    name="ageNumber"
+                  >
+                    <MenuItem value="undefined">
+                      <em>None</em>
+                    </MenuItem>
+                    <MenuItem value={10}>Ten</MenuItem>
+                    <MenuItem value={20}>TwentyTwenty</MenuItem>
+                    <MenuItem value={30}>Thirty</MenuItem>
+                  </Select>
+                </FormControl>
+              </div>
+            );
+          }
+          return (
+            <div className="div-input-wrapper" key={`${label}${key}`}>
+              <TextField
+                label={label}
+                className="input"
+                onChange={handleOnChange(name, key, regexp)}
+                error={!values[key].valid}
+                value={values[key].value}
+                fullWidth
+              />
+            </div>
+          );
+        })}
         {deleteButton}
       </Paper>
     );
