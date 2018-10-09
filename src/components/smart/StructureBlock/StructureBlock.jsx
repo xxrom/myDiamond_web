@@ -10,6 +10,7 @@ import Select from '@material-ui/core/Select';
 import FormControl from '@material-ui/core/FormControl';
 
 import { DeleteButtonSmall } from '../../common/';
+import { api } from '../../../libs/';
 import './StructureBlock.css';
 
 /**
@@ -59,10 +60,16 @@ class StructureBlock extends Component {
   }
 
   checkValuesForList(schema) {
-    schema.filter((item) => item.type === 'list').map((item) => {
-      console.log('LIST', item);
-      // TODO: get data for list from backend
-    });
+    setTimeout(() => {
+      schema.filter((item) => item.type === 'list').map(async (item) => {
+        console.log('LIST', item);
+        const ans = await api.fetchAllEmployee();
+        console.log('await ans ', ans);
+        this.setState({
+          [`list_${item.key}`]: ans,
+        });
+      });
+    }, 3000);
   }
 
   /**
@@ -125,6 +132,11 @@ class StructureBlock extends Component {
                     displayEmpty
                     name="ageNumber"
                   >
+                    <MenuItem value={10}>
+                      {this.state[`list_${key}`]
+                        ? this.state[`list_${key}`].length
+                        : `list_${key} // TODO: show data from backend`}
+                    </MenuItem>
                     <MenuItem value="undefined">
                       <em>None</em>
                     </MenuItem>

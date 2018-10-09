@@ -5,7 +5,7 @@ function fetchData({
   fetchOptionsHeader = {
     'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
   },
-  body = {},
+  body = null,
   thenFunction = ({ data }) => data,
 }) {
   let web = `http://localhost:8080/api/`;
@@ -14,10 +14,17 @@ function fetchData({
     web = `https://my-diamond-postgresql.herokuapp.com/api/`;
   }
 
-  return fetch(`${web}${url}${id}`, {
+  const fullUrl = `${web}${url}${id}`;
+
+  const fetchDefaultOptions = {
     method: fetchOptionsMethod,
     headers: fetchOptionsHeader,
-    body: JSON.stringify(body),
+  };
+  let fetchDynamicOptions = body ? { body: JSON.stringify(body) } : {};
+
+  return fetch(fullUrl, {
+    ...fetchDefaultOptions,
+    ...fetchDynamicOptions,
   })
     .then((res) => {
       console.log(

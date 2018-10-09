@@ -17,6 +17,7 @@ function deleteEmployeeByEmployeeId(employee_id) {
   });
 }
 
+// FETCH DATA
 function fetchTableData() {
   return fetchData({
     url: 'employee-table/',
@@ -24,6 +25,20 @@ function fetchTableData() {
   });
 }
 
+async function fetchAllEmployee() {
+  const ans = await fetchData({
+    url: 'employee/',
+    fetchOptionsHeader: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  console.log('getAllEmployee', ans);
+
+  return ans;
+}
+
+// POST
 async function postNewEmployee(body) {
   const ans = await fetchData({
     url: '/employee',
@@ -104,6 +119,7 @@ export {
   deleteRatesByEmployeeId,
   deleteEmployeeByEmployeeId,
   fetchTableData,
+  fetchAllEmployee,
   postNewEmployee,
   postNewRateArray,
   postNewWork,
