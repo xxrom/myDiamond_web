@@ -16,12 +16,12 @@ const makeStructure = (schema) => {
   const structureNames = Object.keys(schema).filter(
     (item) => item.indexOf('_') === -1 // в именах не существует '_'
   );
-  console.log('structureName', structureNames);
+  // console.log('structureName', structureNames);
 
   // Вспомогательная структура
   const structureSkeleton = structureNames.map((item) => get(item, schema));
 
-  console.log('structureSkeleton', structureSkeleton);
+  // console.log('structureSkeleton', structureSkeleton);
 
   // Основная структура
   const structure = structureSkeleton.reduce(
@@ -36,17 +36,18 @@ const makeStructure = (schema) => {
   );
 
   // Инициализация полей ввода
-  const values = structure.reduce(
-    (sum, item) => ({
+  const values = structure.reduce((sum, item) => {
+    return {
       ...sum,
-      [item.name]: item.values,
-    }),
-    {}
-  );
+      [item.name]: {
+        ...item.values,
+      },
+    };
+  }, {});
 
-  console.log('Structure', structure);
-  console.log('structureSkeleton', structureSkeleton);
-  console.log('values', values);
+  // console.log('Structure', structure);
+  // console.log('structureSkeleton', structureSkeleton);
+  // console.log('values', values);
 
   return {
     structure,
@@ -61,20 +62,20 @@ const validate = {
    * @param {object} values - объект значений
    */
   values: function(values) {
-    console.log('values', values);
+    // console.log('values', values);
 
     let isValid = true;
     Object.keys(values).map((keyName) => {
       const checkObject = values[keyName];
-      console.log('checkObject', checkObject);
+      // console.log('checkObject', checkObject);
 
       const checkKeysArray = Object.keys(checkObject);
       const validateArray = checkKeysArray.filter(
         (key) => !checkObject[key].valid
       );
-      console.log('validate', validateArray);
+      // console.log('validate', validateArray);
       if (validateArray.length > 0) {
-        console.log('notValid', validateArray.length);
+        // console.log('notValid', validateArray.length);
         isValid = false;
       }
     });

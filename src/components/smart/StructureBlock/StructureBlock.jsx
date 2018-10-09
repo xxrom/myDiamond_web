@@ -52,6 +52,17 @@ class StructureBlock extends Component {
         },
       });
     }, 0);
+
+    console.log('componentDidMount', this.props);
+
+    this.checkValuesForList(this.props.schema);
+  }
+
+  checkValuesForList(schema) {
+    schema.filter((item) => item.type === 'list').map((item) => {
+      console.log('LIST', item);
+      // TODO: get data for list from backend
+    });
   }
 
   /**
@@ -81,11 +92,11 @@ class StructureBlock extends Component {
   render() {
     const { name, schema, handleOnChange, values, settings } = this.props;
 
-    console.log('values', values);
-    console.log(this.state);
-    // name.indexOf('0') самый первый элемент нельзя удалять
+    // Определяем можно ли удалять данный элемент или нет
     const deleteButton =
-      settings.delete && name.indexOf('0') === -1 ? (
+      settings.delete &&
+      // name.indexOf('0') самый первый элемент нельзя удалять
+      name.indexOf('0') === -1 ? (
         <DeleteButtonSmall
           className="delete-btn"
           onClick={this.onDelete(name)}
@@ -103,7 +114,7 @@ class StructureBlock extends Component {
                   key={`${label}${key}`}
                 >
                   <InputLabel shrink htmlFor="age-label-placeholder">
-                    Age_Number
+                    List: {label}
                   </InputLabel>
                   <Select
                     value={this.state.ageNumber}
