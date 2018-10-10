@@ -3,13 +3,8 @@ import PropTypes from 'prop-types';
 
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
-import Select from '@material-ui/core/Select';
-import FormControl from '@material-ui/core/FormControl';
 
-import { DeleteButtonSmall } from '../../common/';
+import { DeleteButtonSmall, FormControlList } from '../../common/';
 import { api } from '../../../libs/';
 import './StructureBlock.css';
 
@@ -113,39 +108,17 @@ class StructureBlock extends Component {
     return (
       <Paper className={`inputs-wrapper ${this.state.class.inputsWrapper}`}>
         {schema.map(({ label, key, regexp, type }) => {
+          console.log('key', key);
           if (type === 'list') {
             return (
-              <div className="div-input-wrapper" key={`${label}${key}`}>
-                <FormControl
-                  className="div-input-wrapper"
-                  key={`${label}${key}`}
-                >
-                  <InputLabel shrink htmlFor="age-label-placeholder">
-                    List: {label}
-                  </InputLabel>
-                  <Select
-                    value={this.state.ageNumber}
-                    onChange={this.handleChange}
-                    input={
-                      <Input name="ageNumber" id="age-label-placeholder" />
-                    }
-                    displayEmpty
-                    name="ageNumber"
-                  >
-                    <MenuItem value={10}>
-                      {this.state[`list_${key}`]
-                        ? this.state[`list_${key}`].length
-                        : `list_${key} // TODO: show data from backend`}
-                    </MenuItem>
-                    <MenuItem value="undefined">
-                      <em>None</em>
-                    </MenuItem>
-                    <MenuItem value={10}>Ten</MenuItem>
-                    <MenuItem value={20}>TwentyTwenty</MenuItem>
-                    <MenuItem value={30}>Thirty</MenuItem>
-                  </Select>
-                </FormControl>
-              </div>
+              <FormControlList
+                label={label}
+                value={this.state.ageNumber || ''}
+                onChange={handleOnChange}
+                list={this.state[`list_${key}`] || []}
+                name="ageNumber"
+                key={key}
+              />
             );
           }
           return (

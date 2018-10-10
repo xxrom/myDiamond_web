@@ -31,6 +31,7 @@ class WorkForm extends Component {
    * @param {object} regexp - валидация поля
    */
   handleOnChange = (name, key, regexp) => (event) => {
+    console.log('handleOnChange', name, key, event.target.value);
     this.setState({
       values: {
         ...this.state.values,
