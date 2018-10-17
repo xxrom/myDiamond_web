@@ -48,23 +48,6 @@ class StructureBlock extends Component {
         },
       });
     }, 0);
-
-    console.log('componentDidMount', this.props);
-
-    this.checkValuesForList(this.props.schema);
-  }
-
-  checkValuesForList(schema) {
-    setTimeout(() => {
-      schema.filter((item) => item.type === 'list').map(async (item) => {
-        console.log('LIST', item);
-        const ans = await api.fetchAllEmployee();
-        console.log('await ans ', ans);
-        this.setState({
-          [`list_${item.key}`]: ans,
-        });
-      });
-    }, 3000);
   }
 
   /**
@@ -109,7 +92,6 @@ class StructureBlock extends Component {
       <Paper className={`inputs-wrapper ${this.state.class.inputsWrapper}`}>
         {schema.map(({ label, key, regexp, type }) => {
           if (type === 'list') {
-            debugger;
             return (
               <div className="div-input-wrapper" key={`${label}${key}`}>
                 <AutoSuggestionInput
