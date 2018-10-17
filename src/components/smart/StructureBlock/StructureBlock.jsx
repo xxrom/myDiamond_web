@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 
-import { DeleteButtonSmall, FormControlList } from '../../common/';
+import { DeleteButtonSmall, AutoSuggestionInput } from '../../common/';
 import { api } from '../../../libs/';
 import './StructureBlock.css';
 
@@ -108,17 +108,16 @@ class StructureBlock extends Component {
     return (
       <Paper className={`inputs-wrapper ${this.state.class.inputsWrapper}`}>
         {schema.map(({ label, key, regexp, type }) => {
-          console.log('key', key);
           if (type === 'list') {
+            debugger;
             return (
-              <FormControlList
-                label={label}
-                value={this.state.ageNumber || ''}
-                onChange={handleOnChange}
-                list={this.state[`list_${key}`] || []}
-                name="ageNumber"
-                key={key}
-              />
+              <div className="div-input-wrapper" key={`${label}${key}`}>
+                <AutoSuggestionInput
+                  label={label}
+                  key={`${label}${key}`}
+                  value={values[key].value}
+                />
+              </div>
             );
           }
           return (
@@ -147,8 +146,6 @@ class StructureBlock extends Component {
  * @param {object} regexp - валидация поля
  */
 const handleOnChange = (name, key, regexp) => (event) => {
-  console.log('handleOnChange parent 1', event.target.value);
-  console.log(`${name} ${key}`);
   this.setState({
     values: {
       ...this.state.values,
