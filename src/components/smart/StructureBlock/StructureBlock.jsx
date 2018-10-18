@@ -70,10 +70,6 @@ class StructureBlock extends Component {
     }, 500); // задержка перед удаление для анимации
   };
 
-  handleChange = (event) => {
-    this.setState({ [event.target.name]: event.target.value });
-  };
-
   render() {
     const { name, schema, handleOnChange, values, settings } = this.props;
 
@@ -88,33 +84,37 @@ class StructureBlock extends Component {
         />
       ) : null;
 
+    // Создание инпутов по schema
+    const inputs = schema.map(({ label, key, regexp, type }) => {
+      const shareProps = {
+        label: label,
+        value: values[key].value,
+        onChange: handleOnChange(name, key, regexp),
+      };
+
+      // Определяем тип компонента input
+      let component =
+        type === 'list' ? (
+          <AutoSuggestionInput {...shareProps} key={`${label}${key}`} />
+        ) : (
+          <TextField
+            {...shareProps}
+            className="input"
+            error={!values[key].valid}
+            fullWidth
+          />
+        );
+
+      return (
+        <div className="div-input-wrapper" key={`${label}${key}`}>
+          {component}
+        </div>
+      );
+    });
+
     return (
       <Paper className={`inputs-wrapper ${this.state.class.inputsWrapper}`}>
-        {schema.map(({ label, key, regexp, type }) => {
-          if (type === 'list') {
-            return (
-              <div className="div-input-wrapper" key={`${label}${key}`}>
-                <AutoSuggestionInput
-                  label={label}
-                  key={`${label}${key}`}
-                  value={values[key].value}
-                />
-              </div>
-            );
-          }
-          return (
-            <div className="div-input-wrapper" key={`${label}${key}`}>
-              <TextField
-                label={label}
-                className="input"
-                onChange={handleOnChange(name, key, regexp)}
-                error={!values[key].valid}
-                value={values[key].value}
-                fullWidth
-              />
-            </div>
-          );
-        })}
+        {inputs}
         {deleteButton}
       </Paper>
     );
