@@ -13,19 +13,15 @@ class Header extends Component {
             <img src={logo} alt="blisterprom-logo" className="logo" />
           </div>
         </NavLink>
-
         <NavLink className="liBtn" to="/" exact activeClassName="active">
           Заказы
         </NavLink>
-
         <NavLink className="liBtn" to="/work-form" activeClassName="active">
           Добавить работу
         </NavLink>
-
         <NavLink className="liBtn" to="/employee-form" activeClassName="active">
           Добавить сотрудника
         </NavLink>
-
         <NavLink
           className="liBtn"
           to="/employee-table"

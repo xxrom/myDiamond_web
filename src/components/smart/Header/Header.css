@@ -6,23 +6,27 @@
 }
 
 .ul {
-  margin: 0;
-  width: 100vw;
-  box-sizing: border-box;
   display: flex;
+  position: relative;
+  width: 100vw;
+  height: var(--header-height);
+  margin: 0;
+  box-sizing: border-box;
   justify-content: flex-start;
   align-items: flex-start;
   background-color: var(--dark-background);
 }
 
 .liBtn {
+  position: relative;
   display: flex;
+  height: inherit;
   align-items: center;
+  text-align: center;
   list-style-type: none;
-  height: var(--header-height);
-  padding: 0 1rem;
+  padding: 0 calc(0.5rem + (1 - 0.5) * (100vw - 400px) / (1000 - 400));
   text-decoration: none;
-  font-size: 1.2em;
+  font-size: calc(14px + (20 - 14) * (100vw - 400px) / (1800 - 400));
   text-transform: uppercase;
   color: var(--text-normal-color);
   font-family: 'Motiva Sans', Sans-serif;
@@ -49,12 +53,14 @@
   display: flex;
   overflow: hidden;
   height: var(--header-height);
-  width: var(--header-height);
-  margin-right: 4rem;
+  width: 100%;
+  margin-right: 5vw;
+  padding: 0.5em 0;
+  box-sizing: border-box;
 }
 
 .logo {
-  position: absolute;
+  position: relative;
   height: 100%;
   color: red;
 }
