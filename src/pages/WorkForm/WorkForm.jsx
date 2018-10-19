@@ -30,17 +30,18 @@ class WorkForm extends Component {
    * @param {string} key - идентификатор поля
    * @param {object} regexp - валидация поля
    */
-  handleOnChange = (name, key, regexp) => (event) => {
-    console.log('handleOnChange', name, key, event.target.value);
+  handleOnChange = (name, key, regexp, type) => (event) => {
+    console.log('handleOnChange', name, key, event.target.value, type);
+    let keyObject = {
+      value: event.target.value,
+      valid: regexp.test(event.target.value),
+    };
     this.setState({
       values: {
         ...this.state.values,
         [name]: {
           ...this.state.values[name],
-          [key]: {
-            value: event.target.value,
-            valid: regexp.test(event.target.value),
-          },
+          [key]: keyObject,
         },
       },
     });
@@ -120,7 +121,7 @@ class WorkForm extends Component {
   onSubmit = async () => {
     const { values } = this.state;
     if (!structure.validate.values(values)) {
-      console.log('NotValid !!!');
+      console.log('NotValid !!!', values);
       this.setState({
         openValidationMessage: true,
         validateMessageType: 'validationError',

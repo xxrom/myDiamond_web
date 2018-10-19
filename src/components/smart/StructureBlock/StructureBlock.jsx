@@ -89,7 +89,7 @@ class StructureBlock extends Component {
       const shareProps = {
         label: label,
         value: values[key].value,
-        onChange: handleOnChange(name, key, regexp),
+        onChange: handleOnChange(name, key, regexp, type),
       };
 
       // Определяем тип компонента input
