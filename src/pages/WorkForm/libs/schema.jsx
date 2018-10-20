@@ -22,7 +22,7 @@ const work = [
     defaultValue: String(new Date().toISOString().slice(0, 10)),
   },
   {
-    label: 'Сотрудник ID',
+    label: 'Сотрудник (ID)',
     key: 'employee_id',
     regexp: regexp.number,
     type: 'list',
