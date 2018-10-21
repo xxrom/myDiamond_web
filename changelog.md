@@ -1,5 +1,11 @@
 ## `BlisterProm` \_ changeLog
 
+22.10.2018
+
+- AutoSuggestionInput add keySelector for identification parameters for list (drop list) and for correct fetching data from backEnd
+- Disable growing animation when page just opened
+- Schema > type === list > add new parameter => editable (so user can change input as he would like it =) )
+
 21.08.2018
 
 - добавил UI папку со sketch дизайном

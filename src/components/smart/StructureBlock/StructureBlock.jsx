@@ -5,7 +5,6 @@ import Paper from '@material-ui/core/Paper';
 import TextField from '@material-ui/core/TextField';
 
 import { DeleteButtonSmall, AutoSuggestionInput } from '../../common/';
-import { api } from '../../../libs/';
 import './StructureBlock.css';
 
 /**
@@ -20,7 +19,7 @@ import './StructureBlock.css';
  * @param {func} handleOnDelete - вызов ф по клику на удалить
  */
 class StructureBlock extends Component {
-  static = {
+  static propTypes = {
     name: PropTypes.string.isRequired,
     schema: PropTypes.array.isRequired,
     values: PropTypes.object.isRequired,
@@ -32,9 +31,30 @@ class StructureBlock extends Component {
   constructor(props) {
     super(props);
 
+    // Изначально кнопка удаления блок - отсутствует
+    this.deleteButton = null;
+    // Изначально у кнопки класс на полную высоту
+    let inputsWrapperClassName = 'inputs-wrapper_max-height';
+
+    if (
+      this.props.settings.delete &&
+      // name.indexOf('0') самый первый элемент нельзя удалять
+      this.props.name.indexOf('0') === -1
+    ) {
+      this.deleteButton = (
+        <DeleteButtonSmall
+          className="delete-btn"
+          onClick={this.onDelete(this.props.name)}
+        />
+      );
+
+      // Включаем анимацию только у элементов, которые можно удалять
+      inputsWrapperClassName = '';
+    }
+
     this.state = {
       class: {
-        inputsWrapper: '',
+        inputsWrapper: inputsWrapperClassName,
       },
     };
   }
@@ -72,18 +92,7 @@ class StructureBlock extends Component {
   };
 
   render() {
-    const { name, schema, handleOnChange, values, settings } = this.props;
-
-    // Определяем можно ли удалять данный элемент или нет
-    const deleteButton =
-      settings.delete &&
-      // name.indexOf('0') самый первый элемент нельзя удалять
-      name.indexOf('0') === -1 ? (
-        <DeleteButtonSmall
-          className="delete-btn"
-          onClick={this.onDelete(name)}
-        />
-      ) : null;
+    const { name, schema, handleOnChange, values } = this.props;
 
     // Создание инпутов по schema
     const inputs = schema.map((item) => {
@@ -95,12 +104,14 @@ class StructureBlock extends Component {
       };
 
       // Определяем тип компонента input
+
       let component =
         type === 'list' ? (
           <AutoSuggestionInput
             {...shareProps}
             key={`${label}${key}`}
-            hardKey={key}
+            keySelector={key}
+            editable={item.editable}
           />
         ) : (
           <TextField
@@ -121,7 +132,7 @@ class StructureBlock extends Component {
     return (
       <Paper className={`inputs-wrapper ${this.state.class.inputsWrapper}`}>
         {inputs}
-        {deleteButton}
+        {this.deleteButton}
       </Paper>
     );
   }

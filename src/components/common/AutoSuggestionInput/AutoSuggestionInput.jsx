@@ -14,13 +14,31 @@ import {
   renderInputComponent,
 } from './libs';
 
+/**
+ * Блок с блоками ввода данных
+ *
+ * @param classes
+ * @param label
+ * @param value
+ * @param onChange
+ * @param editable
+ * @param keySelector
+ */
 class AutoSuggestionInputBlock extends React.Component {
+  static propTypes = {
+    classes: PropTypes.object.isRequired,
+    label: PropTypes.string.isRequired,
+    value: PropTypes.string.isRequired,
+    onChange: PropTypes.func.isRequired,
+    editable: PropTypes.bool.isRequired,
+    keySelector: PropTypes.string.isRequired,
+  };
   state = {};
 
   constructor(props) {
     super(props);
 
-    fetchSuggestions(this);
+    fetchSuggestions(this, props.keySelector);
 
     const state = {
       single: '',
@@ -59,10 +77,60 @@ class AutoSuggestionInputBlock extends React.Component {
     // В onChange наверх нужно прокидывать id элемента а не его значение
     this.props.onChange({
       target: {
-        value: suggestion[this.props.hardKey],
+        value: suggestion[this.props.keySelector],
       },
     });
   }
+
+  // Проверка введеного значения, после увода фокуса (вдруг изменили)
+  onBlur = () => {
+    //
+    if (this.props.editable) {
+      return;
+    }
+    /*
+    * Значение инпута, должно быть строго из списка
+    * поэтому на блюре идет проверка соответствия
+    * inputValue - может меняться только по селекту из списка
+    */
+
+    const data = this.fetchSuggestions;
+    if (!data) {
+      // Если нет данных, то и сравнивать не с чем
+      return;
+    }
+
+    // Текущее значение в инпуте {String}
+    const inputValue = this.state.popper;
+    // Значение из schema.values {Number}
+    const value = this.props.value;
+
+    const nameArray = data.filter((item) => {
+      return item[this.props.keySelector] == value;
+    });
+
+    // Если не нашли совпадения или если их несколько, то выходим
+    if (nameArray.length !== 1) {
+      if (nameArray.length > 1) {
+        console.error('id key is not uniq!!!');
+      }
+      return;
+    }
+
+    // Вытаскиваем значение инпута, которое с бэка
+    const idName = nameArray[0].value;
+
+    // TODO: здесь можно сделать не принудительный выбор пользователя
+    // TODO: не только через список, но и input и далее сравнивать value
+    // Если пользователь изменил инпут и вышел из него, то вернуть как было все
+    if (idName !== inputValue) {
+      console.log(this.fetchSuggestions);
+
+      this.setState({
+        popper: idName,
+      });
+    }
+  };
 
   render() {
     const { classes, label } = this.props;
@@ -93,53 +161,7 @@ class AutoSuggestionInputBlock extends React.Component {
             InputLabelProps: {
               shrink: true,
             },
-            onBlur: () => {
-              /*
-              * Значение инпута, должно быть строго из списка
-              * поэтому на блюре идет проверка соответствия
-              * inputValue - может меняться только по селекту из списка
-              */
-
-              const data = this.fetchSuggestions;
-
-              if (!data) {
-                // Если нет данных, то и сравнивать не с чем
-                return;
-              }
-
-              // Текущее значение в инпуте {String}
-              const inputValue = this.state.popper;
-              // Значение из schema.values {Number}
-              const value = this.props.value;
-
-              // TODO: не работает фишка с onBlur он не находит совпадения вообще теперь !!!!!!!
-              console.log('value', value);
-              const nameArray = data.filter((item) => {
-                return item[this.props.hardKey] == value;
-              });
-              console.log(nameArray);
-              // Если не нашли совпадения или если их несколько, то выходим
-              if (nameArray.length !== 1) {
-                if (nameArray.length > 1) {
-                  console.error('id key is not uniq!!!');
-                }
-                return;
-              }
-
-              // Вытаскиваем значение инпута, которое с бэка
-              const idName = nameArray[0].value;
-
-              // TODO: здесь можно сделать не принудительный выбор пользователя
-              // TODO: не только через список, но и input и далее сравнивать value
-              // Если пользователь изменил инпут и вышел из него, то вернуть как было все
-              if (idName !== inputValue) {
-                console.log(this.fetchSuggestions);
-
-                this.setState({
-                  popper: idName,
-                });
-              }
-            },
+            onBlur: this.onBlur,
           }}
           theme={{
             suggestionsList: classes.suggestionsList,
@@ -163,14 +185,6 @@ class AutoSuggestionInputBlock extends React.Component {
     );
   }
 }
-
-AutoSuggestionInputBlock.propTypes = {
-  classes: PropTypes.object.isRequired,
-  label: PropTypes.string.isRequired,
-  value: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
-  hardKey: PropTypes.string.isRequired,
-};
 
 const AutoSuggestionInput = withStyles(styles)(AutoSuggestionInputBlock);
 

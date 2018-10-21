@@ -7,7 +7,6 @@ import MenuItem from '@material-ui/core/MenuItem';
 import { api } from '../../../../libs/';
 import { debug } from 'util';
 
-let suggestions = [{ value: 'loading...' }];
 const SUGGESTION_LENGTH = 5;
 
 const styles = (theme) => ({
@@ -116,12 +115,11 @@ function getSuggestionValue(item) {
 }
 
 // Fetch suggestion data from server
-async function fetchSuggestions(self) {
+async function fetchSuggestions(self, keySelector) {
   let data = [];
-  const hardKey = self.props.hardKey;
   let dataSelectorKey = '';
 
-  switch (hardKey) {
+  switch (keySelector) {
     case 'employee_id': {
       dataSelectorKey = 'name';
       data = await api.fetchAllEmployee();
@@ -134,7 +132,7 @@ async function fetchSuggestions(self) {
     }
 
     default: {
-      console.log('bad self.props.hardKey');
+      console.log('bad this.props.keySelector');
     }
   }
 
@@ -144,7 +142,7 @@ async function fetchSuggestions(self) {
   }));
 
   // Сохраняем ответ от сервера в this самого компонента
-  self.fetchSuggestions = suggestions;
+  self.fetchSuggestions = self.suggestions;
 }
 
 export {

@@ -27,6 +27,7 @@ const work = [
     regexp: regexp.number,
     type: 'list',
     defaultValue: '',
+    editable: false,
   },
   {
     label: 'Дневной ID',
@@ -72,9 +73,10 @@ const article = [
   {
     label: 'Артикул',
     key: 'article',
-    regexp: regexp.text,
+    regexp: regexp.number,
     type: 'list',
     defaultValue: '',
+    editable: true,
   },
   {
     label: 'Время работы',
@@ -115,8 +117,8 @@ const article = [
 
 const article_values = {
   article: {
-    value: 'TEST 343',
-    valid: true,
+    value: '',
+    valid: false,
   },
   time: {
     value: '60',
