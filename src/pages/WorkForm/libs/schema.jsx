@@ -73,7 +73,7 @@ const article = [
   {
     label: 'Артикул',
     key: 'article',
-    regexp: regexp.number,
+    regexp: regexp.text,
     type: 'list',
     defaultValue: '',
     editable: true,
