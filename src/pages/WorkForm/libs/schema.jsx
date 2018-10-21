@@ -73,8 +73,8 @@ const article = [
     label: 'Артикул',
     key: 'article',
     regexp: regexp.text,
-    type: 'text',
-    defaultValue: 'TEST 343',
+    type: 'list',
+    defaultValue: '',
   },
   {
     label: 'Время работы',

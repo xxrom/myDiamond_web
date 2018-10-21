@@ -86,7 +86,7 @@ function escapeRegexCharacters(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function getSuggestions(value) {
+function getSuggestions(self, value) {
   // RegExp Magic ... =)
   const escapedValue = escapeRegexCharacters(value.trim());
 
@@ -97,12 +97,11 @@ function getSuggestions(value) {
   const regex = new RegExp(escapedValue, 'i');
 
   return (
-    suggestions
+    self.suggestions
       // Формируем массив совпадений
       .reduce(
         (sum, item) =>
-          // Условия, длина ответа и проверка regexp
-          sum.length < SUGGESTION_LENGTH && regex.test(value)
+          sum.length < SUGGESTION_LENGTH && regex.test(item.value)
             ? // Сохраняем полностью элемент item, чтобы
               // можно было вытащить оттуда employee_id по имени
               [...sum, item]
@@ -118,11 +117,31 @@ function getSuggestionValue(item) {
 
 // Fetch suggestion data from server
 async function fetchSuggestions(self) {
-  console.log('getEmployee');
-  // получаем всех employee
-  const data = await api.fetchAllEmployee();
+  let data = [];
+  const hardKey = self.props.hardKey;
+  let dataSelectorKey = '';
 
-  suggestions = data.map((item) => ({ value: item.name, ...item }));
+  switch (hardKey) {
+    case 'employee_id': {
+      dataSelectorKey = 'name';
+      data = await api.fetchAllEmployee();
+      break;
+    }
+    case 'article': {
+      dataSelectorKey = 'article';
+      data = await api.fetchAllArticle();
+      break;
+    }
+
+    default: {
+      console.log('bad self.props.hardKey');
+    }
+  }
+
+  self.suggestions = data.map((item) => ({
+    value: item[dataSelectorKey],
+    ...item,
+  }));
 
   // Сохраняем ответ от сервера в this самого компонента
   self.fetchSuggestions = suggestions;

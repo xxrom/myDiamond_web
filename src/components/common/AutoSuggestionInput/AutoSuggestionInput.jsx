@@ -33,7 +33,7 @@ class AutoSuggestionInputBlock extends React.Component {
 
   handleSuggestionsFetchRequested = ({ value }) => {
     this.setState({
-      suggestions: getSuggestions(value),
+      suggestions: getSuggestions(this, value),
     });
   };
 
@@ -43,9 +43,9 @@ class AutoSuggestionInputBlock extends React.Component {
     });
   };
 
-  handleChange = (name) => (_, { newValue }) => {
+  handleChange = (_, { newValue }) => {
     this.setState({
-      [name]: newValue,
+      popper: newValue,
     });
   };
 
@@ -59,7 +59,7 @@ class AutoSuggestionInputBlock extends React.Component {
     // В onChange наверх нужно прокидывать id элемента а не его значение
     this.props.onChange({
       target: {
-        value: suggestion.employee_id,
+        value: suggestion[this.props.hardKey],
       },
     });
   }
@@ -86,7 +86,7 @@ class AutoSuggestionInputBlock extends React.Component {
             label: label,
             placeholder: 'Список ...',
             value: this.state.popper,
-            onChange: this.handleChange('popper'),
+            onChange: this.handleChange,
             inputRef: (node) => {
               this.popperNode = node;
             },
@@ -107,12 +107,15 @@ class AutoSuggestionInputBlock extends React.Component {
                 return;
               }
 
+              // Текущее значение в инпуте {String}
               const inputValue = this.state.popper;
+              // Значение из schema.values {Number}
               const value = this.props.value;
-              const idKey = 'employee_id';
 
+              // TODO: не работает фишка с onBlur он не находит совпадения вообще теперь !!!!!!!
+              console.log('value', value);
               const nameArray = data.filter((item) => {
-                return +item[idKey] === +this.props.value;
+                return item[this.props.hardKey] == value;
               });
               console.log(nameArray);
               // Если не нашли совпадения или если их несколько, то выходим
@@ -166,6 +169,7 @@ AutoSuggestionInputBlock.propTypes = {
   label: PropTypes.string.isRequired,
   value: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
+  hardKey: PropTypes.string.isRequired,
 };
 
 const AutoSuggestionInput = withStyles(styles)(AutoSuggestionInputBlock);

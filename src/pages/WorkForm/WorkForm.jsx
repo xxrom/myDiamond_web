@@ -36,6 +36,7 @@ class WorkForm extends Component {
       value: event.target.value,
       valid: regexp.test(event.target.value),
     };
+    console.log('keyObject', keyObject);
     this.setState({
       values: {
         ...this.state.values,

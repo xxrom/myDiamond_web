@@ -33,7 +33,20 @@ async function fetchAllEmployee() {
     },
   });
 
-  console.log('getAllEmployee', ans);
+  console.log('fetchAllEmployee', ans);
+
+  return ans;
+}
+
+async function fetchAllArticle() {
+  const ans = await fetchData({
+    url: 'article/',
+    fetchOptionsHeader: {
+      'Content-Type': 'application/json',
+    },
+  });
+
+  console.log('fetchAllArticle', ans);
 
   return ans;
 }
@@ -120,6 +133,7 @@ export {
   deleteEmployeeByEmployeeId,
   fetchTableData,
   fetchAllEmployee,
+  fetchAllArticle,
   postNewEmployee,
   postNewRateArray,
   postNewWork,

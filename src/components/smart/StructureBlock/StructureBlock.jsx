@@ -31,6 +31,7 @@ class StructureBlock extends Component {
 
   constructor(props) {
     super(props);
+
     this.state = {
       class: {
         inputsWrapper: '',
@@ -85,7 +86,8 @@ class StructureBlock extends Component {
       ) : null;
 
     // Создание инпутов по schema
-    const inputs = schema.map(({ label, key, regexp, type }) => {
+    const inputs = schema.map((item) => {
+      const { label, key, regexp, type } = item;
       const shareProps = {
         label: label,
         value: values[key].value,
@@ -95,7 +97,11 @@ class StructureBlock extends Component {
       // Определяем тип компонента input
       let component =
         type === 'list' ? (
-          <AutoSuggestionInput {...shareProps} key={`${label}${key}`} />
+          <AutoSuggestionInput
+            {...shareProps}
+            key={`${label}${key}`}
+            hardKey={key}
+          />
         ) : (
           <TextField
             {...shareProps}
