@@ -105,20 +105,24 @@ class AutoSuggestionInputBlock extends React.Component {
     // Значение из schema.values {Number}
     const value = this.props.value;
 
-    const nameArray = data.filter((item) => {
+    let nameArray = data.filter((item) => {
       return item[this.props.keySelector] == value;
     });
+
+    console.log(nameArray);
 
     // Если не нашли совпадения или если их несколько, то выходим
     if (nameArray.length !== 1) {
       if (nameArray.length > 1) {
         console.error('id key is not uniq!!!');
+      } else {
+        // nameArray.length === 0 | Если массив пустой, то создаем заглушку
+        nameArray = [{}];
       }
 
       this.setState({
         isSelectedFromList: 'error',
       });
-      return;
     }
 
     // Вытаскиваем значение инпута, которое с бэка
@@ -138,14 +142,19 @@ class AutoSuggestionInputBlock extends React.Component {
 
       // Пользователь может вводить любые значения, не только из бэка
       if (this.props.editable) {
-        // TODO: FIX: если пользователь ввел значение нез из списка, то отмечать это визуально
         // Допустим можно оранжевеньким цветом подсвечивать, вместо синего цвета
-        console.log('editable');
         newState = {
           ...newState,
           // Инпут не из листа => отмечаем это рамкой
           isSelectedFromList: false,
         };
+
+        // Прокидываем новое значение value наверх, так как editable === true
+        this.props.onChange({
+          target: {
+            value: inputValue,
+          },
+        });
       } else {
         newState = {
           ...newState,
@@ -154,7 +163,6 @@ class AutoSuggestionInputBlock extends React.Component {
       }
     }
 
-    console.log('newState', newState);
     this.setState({
       ...newState,
     });

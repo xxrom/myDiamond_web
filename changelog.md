@@ -2,6 +2,8 @@
 
 22.10.2018
 
+- Fix AutoSuggestion dropList, when regexp.test is empty
+
 - Add color checking in AutoSuggestionInput
 - Fix regexp.text
 
