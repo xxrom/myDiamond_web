@@ -2,6 +2,9 @@
 
 22.10.2018
 
+- Add color checking in AutoSuggestionInput
+- Fix regexp.text
+
 - AutoSuggestionInput add keySelector for identification parameters for list (drop list) and for correct fetching data from backEnd
 - Disable growing animation when page just opened
 - Schema > type === list > add new parameter => editable (so user can change input as he would like it =) )

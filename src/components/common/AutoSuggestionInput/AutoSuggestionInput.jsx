@@ -42,7 +42,10 @@ class AutoSuggestionInputBlock extends React.Component {
 
     const state = {
       single: '',
+      // Текущее значение инпута
       popper: '',
+      // Значение popper из значений с бэка выбрано или нет?
+      isSelectedFromList: true,
       suggestions: [],
     };
 
@@ -82,16 +85,11 @@ class AutoSuggestionInputBlock extends React.Component {
     });
   }
 
+  // не обновляются данныеююю.....
   // Проверка введенного значения, после увода фокуса (вдруг изменили)
   onBlur = () => {
-    // Пользователь может вводить любые значения, не только из бэка
-    if (this.props.editable) {
-      // TODO: FIX: если пользователь ввел значение нез из списка, то отмечать это визуально
-      // Допустим можно оранжевеньким цветом подсвечивать, вместо синего цвета
-      return;
-    }
     /*
-    * Значение инпута, должно быть строго из списка
+    * Значение инпута, должно быть строго из списка (кроме this.props.editable)
     * поэтому на блюре идет проверка соответствия
     * inputValue - может меняться только по селекту из списка
     */
@@ -116,11 +114,21 @@ class AutoSuggestionInputBlock extends React.Component {
       if (nameArray.length > 1) {
         console.error('id key is not uniq!!!');
       }
+
+      this.setState({
+        isSelectedFromList: 'error',
+      });
       return;
     }
 
     // Вытаскиваем значение инпута, которое с бэка
     const idName = nameArray[0].value;
+
+    // Объект с новыми значениями State
+    let newState = {
+      // Cтандартный вид инпута
+      isSelectedFromList: true,
+    };
 
     // TODO: здесь можно сделать не принудительный выбор пользователя
     // TODO: не только через список, но и input и далее сравнивать value
@@ -128,10 +136,28 @@ class AutoSuggestionInputBlock extends React.Component {
     if (idName !== inputValue) {
       console.log(this.fetchSuggestions);
 
-      this.setState({
-        popper: idName,
-      });
+      // Пользователь может вводить любые значения, не только из бэка
+      if (this.props.editable) {
+        // TODO: FIX: если пользователь ввел значение нез из списка, то отмечать это визуально
+        // Допустим можно оранжевеньким цветом подсвечивать, вместо синего цвета
+        console.log('editable');
+        newState = {
+          ...newState,
+          // Инпут не из листа => отмечаем это рамкой
+          isSelectedFromList: false,
+        };
+      } else {
+        newState = {
+          ...newState,
+          popper: idName,
+        };
+      }
     }
+
+    console.log('newState', newState);
+    this.setState({
+      ...newState,
+    });
   };
 
   render() {
@@ -142,10 +168,33 @@ class AutoSuggestionInputBlock extends React.Component {
       onSuggestionsFetchRequested: this.handleSuggestionsFetchRequested,
       onSuggestionsClearRequested: this.handleSuggestionsClearRequested,
       onSuggestionSelected: this.onSuggestionSelected.bind(this),
+      style: { color: 'red' },
       renderInputComponent,
       getSuggestionValue,
       renderSuggestion,
     };
+
+    let inputStyle = {};
+    // Окраска инпута в зависимости от введенных данных
+    switch (this.state.isSelectedFromList) {
+      case true:
+        inputStyle = {
+          backgroundColor: '',
+        };
+        break;
+
+      case false:
+        inputStyle = {
+          backgroundColor: 'rgba(0,0,255,0.05)',
+        };
+        break;
+
+      case 'error':
+        inputStyle = {
+          backgroundColor: 'rgba(255,0,0,0.1)',
+        };
+        break;
+    }
 
     return (
       <div className={classes.root}>
@@ -163,6 +212,8 @@ class AutoSuggestionInputBlock extends React.Component {
             InputLabelProps: {
               shrink: true,
             },
+            // Если значение инпута не из списка => отмечаем это рамочкой
+            style: inputStyle,
             onBlur: this.onBlur,
           }}
           theme={{
