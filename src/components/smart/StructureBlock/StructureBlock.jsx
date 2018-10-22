@@ -117,6 +117,7 @@ class StructureBlock extends Component {
           <TextField
             {...shareProps}
             className="input"
+            type={type}
             error={!values[key].valid}
             fullWidth
           />
