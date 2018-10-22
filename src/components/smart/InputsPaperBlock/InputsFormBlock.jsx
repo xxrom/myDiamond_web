@@ -3,18 +3,28 @@ import PropTypes from 'prop-types';
 
 import './WorkForm.css';
 
-import { StructureBlock } from '../../components/smart';
+import { StructureBlock } from '../';
 import { SubmitButton } from '../../components/common';
 import { api, structure } from '../../libs/';
-import { schema } from './libs/';
-import { SnackbarPop } from '../../components/common/';
+// import { schema } from './libs/';
+import { SnackbarPop } from '../../common/';
+
+import { innerHandleOnChange } from './libs';
 
 /**
- * Список полей выводящийся по схеме (schema)
+ * Форма списка полей (по схеме schema)
  *
- * @param {string} name - имя блока
+ * @param {string} title - заглавие данного блока
+ * @param {string} submitButtonTitle - название кнопки
+ * @param {object} schema - схема всего всего блока, самая важная часть
  */
-class WorkForm extends Component {
+class InputsFormBlock extends Component {
+  static propTypes = {
+    title: PropTypes.string.isRequired,
+    submitButtonTitle: PropTypes.string.isRequired,
+    schema: PropTypes.object.isRequired,
+  };
+
   constructor(props) {
     super(props);
     this.state = {
@@ -23,30 +33,6 @@ class WorkForm extends Component {
       ...structure.makeStructure(schema),
     };
   }
-
-  /**
-   * Изменение полей блоков
-   * @param {string} name - имя блока всего
-   * @param {string} key - идентификатор поля
-   * @param {object} regexp - валидация поля
-   */
-  handleOnChange = (name, key, regexp, type) => (event) => {
-    console.log('handleOnChange', name, key, event.target.value, type);
-    let keyObject = {
-      value: event.target.value,
-      valid: regexp.test(event.target.value),
-    };
-    console.log('keyObject', keyObject);
-    this.setState({
-      values: {
-        ...this.state.values,
-        [name]: {
-          ...this.state.values[name],
-          [key]: keyObject,
-        },
-      },
-    });
-  };
 
   /**
    * Добавляем новый блок
@@ -163,14 +149,14 @@ class WorkForm extends Component {
         schema={schema}
         settings={settings}
         values={this.state.values[name]}
-        handleOnChange={this.handleOnChange}
+        handleOnChange={innerHandleOnChange}
         handleOnDelete={this.handleOnDelete}
       />
     ));
 
     return (
-      <div className="work-from">
-        <h3>Добавить новую работу.</h3>
+      <div className="inputs-from">
+        <h3>{this.props.title}</h3>
         {Diamond}
 
         <button className="add-employee-btn" onClick={this.onAddBlock} />
@@ -178,7 +164,7 @@ class WorkForm extends Component {
         <SubmitButton
           onSubmit={this.onSubmit}
           disabled={false}
-          buttonTitle="Добавить работу"
+          buttonTitle={this.props.submitButtonTitle}
         />
 
         <SnackbarPop
@@ -191,4 +177,4 @@ class WorkForm extends Component {
   }
 }
 
-export { WorkForm };
+export { InputsFormBlock };

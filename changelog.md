@@ -1,5 +1,9 @@
 ## `BlisterProm` \_ changeLog
 
+23.10.2018
+
+- InputsFormBlock - another abstract wrapper for all inputs and submitBtn
+
 22.10.2018
 
 - Fix AutoSuggestion dropList, when regexp.test is empty
