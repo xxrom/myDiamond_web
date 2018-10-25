@@ -85,7 +85,7 @@ function escapeRegexCharacters(str) {
   return str.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
 }
 
-function getSuggestions(self, value) {
+function getSuggestions(self, value = ' ') {
   // RegExp Magic ... =)
   const escapedValue = escapeRegexCharacters(value.trim());
 

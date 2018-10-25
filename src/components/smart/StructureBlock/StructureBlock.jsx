@@ -91,44 +91,45 @@ class StructureBlock extends Component {
     }, 500); // задержка перед удаление для анимации
   };
 
-  render() {
-    const { name, schema, handleOnChange, values } = this.props;
+  // Формирование инпута по его type
+  inputTemplate = ({ label, key, regexp, type, editable }) => {
+    const { name, handleOnChange, values } = this.props;
 
-    // Создание инпутов по schema
-    const inputs = schema.map((item) => {
-      const { label, key, regexp, type } = item;
-      const shareProps = {
-        label: label,
-        value: values[key].value,
-        onChange: handleOnChange(name, key, regexp, type),
-      };
+    const shareProps = {
+      label: label,
+      value: values[key].value,
+      onChange: handleOnChange(name, key, regexp, type),
+    };
 
-      // Определяем тип компонента input
-
-      let component =
-        type === 'list' ? (
-          <AutoSuggestionInput
-            {...shareProps}
-            key={`${label}${key}`}
-            keySelector={key}
-            editable={item.editable}
-          />
-        ) : (
-          <TextField
-            {...shareProps}
-            className="input"
-            type={type}
-            error={!values[key].valid}
-            fullWidth
-          />
-        );
-
-      return (
-        <div className="div-input-wrapper" key={`${label}${key}`}>
-          {component}
-        </div>
+    // Определяем тип компонента input
+    let component =
+      type === 'list' ? (
+        <AutoSuggestionInput
+          {...shareProps}
+          key={`${label}${key}`}
+          keySelector={key}
+          editable={editable}
+        />
+      ) : (
+        <TextField
+          {...shareProps}
+          className="input"
+          type={type}
+          error={!values[key].valid}
+          fullWidth
+        />
       );
-    });
+
+    return (
+      <div className="div-input-wrapper" key={`${label}${key}`}>
+        {component}
+      </div>
+    );
+  };
+
+  render() {
+    // Создание инпутов по schema
+    const inputs = this.props.schema.map(this.inputTemplate);
 
     return (
       <Paper className={`inputs-wrapper ${this.state.class.inputsWrapper}`}>

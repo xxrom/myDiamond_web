@@ -85,7 +85,6 @@ class AutoSuggestionInputBlock extends React.Component {
     });
   }
 
-  // не обновляются данныеююю.....
   // Проверка введенного значения, после увода фокуса (вдруг изменили)
   onBlur = () => {
     /*
@@ -94,71 +93,69 @@ class AutoSuggestionInputBlock extends React.Component {
     * inputValue - может меняться только по селекту из списка
     */
 
-    const data = this.fetchSuggestions;
-    if (!data) {
+    if (!this.fetchSuggestions) {
       // Если нет данных, то и сравнивать не с чем
       return;
     }
 
     // Текущее значение в инпуте {String}
     const inputValue = this.state.popper;
-    // Значение из schema.values {Number}
-    const value = this.props.value;
+    // Значение из props, которое из schema.values {Number}
+    const propsValue = this.props.value;
 
-    let nameArray = data.filter((item) => {
-      return item[this.props.keySelector] == value;
-    });
-
-    console.log(nameArray);
+    // Ищем все совпадения из данных с бэка
+    let comparedResult = this.fetchSuggestions.filter(
+      (item) => item[this.props.keySelector] === propsValue
+    );
 
     // Если не нашли совпадения или если их несколько, то выходим
-    if (nameArray.length !== 1) {
-      if (nameArray.length > 1) {
+    if (comparedResult.length !== 1) {
+      if (comparedResult.length > 1) {
         console.error('id key is not uniq!!!');
       } else {
-        // nameArray.length === 0 | Если массив пустой, то создаем заглушку
-        nameArray = [{}];
+        comparedResult = [{}];
       }
-
-      this.setState({
-        isSelectedFromList: 'error',
-      });
     }
 
-    // Вытаскиваем значение инпута, которое с бэка
-    const idName = nameArray[0].value;
+    // Вытаскиваем значение инпута, которое с бэка профильтровали ранее
+    const comparedValue = comparedResult[0].value || '';
 
-    // Объект с новыми значениями State
+    // Объект со стандартными значениями
     let newState = {
-      // Cтандартный вид инпута
-      isSelectedFromList: true,
+      inputBackgroundColor: '',
     };
 
-    // TODO: здесь можно сделать не принудительный выбор пользователя
-    // TODO: не только через список, но и input и далее сравнивать value
     // Если пользователь изменил инпут и вышел из него, то вернуть как было все
-    if (idName !== inputValue) {
-      console.log(this.fetchSuggestions);
-
+    if (comparedValue !== inputValue) {
       // Пользователь может вводить любые значения, не только из бэка
       if (this.props.editable) {
-        // Допустим можно оранжевеньким цветом подсвечивать, вместо синего цвета
-        newState = {
-          ...newState,
-          // Инпут не из листа => отмечаем это рамкой
-          isSelectedFromList: false,
-        };
+        // Пользователь может менять значение на любое =>
+        // нужно фильтровать уже не по propsValue а по inputValue !
+        let comparedResultWithInputValue = this.fetchSuggestions.filter(
+          (item) => item[this.props.keySelector] === inputValue
+        );
 
-        // Прокидываем новое значение value наверх, так как editable === true
+        // Если совпадений не нашли => это абсолютно новое значение!
+        if (comparedResultWithInputValue.length === 0) {
+          newState = {
+            ...newState,
+            // Инпут не из листа => отмечаем это рамкой
+            inputBackgroundColor: 'rgba(0,0,255,0.05)',
+          };
+        }
+
+        // Пускаем новое значение value наверх, так как editable === true
         this.props.onChange({
           target: {
             value: inputValue,
           },
         });
       } else {
+        // Если у поля editable === false =>
+        // поле может иметь значения только из списка с бэка (this.fetchSuggestions)
         newState = {
           ...newState,
-          popper: idName,
+          popper: comparedValue,
         };
       }
     }
@@ -182,27 +179,8 @@ class AutoSuggestionInputBlock extends React.Component {
       renderSuggestion,
     };
 
-    let inputStyle = {};
     // Окраска инпута в зависимости от введенных данных
-    switch (this.state.isSelectedFromList) {
-      case true:
-        inputStyle = {
-          backgroundColor: '',
-        };
-        break;
-
-      case false:
-        inputStyle = {
-          backgroundColor: 'rgba(0,0,255,0.05)',
-        };
-        break;
-
-      case 'error':
-        inputStyle = {
-          backgroundColor: 'rgba(255,0,0,0.1)',
-        };
-        break;
-    }
+    let inputStyle = { backgroundColor: this.state.inputBackgroundColor };
 
     return (
       <div className={classes.root}>

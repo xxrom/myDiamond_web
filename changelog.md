@@ -1,5 +1,9 @@
 ## `BlisterProm` \_ changeLog
 
+25.10.2018
+
+- Fix AutoSuggestion skyBlue highlight when input is editable (wrong highlight when have pare from backEnd fetchData)
+
 23.10.2018
 
 - InputsFormBlock - another abstract wrapper for all inputs and submitBtn
