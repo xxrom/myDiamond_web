@@ -1,15 +1,11 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
-import './WorkForm.css';
+import './InputsPaperBlock.css';
 
 import { StructureBlock } from '../';
-import { SubmitButton } from '../../components/common';
-import { api, structure } from '../../libs/';
-// import { schema } from './libs/';
-import { SnackbarPop } from '../../common/';
-
-import { innerHandleOnChange } from './libs';
+import { SubmitButton, SnackbarPop } from '../../common';
+import { api, structure } from '../../../libs/';
 
 /**
  * Форма списка полей (по схеме schema)
@@ -18,19 +14,23 @@ import { innerHandleOnChange } from './libs';
  * @param {string} submitButtonTitle - название кнопки
  * @param {object} schema - схема всего всего блока, самая важная часть
  */
-class InputsFormBlock extends Component {
+class InputsPaperBlock extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
     submitButtonTitle: PropTypes.string.isRequired,
     schema: PropTypes.object.isRequired,
+    onSubmit: PropTypes.func.isRequired,
   };
 
   constructor(props) {
     super(props);
+
+    this.onSubmit = props.onSubmit.bind(this);
+
     this.state = {
       openValidationMessage: false,
       validateMessageType: '',
-      ...structure.makeStructure(schema),
+      ...structure.makeStructure(props.schema),
     };
   }
 
@@ -104,60 +104,49 @@ class InputsFormBlock extends Component {
   };
 
   /**
-   * Отправляет данные на сервер
+   * Изменение полей блоков
+   * @param {string} name - имя блока всего
+   * @param {string} key - идентификатор поля
+   * @param {object} regexp - валидация поля
+   * @param {string} type - тип поля
    */
-  onSubmit = async () => {
-    const { values } = this.state;
-    if (!structure.validate.values(values)) {
-      console.log('NotValid !!!', values);
-      this.setState({
-        openValidationMessage: true,
-        validateMessageType: 'validationError',
-      });
-      return;
-    }
-
-    // Добавляем новую работу
-    // FIXME: сотрудник ID нужно выпадающий список Имен сотрудников с их ID
-    const sendWorkObject = structure.prepare.getObject(values, 'work0');
-    console.log('sendWorkObject', sendWorkObject);
-
-    const workId = await api.postNewWork(sendWorkObject);
-    console.log(`workId`, workId);
-
-    // Добавляем для сотрудника его работы
-    const sendArticleArr = structure.prepare.getArray(
-      workId,
-      'work_id',
-      values,
-      'article'
-    );
-    console.log('sendArticleArr', sendArticleArr);
-    const articleId = await api.postNewArticleArray(sendArticleArr);
+  handleOnChange = (name, key, regexp, type) => (event) => {
+    let keyObject = {
+      value: event.target.value,
+      valid: regexp.test(event.target.value),
+    };
 
     this.setState({
-      openValidationMessage: true,
-      validateMessageType: 'successfulSending',
+      values: {
+        ...this.state.values,
+        [name]: {
+          ...this.state.values[name],
+          [key]: keyObject,
+        },
+      },
     });
   };
 
+  // Закрыть SnakbarPop
+  onCloseSnackbarPop = () => this.setState({ openValidationMessage: false });
+
   render() {
-    const Diamond = this.state.structure.map(({ name, schema, settings }) => (
+    const Inputs = this.state.structure.map(({ name, schema, settings }) => (
       <StructureBlock
-        key={name}
+        key={name + 'test'}
         name={name}
         schema={schema}
         settings={settings}
         values={this.state.values[name]}
-        handleOnChange={innerHandleOnChange}
-        handleOnDelete={this.handleOnDelete}
+        onChange={this.handleOnChange}
+        onDelete={this.handleOnDelete}
       />
     ));
 
     return (
       <div className="inputs-from">
         <h3>{this.props.title}</h3>
-        {Diamond}
+        {Inputs}
 
         <button className="add-employee-btn" onClick={this.onAddBlock} />
 
@@ -169,7 +158,7 @@ class InputsFormBlock extends Component {
 
         <SnackbarPop
           open={this.state.openValidationMessage}
-          onClose={() => this.setState({ openValidationMessage: false })}
+          onClose={this.onCloseSnackbarPop}
           messageType={this.state.validateMessageType}
         />
       </div>
@@ -177,4 +166,4 @@ class InputsFormBlock extends Component {
   }
 }
 
-export { InputsFormBlock };
+export { InputsPaperBlock };

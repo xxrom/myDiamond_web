@@ -15,8 +15,8 @@ import './StructureBlock.css';
  * @param {object} values - значения для инпутов и валидация
  * @param {object} settings - настройки блока
  * @see {bool} settings.delete - можно удалять или нет блок
- * @param {func} handleOnChange - вызов ф по изменению
- * @param {func} handleOnDelete - вызов ф по клику на удалить
+ * @param {func} onChange - вызов ф по изменению
+ * @param {func} onDelete - вызов ф по клику на удалить
  */
 class StructureBlock extends Component {
   static propTypes = {
@@ -24,8 +24,8 @@ class StructureBlock extends Component {
     schema: PropTypes.array.isRequired,
     values: PropTypes.object.isRequired,
     settings: PropTypes.object.isRequired,
-    handleOnChange: PropTypes.func.isRequired,
-    handleOnDelete: PropTypes.func.isRequired,
+    onChange: PropTypes.func.isRequired,
+    onDelete: PropTypes.func.isRequired,
   };
 
   constructor(props) {
@@ -87,18 +87,18 @@ class StructureBlock extends Component {
 
     setTimeout(() => {
       // Передаем сигнал выше =)
-      this.props.handleOnDelete(name);
+      this.props.onDelete(name);
     }, 500); // задержка перед удаление для анимации
   };
 
   // Формирование инпута по его type
   inputTemplate = ({ label, key, regexp, type, editable }) => {
-    const { name, handleOnChange, values } = this.props;
+    const { name, onChange, values } = this.props;
 
     const shareProps = {
       label: label,
       value: values[key].value,
-      onChange: handleOnChange(name, key, regexp, type),
+      onChange: onChange(name, key, regexp, type),
     };
 
     // Определяем тип компонента input
