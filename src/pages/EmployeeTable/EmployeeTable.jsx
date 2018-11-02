@@ -8,6 +8,8 @@ import { initMethods, initState, timeToString } from './libs';
 // import { AddEmployee } from '../../components/smart/';
 // import { labels } from '../EmployeeForm/libs';
 
+import { RowSettings } from './templates';
+
 class EmployeeTable extends Component {
   constructor(props) {
     super(props);
@@ -22,35 +24,6 @@ class EmployeeTable extends Component {
   render() {
     const { data, columns } = this.state;
 
-    // const editEmployee = (row) => {
-    //   const newLabels = [...labels];
-    //   console.log(row);
-    //   console.log(newLabels);
-    //   newLabels.map(({ key, type }, index) => {
-    //     switch (type) {
-    //       case 'text': {
-    //         if (typeof row.original[key] !== 'undefined') {
-    //           newLabels[index].defaultValue = row.original[key];
-    //         }
-    //         break;
-    //       }
-    //       case 'date': {
-    //         if (typeof row.original[key] !== 'undefined') {
-    //           newLabels[index].defaultValue = timeToString(row.original[key]);
-    //         }
-    //       }
-    //     }
-    //   });
-    //   console.log('newLabels', newLabels);
-    //   return (
-    //     <div>
-    //       <button onClick={this.onClickDelete(row)}>Удалить Сотрудника</button>
-    //       <button onClick={this.onClickEdit(row)}>Изменить Сотрудника</button>
-    //        <AddEmployee labels={labels} />
-    //     </div>
-    //   );
-    // };
-
     return (
       <div>
         <h1>Employee Table</h1>
@@ -60,7 +33,7 @@ class EmployeeTable extends Component {
           dataName: 'data',
           defaultPageSize: 20,
           className: '-striped -highlight',
-          SubComponent: (row) => editEmployee(row),
+          SubComponent: RowSettings,
         })(ReactTable)}
       </div>
     );
