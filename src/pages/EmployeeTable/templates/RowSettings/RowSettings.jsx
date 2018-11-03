@@ -1,8 +1,25 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
+import { InputsPaperBlock } from '../../../../components/smart';
+
+import { schema } from './../../../EmployeeForm/libs';
+
+const onSubmit = () => {
+  console.log('onSubmit test');
+};
+
 const RowSettings = (row) => {
-  return 'test';
+  console.log('row', row);
+  console.log('schema', schema);
+  return (
+    <InputsPaperBlock
+      title="Изменить данные сотрудника"
+      schema={schema}
+      submitButtonTitle="Обновить"
+      onSubmit={onSubmit}
+    />
+  );
   const newLabels = [...labels];
   console.log(row);
   console.log(newLabels);
@@ -37,3 +54,40 @@ RowSettings.propTypes = {
 };
 
 export { RowSettings };
+
+// Прокидываем начальные значения, если они есть
+// /**
+//  *
+//  *
+//  * @param {object} values - значения из схемы
+//  * @param {object} defaultValues - начальные значения из таблицы
+//  * @returns
+//  */
+// function setDefaultValues(values, defaultValues) {
+//   return Object.keys(values).reduce((sum, key) => {
+//     const newSum = {
+//       ...sum,
+//       [key]: values[key],
+//     };
+
+//     if (defaultValues && defaultValues[key]) {
+//       newSum[key].value = defaultValues[key];
+//     }
+//     // debugger;
+
+//     return newSum;
+//   }, {});
+// }
+
+// // Инициализация полей ввода
+// const values = structure.reduce((sum, item) => {
+//   // debugger;
+
+//   return {
+//     ...sum,
+//     [item.name]: setDefaultValues(item.values, defaultValues),
+//     // {
+//     //   ...item.values,
+//     // },
+//   };
+// }, {});

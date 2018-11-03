@@ -36,18 +36,19 @@ const makeStructure = (schema) => {
   );
 
   // Инициализация полей ввода
-  const values = structure.reduce((sum, item) => {
-    return {
+  const values = structure.reduce(
+    (sum, item) => ({
       ...sum,
       [item.name]: {
         ...item.values,
       },
-    };
-  }, {});
+    }),
+    {}
+  );
 
-  // console.log('Structure', structure);
-  // console.log('structureSkeleton', structureSkeleton);
-  // console.log('values', values);
+  // console.info('Structure', structure);
+  // console.info('structureSkeleton', structureSkeleton);
+  // console.info('values', values);
 
   return {
     structure,
@@ -58,7 +59,7 @@ const makeStructure = (schema) => {
 
 const validate = {
   /**
-   * Провалидировать все-все занчения .valid === true
+   * Провалидировать все-все значения .valid === true
    * @param {object} values - объект значений
    */
   values: function(values) {
