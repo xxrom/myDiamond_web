@@ -98,7 +98,7 @@ const prepare = {
     const dataObject = data[objectName];
     const sendObject = {};
 
-    // Формируем объект Employee для отправки на бэк
+    // Формируем объект для отправки на бэк
     for (const val in dataObject) {
       sendObject[val] = dataObject[val].value;
     }
@@ -126,6 +126,21 @@ const prepare = {
             { [mainObjectName]: mainObjectId[mainObjectName] } // Дописываем ID
           )
       ),
+
+  /**
+   * Инициализация данных для дальнейшего обновления данных на бэке
+   *
+   * @param {object} initObject - начальный объект, к которому добавляем данные
+   * @param {string} key - ключ с 'ID'
+   * @param {object} data - все - все данные (row.original)
+   * @returns
+   */
+  makeUpdateObject: (initObject, key, data) => {
+    return {
+      ...initObject,
+      [key]: data[key],
+    };
+  },
 };
 
 export { makeStructure, prepare, validate };

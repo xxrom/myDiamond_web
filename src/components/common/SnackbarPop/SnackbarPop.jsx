@@ -7,7 +7,6 @@ import Chip from '@material-ui/core/Chip';
 import Avatar from '@material-ui/core/Avatar';
 
 import ReportProblem from '@material-ui/icons/ReportProblem';
-import Done from '@material-ui/icons/Done';
 
 class SnackbarPop extends Component {
   static propTypes = {
@@ -21,33 +20,35 @@ class SnackbarPop extends Component {
    * @param {string} messageType - тип сообщения
    */
   getChip(messageType) {
+    let labelText = 'Undefined text ???';
+    let colorType = 'primary';
     switch (messageType) {
       // Ошибка ввода валидации данных
       case 'validationError':
-        return (
-          <Chip
-            label="Проверьте введённые данные"
-            color="secondary"
-            avatar={
-              <Avatar>
-                <ReportProblem />
-              </Avatar>
-            }
-          />
-        );
+        labelText = 'Проверьте введённые данные';
+        colorType = 'secondary';
+        break;
+
       case 'successfulSending':
-        return (
-          <Chip
-            label="Данные успешно загружены"
-            color="primary"
-            avatar={
-              <Avatar>
-                <Done />
-              </Avatar>
-            }
-          />
-        );
+        labelText = 'Данные успешно загружены';
+        break;
+
+      case 'successfulUpdate':
+        labelText = 'Данные успешно обновлены';
+        break;
     }
+
+    return (
+      <Chip
+        label={labelText}
+        color={colorType}
+        avatar={
+          <Avatar>
+            <ReportProblem />
+          </Avatar>
+        }
+      />
+    );
   }
 
   render() {

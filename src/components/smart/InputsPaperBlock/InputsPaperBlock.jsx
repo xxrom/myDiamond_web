@@ -5,7 +5,7 @@ import './InputsPaperBlock.css';
 
 import { StructureBlock } from '../';
 import { SubmitButton, SnackbarPop } from '../../common';
-import { api, structure } from '../../../libs/';
+import { structure } from '../../../libs/';
 
 /**
  * Форма списка полей (по схеме schema)
@@ -17,15 +17,20 @@ import { api, structure } from '../../../libs/';
 class InputsPaperBlock extends Component {
   static propTypes = {
     title: PropTypes.string.isRequired,
-    submitButtonTitle: PropTypes.string.isRequired,
     schema: PropTypes.object.isRequired,
+    submitButtonTitle: PropTypes.string.isRequired,
+    deleteButtonTitle: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
+    onDelete: PropTypes.func,
   };
 
   constructor(props) {
     super(props);
 
     this.onSubmit = props.onSubmit.bind(this);
+    if (typeof props.onDelete === 'function') {
+      this.onDelete = props.onDelete.bind(this);
+    }
 
     this.state = {
       openValidationMessage: false,
@@ -143,6 +148,27 @@ class InputsPaperBlock extends Component {
       />
     ));
 
+    const submitButton = (
+      <SubmitButton
+        onSubmit={this.onSubmit}
+        disabled={false}
+        buttonTitle={this.props.submitButtonTitle}
+      />
+    );
+
+    let deleteButton = null;
+    if (typeof this.props.onDelete === 'function') {
+      deleteButton = (
+        <SubmitButton
+          onSubmit={this.onDelete}
+          disabled={false}
+          buttonTitle={this.props.deleteButtonTitle}
+          style={{ marginLeft: '10px' }}
+          buttonType="delete"
+        />
+      );
+    }
+
     return (
       <div className="inputs-from">
         <h3>{this.props.title}</h3>
@@ -150,11 +176,8 @@ class InputsPaperBlock extends Component {
 
         <button className="add-employee-btn" onClick={this.onAddBlock} />
 
-        <SubmitButton
-          onSubmit={this.onSubmit}
-          disabled={false}
-          buttonTitle={this.props.submitButtonTitle}
-        />
+        {submitButton}
+        {deleteButton}
 
         <SnackbarPop
           open={this.state.openValidationMessage}

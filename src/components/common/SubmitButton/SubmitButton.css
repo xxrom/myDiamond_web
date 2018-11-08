@@ -17,7 +17,6 @@
     color: white;
     background-color: var(--text-active-color);
     border: 2px solid var(--text-active-color);
-    outline: 2px solid var(--text-active-color);
     outline-offset: -4px;
     box-shadow: 0 3px 8px var(--text-active-color);
 

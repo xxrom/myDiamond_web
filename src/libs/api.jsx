@@ -128,6 +128,31 @@ async function postNewArticleArray(body = []) {
   return ans;
 }
 
+// UPDATE DATA ON BACKEND
+/**
+ * Обновление Employee в таблице
+ *
+ * @param {*} body - { name: 'test name' } новые данные
+ * @param {*} key - 'employee' ключ по которому отсылаем
+ * @param {*} fullData - все данные row.original где вытаскиваем
+ *              [key + '_id'] индекс записи для обновления данных
+ * @returns
+ */
+async function updateEmployeeData(body, key, fullData) {
+  const ans = await fetchData({
+    url: `/${key}/${fullData[key + '_id']}`,
+    fetchOptionsMethod: 'PUT',
+    fetchOptionsHeader: {
+      'Content-type': 'application/json',
+    },
+    body,
+  });
+
+  console.log('updateEmployeeData ans', ans);
+
+  return ans;
+}
+
 export {
   deleteRatesByEmployeeId,
   deleteEmployeeByEmployeeId,
@@ -138,4 +163,5 @@ export {
   postNewRateArray,
   postNewWork,
   postNewArticleArray,
+  updateEmployeeData,
 };
