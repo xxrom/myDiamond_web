@@ -138,7 +138,12 @@ async function postNewArticleArray(body = []) {
  *              [key + '_id'] индекс записи для обновления данных
  * @returns
  */
-async function updateEmployeeData(body, key, fullData) {
+async function updateTableData(body, key, fullData) {
+  if (typeof key !== 'string' || typeof fullData !== 'object') {
+    console.log(`error Update updateTableData key= [${key}]`);
+    return null;
+  }
+
   const ans = await fetchData({
     url: `/${key}/${fullData[key + '_id']}`,
     fetchOptionsMethod: 'PUT',
@@ -148,7 +153,27 @@ async function updateEmployeeData(body, key, fullData) {
     body,
   });
 
-  console.log('updateEmployeeData ans', ans);
+  console.log('updateTableData table= [${table}] ans', ans);
+
+  return ans;
+}
+
+// DELETE
+async function deleteTableData(table, id) {
+  if (typeof table !== 'string' || typeof +id !== 'number') {
+    console.log(`error Delete deleteTableData table= [${table}]`);
+    return null;
+  }
+
+  const ans = await fetchData({
+    url: `/${table}/${id}`,
+    fetchOptionsMethod: 'DELETE',
+    fetchOptionsHeader: {
+      'Content-type': 'application/json',
+    },
+  });
+
+  console.log(`delete table= [${table}] ans`, ans);
 
   return ans;
 }
@@ -163,5 +188,6 @@ export {
   postNewRateArray,
   postNewWork,
   postNewArticleArray,
-  updateEmployeeData,
+  updateTableData,
+  deleteTableData,
 };

@@ -24,7 +24,7 @@ const onUpdate = (row) =>
     // Обновляем данные сотрудника
     const sendEmployeeObj = structure.prepare.getObject(values, 'employee0');
     console.log('sendEmployeeObj', sendEmployeeObj);
-    const updateEmployee = await api.updateEmployeeData(
+    const updateEmployee = await api.updateTableData(
       sendEmployeeObj,
       'employee',
       row
@@ -40,7 +40,7 @@ const onUpdate = (row) =>
       employee_id: row['employee_id'],
     };
 
-    const updateRate = await api.updateEmployeeData(sendRateObj, 'rate', row);
+    const updateRate = await api.updateTableData(sendRateObj, 'rate', row);
     console.log(`updateRate`, updateRate);
 
     // Показываем popUp об успешном обновлении данных на бэке
@@ -53,6 +53,20 @@ const onUpdate = (row) =>
 const onDelete = (row) =>
   async function() {
     console.log('onDelete', row);
+    const rateId = row.rate_id;
+    const employeeId = row.employee_id;
+    console.log('rateId', rateId);
+    console.log('employeeId', employeeId);
+    const deleteRateAns = await api.deleteTableData('rate', rateId);
+    console.log('delete rate', deleteRateAns);
+    const deleteEmployeeAns = await api.deleteTableData('employee', employeeId);
+    console.log('delete rate', deleteEmployeeAns);
+
+    // Показываем popUp об успешном обновлении данных на бэке
+    this.setState({
+      openValidationMessage: true,
+      validateMessageType: 'successfulDelete',
+    });
   };
 
 const RowSettings = (row) => {

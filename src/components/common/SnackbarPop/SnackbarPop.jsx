@@ -36,6 +36,10 @@ class SnackbarPop extends Component {
       case 'successfulUpdate':
         labelText = 'Данные успешно обновлены';
         break;
+
+      case 'successfulDelete':
+        labelText = 'Данные успешно удалены';
+        break;
     }
 
     return (
