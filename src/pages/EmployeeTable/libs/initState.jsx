@@ -8,10 +8,22 @@ export default function() {
           {
             Header: 'Номер Сотрудника',
             accessor: 'employee_id',
+            sortMethod: (a, b) => {
+              // Возможно это нафиг не нужно, но решил протестить.
+              if (a.length === b.length) {
+                return a > b ? 1 : -1;
+              }
+              return a.length > b.length ? 1 : -1;
+            },
+            minWidth: 80,
           },
           {
             Header: 'Фамилия Имя',
             accessor: 'name',
+            PivotValue: ({ value }) => (
+              <span style={{ color: 'darkred' }}>{value}</span>
+            ),
+            minWidth: 250,
           },
         ],
       },
@@ -25,6 +37,9 @@ export default function() {
           {
             Header: 'Тариф-будни',
             accessor: 'rate_week_day',
+            sortMethod: (a, b) => {
+              return a > b ? 1 : -1;
+            },
           },
           {
             Header: 'Тариф-выходной',

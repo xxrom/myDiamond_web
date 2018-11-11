@@ -24,7 +24,9 @@ class SubmitButton extends Component {
 
     return (
       <button
-        className={`submit-button ${this.props.disabled ? '' : 'valid'}`}
+        className={`submit-button ${this.props.disabled ? '' : 'valid'} ${
+          this.props.buttonType
+        }`}
         disabled={this.props.disabled}
         onClick={this.props.onSubmit}
         style={{

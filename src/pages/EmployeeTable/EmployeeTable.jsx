@@ -34,6 +34,7 @@ class EmployeeTable extends Component {
           defaultPageSize: 20,
           className: '-striped -highlight',
           SubComponent: RowSettings,
+          defaultSorted: [{ id: 'employee_id', desc: true }],
         })(ReactTable)}
       </div>
     );

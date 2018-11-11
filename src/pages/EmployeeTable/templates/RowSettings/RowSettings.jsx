@@ -81,6 +81,7 @@ const RowSettings = (row) => {
       // TODO: подумать как убрать каждоразовое создание функции onUpdate
       onSubmit={onUpdate(row.original)}
       onDelete={onDelete(row.original)}
+      mode="mini"
     />
   );
 };

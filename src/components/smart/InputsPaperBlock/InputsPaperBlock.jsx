@@ -22,6 +22,7 @@ class InputsPaperBlock extends Component {
     deleteButtonTitle: PropTypes.string,
     onSubmit: PropTypes.func.isRequired,
     onDelete: PropTypes.func,
+    mode: PropTypes.string,
   };
 
   constructor(props) {
@@ -170,8 +171,8 @@ class InputsPaperBlock extends Component {
     }
 
     return (
-      <div className="inputs-from">
-        <h3>{this.props.title}</h3>
+      <div className={`inputs-from ${this.props.mode}`}>
+        <h3 className="inputs-from__title">{this.props.title}</h3>
         {Inputs}
 
         <button className="add-employee-btn" onClick={this.onAddBlock} />

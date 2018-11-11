@@ -2,3 +2,19 @@
   position: relative;
   margin: 1rem;
 }
+
+.inputs-from.mini {
+  margin-top: 0.5rem;
+
+  h3 {
+    margin: 0;
+  }
+
+  .add-employee-btn {
+    display: none;
+  }
+
+  .submit-button {
+    padding: 0.2rem 0.5rem;
+  }
+}
