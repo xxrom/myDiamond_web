@@ -14,7 +14,7 @@ class Header extends Component {
           </div>
         </NavLink>
         <NavLink className="liBtn" to="/" exact activeClassName="active">
-          Заказы
+          Таблица работ
         </NavLink>
         <NavLink className="liBtn" to="/work-form" activeClassName="active">
           Добавить работу
