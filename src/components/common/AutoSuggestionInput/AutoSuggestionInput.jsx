@@ -33,15 +33,13 @@ class AutoSuggestionInputBlock extends React.Component {
     editable: PropTypes.bool.isRequired,
     keySelector: PropTypes.string.isRequired,
   };
+
   state = {};
 
   constructor(props) {
     super(props);
 
-    fetchSuggestions(this, props.keySelector);
-
     const state = {
-      single: '',
       // Текущее значение инпута
       popper: '',
       // Значение popper из значений с бэка выбрано или нет?
@@ -51,6 +49,13 @@ class AutoSuggestionInputBlock extends React.Component {
 
     this.state = state;
   }
+
+  componentDidMount = () => {
+    fetchSuggestions(this, this.props.keySelector).then((res) => {
+      // Эмулируем вызов из onBlur, чтобы закинуть туда значение value
+      this.checkAndSetInputValue(null, false);
+    });
+  };
 
   handleSuggestionsFetchRequested = ({ value }) => {
     this.setState({
@@ -76,7 +81,6 @@ class AutoSuggestionInputBlock extends React.Component {
 
     console.log('selected = ', suggestion.value);
 
-    // TODO: убрать хардкод вытаскивания элемента employee_id
     // В onChange наверх нужно прокидывать id элемента а не его значение
     this.props.onChange({
       target: {
@@ -86,12 +90,12 @@ class AutoSuggestionInputBlock extends React.Component {
   }
 
   // Проверка введенного значения, после увода фокуса (вдруг изменили)
-  onBlur = () => {
+  onBlur = (event) => {
     /*
-    * Значение инпута, должно быть строго из списка (кроме this.props.editable)
-    * поэтому на блюре идет проверка соответствия
-    * inputValue - может меняться только по селекту из списка
-    */
+     * Значение инпута, должно быть строго из списка (кроме this.props.editable)
+     * поэтому на блюре идет проверка соответствия
+     * inputValue - может меняться только по селекту из списка
+     */
 
     if (!this.fetchSuggestions) {
       // Если нет данных, то и сравнивать не с чем
@@ -99,16 +103,33 @@ class AutoSuggestionInputBlock extends React.Component {
     }
 
     // Текущее значение в инпуте {String}
-    const inputValue = this.state.popper;
-    // Значение из props, которое из schema.values {Number}
+    const inputValue = event.target.value;
+
+    // Проверяем инпут и найденное значение, ставим правильное из них в инпут
+    this.checkAndSetInputValue(inputValue, this.props.editable);
+  };
+
+  /**
+   * Проверяем данные из инпута и данные которые нашли с бэка
+   * 1. если editable = true => то inputValue - любое
+   * 2. если editable = false => то inputValue - только comparedValue (которое найдено с бэка)
+   * так же прописывается фон инпута: 1 - голубенький, 2 - белый
+   */
+  checkAndSetInputValue = (inputValue, editable = false) => {
+    // Значение из props, которое из schema.values {Number || String}
     const propsValue = this.props.value;
+
+    // Валидируем входные данные
+    if (typeof propsValue !== 'number' && typeof propsValue !== 'string') {
+      return;
+    }
 
     // Ищем все совпадения из данных с бэка
     let comparedResult = this.fetchSuggestions.filter(
       (item) => item[this.props.keySelector] === propsValue
     );
 
-    // Если не нашли совпадения или если их несколько, то выходим
+    // Если не нашли совпадения, то выходим (если их несколько, то console.error)
     if (comparedResult.length !== 1) {
       if (comparedResult.length > 1) {
         console.error('id key is not uniq!!!');
@@ -128,7 +149,7 @@ class AutoSuggestionInputBlock extends React.Component {
     // Если пользователь изменил инпут и вышел из него, то вернуть как было все
     if (comparedValue !== inputValue) {
       // Пользователь может вводить любые значения, не только из бэка
-      if (this.props.editable) {
+      if (editable) {
         // Пользователь может менять значение на любое =>
         // нужно фильтровать уже не по propsValue а по inputValue !
         let comparedResultWithInputValue = this.fetchSuggestions.filter(
@@ -151,8 +172,7 @@ class AutoSuggestionInputBlock extends React.Component {
           },
         });
       } else {
-        // Если у поля editable === false =>
-        // поле может иметь значения только из списка с бэка (this.fetchSuggestions)
+        // Если у поля editable === false => поле может иметь значения только из списка с бэка (this.fetchSuggestions)
         newState = {
           ...newState,
           popper: comparedValue,
@@ -160,6 +180,7 @@ class AutoSuggestionInputBlock extends React.Component {
       }
     }
 
+    // Обновляем данные state
     this.setState({
       ...newState,
     });
@@ -181,6 +202,7 @@ class AutoSuggestionInputBlock extends React.Component {
 
     // Окраска инпута в зависимости от введенных данных
     let inputStyle = { backgroundColor: this.state.inputBackgroundColor };
+    console.log('popper', this.state.popper);
 
     return (
       <div className={classes.root}>

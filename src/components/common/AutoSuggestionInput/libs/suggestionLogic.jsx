@@ -5,7 +5,6 @@ import TextField from '@material-ui/core/TextField';
 import MenuItem from '@material-ui/core/MenuItem';
 
 import { api } from '../../../../libs/';
-import { debug } from 'util';
 
 const SUGGESTION_LENGTH = 5;
 
@@ -143,6 +142,7 @@ async function fetchSuggestions(self, keySelector) {
 
   // Сохраняем ответ от сервера в this самого компонента
   self.fetchSuggestions = self.suggestions;
+  return 1;
 }
 
 export {

@@ -1,18 +1,14 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const path = require('path');
 const webpack = require('webpack');
-
-const htmlWebpackPlugin = new HtmlWebpackPlugin({
-  template: './src/index.html',
-  filename: './index.html',
-});
+const path = require('path');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CleanWebpackPlugin = require('clean-webpack-plugin');
 
 module.exports = {
   mode: 'development',
   entry: './src/index.jsx',
   output: {
     path: path.resolve(__dirname, './dist'),
-    filename: 'index_bundle.js',
+    filename: '[name].[hash].js',
   },
 
   devtool: 'eval',
@@ -74,5 +70,28 @@ module.exports = {
     ],
   },
 
-  plugins: [htmlWebpackPlugin, new webpack.HotModuleReplacementPlugin()],
+  plugins: [
+    new CleanWebpackPlugin(['dist']),
+    new HtmlWebpackPlugin({
+      title: 'Caching',
+      template: './src/index.html',
+      filename: './index.html',
+    }),
+    new webpack.HotModuleReplacementPlugin(),
+    new webpack.HashedModuleIdsPlugin(),
+  ],
+
+  // cashing
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name: 'vendors',
+          chunks: 'all',
+        },
+      },
+    },
+  },
 };

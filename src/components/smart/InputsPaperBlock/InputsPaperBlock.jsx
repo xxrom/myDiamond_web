@@ -32,7 +32,6 @@ class InputsPaperBlock extends Component {
     if (typeof props.onDelete === 'function') {
       this.onDelete = props.onDelete.bind(this);
     }
-
     this.state = {
       openValidationMessage: false,
       validateMessageType: '',
@@ -79,12 +78,11 @@ class InputsPaperBlock extends Component {
    */
   handleOnDelete = (findName) => {
     console.log('deleteByName', findName);
-    this.state.structure.map(
-      ({ name }, index) =>
-        name === findName
-          ? // Если нашли нужный индекс, то удаляем его сразу
-            this.delBlockByIndex(index)
-          : ''
+    this.state.structure.map(({ name }, index) =>
+      name === findName
+        ? // Если нашли нужный индекс, то удаляем его сразу
+          this.delBlockByIndex(index)
+        : ''
     );
   };
 
@@ -133,7 +131,7 @@ class InputsPaperBlock extends Component {
     });
   };
 
-  // Закрыть SnakbarPop
+  // Закрыть SnackbarPop
   onCloseSnackbarPop = () => this.setState({ openValidationMessage: false });
 
   render() {

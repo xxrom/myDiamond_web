@@ -1,11 +1,11 @@
-import React from 'react';
+import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 
 import { InputsPaperBlock } from '../../../../components/smart';
 import { structure, api } from '../../../../libs';
 
 import { schema } from '../../../WorkForm/libs';
-// import { setDefaultValues } from './setDefaultValues';
+import { setDefaultValues } from './../../../../libs/table/setDefaultValues';
 
 const onUpdate = (row) =>
   async function() {
@@ -69,25 +69,56 @@ const onDelete = (row) =>
     });
   };
 
-const WorkRow = (row) => {
-  console.log('row', row);
-  // const schemaWithDefaultValues = setDefaultValues(schema, row.original);
-  return (
-    <InputsPaperBlock
-      title="Изменить данные работы"
-      schema={schema}
-      submitButtonTitle="Обновить"
-      deleteButtonTitle="Удалить"
-      // TODO: подумать как убрать каждоразовое создание функции onUpdate
-      // onSubmit={onUpdate(row.original)}
-      // onDelete={onDelete(row.original)}
-      mode="mini"
-    />
-  );
-};
+class WorkRow extends Component {
+  static propTypes = {
+    row: PropTypes.object.isRequired,
+    onClick: PropTypes.func,
+  };
 
-WorkRow.propTypes = {
-  onClick: PropTypes.func,
-};
+  render() {
+    const { row } = this.props;
+    console.log('row', row);
+    console.log('schema.schema', schema);
+
+    const schemaWithDefaultValues = setDefaultValues(schema, row.original);
+
+    console.log('schemaWithDefaultValues', schemaWithDefaultValues);
+    return (
+      <InputsPaperBlock
+        title="Изменить данные работы"
+        schema={schemaWithDefaultValues}
+        submitButtonTitle="Обновить"
+        deleteButtonTitle="Удалить"
+        // TODO: подумать как убрать каждоразовое создание функции onUpdate
+        onSubmit={onUpdate(row.original)}
+        onDelete={onDelete(row.original)}
+        mode="mini"
+      />
+    );
+  }
+}
+
+// const WorkRow = (row) => {
+//   console.log('row', row);
+//   const schemaWithDefaultValues = setDefaultValues(schema, row.original);
+//   return (
+//     <InputsPaperBlock
+//       title="Изменить данные работы"
+//       schema={schemaWithDefaultValues}
+//       submitButtonTitle="Обновить"
+//       deleteButtonTitle="Удалить"
+//       // TODO: подумать как убрать каждоразовое создание функции onUpdate
+//       onSubmit={onUpdate(row.original)}
+//       onDelete={onDelete(row.original)}
+//       mode="mini"
+//     />
+//   );
+// };
+
+// WorkRow.propTypes = {
+//   onClick: PropTypes.func,
+// };
+
+// const WorkRow = ({ row }) => <WorkRowComponent row={row} />;
 
 export { WorkRow };

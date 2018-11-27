@@ -5,7 +5,7 @@ import { InputsPaperBlock } from '../../../../components/smart';
 import { structure, api } from '../../../../libs';
 
 import { schema } from '../../../EmployeeForm/libs';
-import { setDefaultValues } from './setDefaultValues';
+import { setDefaultValues } from '../../../../libs/table/setDefaultValues';
 
 const onUpdate = (row) =>
   async function() {

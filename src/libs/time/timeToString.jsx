@@ -1,6 +1,6 @@
-export default function(str) {
+const timeToString = (str) => {
   // сдвиг даты
-  const addHours = 23;
+  // const addHours = 23;
 
   // добавляем плюс 23 часа, в миллисекундах к дате
   const dateNumber = Date.parse(str); // + addHours * 1000 * 3600;
@@ -10,4 +10,6 @@ export default function(str) {
 
   // обрезаем строку
   return dateString.slice(0, 10);
-}
+};
+
+export { timeToString };

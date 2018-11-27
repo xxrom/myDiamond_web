@@ -1,5 +1,2 @@
-import initMethods from './initMethods';
-import initState from './initState';
-import timeToString from './timeToString';
-
-export { initMethods, initState, timeToString };
+export * from './initMethods';
+export * from './initState';

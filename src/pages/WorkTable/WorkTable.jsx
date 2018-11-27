@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-// import PropTypes from 'prop-types';
-import TableUI from '@material-ui/core/Table';
 
 import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 
 import './WorkTable.css';
-import fetchTableData from './libs/fetchTableData';
+// import fetchTableData from './libs/fetchTableData';
+import { fetchWorkTableData } from '../../libs/api';
+import { timeToString } from '../../libs/time';
 import * as HOC from '../../HOC';
 
 import { WorkRow } from './templates/';
@@ -24,17 +24,20 @@ class WorkTable extends Component {
             {
               Header: 'Номер работы',
               accessor: 'work_id',
-              minWidth: 80,
+              minWidth: 60,
             },
             {
               Header: 'Дата работы',
-              accessor: 'date',
-              minWidth: 100,
+              id: 'date',
+              minWidth: 140,
+              accessor: (d) => {
+                return timeToString(d.date);
+              },
             },
             {
               Header: 'Трудящийся Id',
-              accessor: 'date',
-              minWidth: 100,
+              accessor: 'employee_id_table',
+              minWidth: 200,
             },
             {
               Header: 'Дневной номер трудящегося',
@@ -85,14 +88,15 @@ class WorkTable extends Component {
       data: [],
     };
 
-    this.fetchTableData = fetchTableData.bind(this);
+    this.fetchWorkTableData = fetchWorkTableData.bind(this);
   }
 
   componentDidMount() {
-    this.fetchTableData();
+    this.fetchWorkTableData();
   }
   render() {
     const { columns, data } = this.state;
+    const WorkRowFunction = (row) => <WorkRow row={row} />;
 
     return (
       <div className="table-wrapper">
@@ -103,7 +107,7 @@ class WorkTable extends Component {
           dataName: 'data',
           defaultPageSize: 20,
           className: '-striped -highlight',
-          SubComponent: WorkRow,
+          SubComponent: WorkRowFunction,
           defaultSorted: [{ id: 'work_id', desc: true }],
         })(ReactTable)}
       </div>

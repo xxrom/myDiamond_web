@@ -19,10 +19,29 @@ function deleteEmployeeByEmployeeId(employee_id) {
 
 // FETCH DATA
 function fetchTableData() {
-  return fetchData({
+  const ans = fetchData({
     url: 'employee-table/',
     thenFunction: ({ data }) => this.setState({ data }),
   });
+
+  return ans;
+}
+
+function fetchWorkTableData() {
+  const ans = fetchData({
+    url: 'work-table/',
+    thenFunction: ({ data }) => {
+      data.forEach((item) => {
+        // Для отображения в общей таблице (WorkTable), формируем employee_id_table
+        item['employee_id_table'] = `${item['name']} [${item['employee_id']}]`;
+      });
+      this.setState({ data });
+    },
+  });
+
+  console.log('fetchWorkTableData', ans);
+
+  return ans;
 }
 
 async function fetchAllEmployee() {
@@ -182,6 +201,7 @@ export {
   deleteRatesByEmployeeId,
   deleteEmployeeByEmployeeId,
   fetchTableData,
+  fetchWorkTableData,
   fetchAllEmployee,
   fetchAllArticle,
   postNewEmployee,

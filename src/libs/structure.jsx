@@ -16,12 +16,9 @@ const makeStructure = (schema) => {
   const structureNames = Object.keys(schema).filter(
     (item) => item.indexOf('_') === -1 // в именах не существует '_'
   );
-  // console.log('structureName', structureNames);
 
   // Вспомогательная структура
   const structureSkeleton = structureNames.map((item) => get(item, schema));
-
-  // console.log('structureSkeleton', structureSkeleton);
 
   // Основная структура
   const structure = structureSkeleton.reduce(
@@ -46,9 +43,9 @@ const makeStructure = (schema) => {
     {}
   );
 
-  // console.info('Structure', structure);
-  // console.info('structureSkeleton', structureSkeleton);
-  // console.info('values', values);
+  console.info('Structure', structure);
+  console.info('structureSkeleton', structureSkeleton);
+  console.info('values', values);
 
   return {
     structure,

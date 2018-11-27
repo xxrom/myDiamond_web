@@ -1,5 +1,5 @@
-import { timeToString } from './';
-export default function() {
+import { timeToString } from '../../../libs/time';
+function initState() {
   this.state = {
     columns: [
       {
@@ -61,3 +61,5 @@ export default function() {
     data: [],
   };
 }
+
+export { initState };

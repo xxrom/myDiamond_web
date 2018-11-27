@@ -4,9 +4,7 @@ import ReactTable from 'react-table';
 import 'react-table/react-table.css';
 
 import * as HOC from '../../HOC';
-import { initMethods, initState, timeToString } from './libs';
-// import { AddEmployee } from '../../components/smart/';
-// import { labels } from '../EmployeeForm/libs';
+import { initMethods, initState } from './libs';
 
 import { RowSettings } from './templates';
 

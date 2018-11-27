@@ -1,6 +1,6 @@
 import { api } from '../../../libs/';
 
-export default function() {
+function initMethods() {
   this.fetchTableData = api.fetchTableData.bind(this);
 
   this.onClickEdit = (row) => () => {
@@ -8,3 +8,5 @@ export default function() {
     console.log(row);
   };
 }
+
+export { initMethods };
