@@ -15,7 +15,6 @@ class WorkTable extends Component {
   constructor(props) {
     super(props);
 
-    console.log('init workTable');
     this.state = {
       columns: [
         {

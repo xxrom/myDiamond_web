@@ -52,15 +52,33 @@ const onUpdate = (row) =>
 
 const onDelete = (row) =>
   async function() {
+    const original = row._original;
     console.log('onDelete', row);
-    // const rateId = row.rate_id;
-    // const employeeId = row.employee_id;
-    // console.log('rateId', rateId);
-    // console.log('employeeId', employeeId);
-    // const deleteRateAns = await api.deleteTableData('rate', rateId);
-    // console.log('delete rate', deleteRateAns);
-    // const deleteEmployeeAns = await api.deleteTableData('employee', employeeId);
-    // console.log('delete rate', deleteEmployeeAns);
+    console.log('onDelete', original);
+
+    const articleId = row.article_id;
+    const workId = row.work_id;
+    console.log('articleId', articleId);
+    console.log('workId', workId);
+
+    const deleteArticleId = await api.deleteArticleId(articleId);
+    console.log('deleteArticleId', deleteArticleId);
+    console.log('this.');
+
+    const workAns = await api.selectArticleByWorkId(workId);
+
+    console.log(`workAns`, workAns);
+
+    // Проверяем если еще записи с таким же work_id, если нет, то удаляем этот work_id
+    if (workAns.length === 0) {
+      console.log(
+        `workAns.length === ${
+          workAns.length
+        } (0) => delete by workId = ${workId}`
+      );
+      const deletedWorkId = await api.deleteWorkByWorkId(workId);
+      console.log(deletedWorkId);
+    }
 
     // Показываем popUp об успешном обновлении данных на бэке
     this.setState({
@@ -82,7 +100,6 @@ class WorkRow extends Component {
 
     const schemaWithDefaultValues = setDefaultValues(schema, row.original);
 
-    console.log('schemaWithDefaultValues', schemaWithDefaultValues);
     return (
       <InputsPaperBlock
         title="Изменить данные работы"
@@ -90,35 +107,16 @@ class WorkRow extends Component {
         submitButtonTitle="Обновить"
         deleteButtonTitle="Удалить"
         // TODO: подумать как убрать каждоразовое создание функции onUpdate
-        onSubmit={onUpdate(row.original)}
-        onDelete={onDelete(row.original)}
+        onSubmit={onUpdate(row.row)}
+        onDelete={onDelete(row.row)}
         mode="mini"
       />
     );
   }
 }
 
-// const WorkRow = (row) => {
-//   console.log('row', row);
-//   const schemaWithDefaultValues = setDefaultValues(schema, row.original);
-//   return (
-//     <InputsPaperBlock
-//       title="Изменить данные работы"
-//       schema={schemaWithDefaultValues}
-//       submitButtonTitle="Обновить"
-//       deleteButtonTitle="Удалить"
-//       // TODO: подумать как убрать каждоразовое создание функции onUpdate
-//       onSubmit={onUpdate(row.original)}
-//       onDelete={onDelete(row.original)}
-//       mode="mini"
-//     />
-//   );
-// };
-
 // WorkRow.propTypes = {
 //   onClick: PropTypes.func,
 // };
-
-// const WorkRow = ({ row }) => <WorkRowComponent row={row} />;
 
 export { WorkRow };

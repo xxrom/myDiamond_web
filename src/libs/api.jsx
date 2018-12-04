@@ -197,6 +197,63 @@ async function deleteTableData(table, id) {
   return ans;
 }
 
+async function deleteArticleId(id) {
+  if (typeof +id !== 'number') {
+    console.log(`error Delete deleteArticleId id= [${id}]`);
+    return null;
+  }
+
+  const ans = await fetchData({
+    url: `/article/${id}`,
+    fetchOptionsMethod: 'DELETE',
+    fetchOptionsHeader: {
+      'Content-type': 'application/json',
+    },
+  });
+
+  console.log(`delete ans`, ans);
+
+  return ans;
+}
+
+async function deleteWorkByWorkId(id) {
+  if (typeof +id !== 'number') {
+    console.log(`error Delete deleteWorkByWorkId id= [${id}]`);
+    return null;
+  }
+
+  const ans = await fetchData({
+    url: `/work/${id}`,
+    fetchOptionsMethod: 'DELETE',
+    fetchOptionsHeader: {
+      'Content-type': 'application/json',
+    },
+  });
+
+  console.log(`delete ans`, ans);
+
+  return ans;
+}
+
+async function selectArticleByWorkId(id) {
+  if (typeof +id !== 'number') {
+    console.log(`error select selectArticleByWorkId id= [${id}]`);
+    return null;
+  }
+
+  const ans = await fetchData({
+    url: `/article/by/work-id/${id}`,
+    fetchOptionsMethod: 'GET',
+    fetchOptionsHeader: {
+      'Content-type': 'application/json',
+    },
+  });
+
+  console.log(`delete ans`, ans);
+
+  return ans;
+}
+
 export {
   deleteRatesByEmployeeId,
   deleteEmployeeByEmployeeId,
@@ -210,4 +267,7 @@ export {
   postNewArticleArray,
   updateTableData,
   deleteTableData,
+  deleteArticleId,
+  deleteWorkByWorkId,
+  selectArticleByWorkId,
 };

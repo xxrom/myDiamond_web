@@ -51,10 +51,10 @@ class AutoSuggestionInputBlock extends React.Component {
   }
 
   componentDidMount = () => {
-    fetchSuggestions(this, this.props.keySelector).then((res) => {
+    fetchSuggestions(this, this.props.keySelector).then(
       // Эмулируем вызов из onBlur, чтобы закинуть туда значение value
-      this.checkAndSetInputValue(null, false);
-    });
+      () => this.checkAndSetInputValue(null, false)
+    );
   };
 
   handleSuggestionsFetchRequested = ({ value }) => {
