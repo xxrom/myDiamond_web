@@ -25,28 +25,27 @@ const onUpdate = (row) =>
     console.log('values', values);
     console.log(`work_id ${work_id}, article_id ${article_id}`);
 
-    // Обновляем данные сотрудника
-    const tableOne = 'article';
-    const sendArticleObj = structure.prepare.getObject(values, `${tableOne}0`);
+    // Обновляем данные по артикулу
+    const tableArticle = 'article';
+    const sendArticleObj = structure.prepare.getObject(
+      values,
+      `${tableArticle}0`
+    );
     console.log('sendArticleObj', sendArticleObj);
     const updateArticle = await api.updateTableData(
       sendArticleObj,
-      tableOne,
+      tableArticle,
       row
     );
     console.log(`updateArticle`, updateArticle);
 
-    // Добавляем у данного сотрудника его ставки
-    // let sendRateObj = structure.prepare.getObject(values, 'rate0');
-    // console.log('sendRateArr obj', sendRateObj);
+    // Обновляем данные по работе
+    const tableWork = 'work';
+    let sendWorkObj = structure.prepare.getObject(values, `${tableWork}0`);
+    console.log('sendWorkObj obj', sendWorkObj);
 
-    // sendRateObj = {
-    //   ...sendRateObj,
-    //   employee_id: row['employee_id'],
-    // };
-
-    // const updateRate = await api.updateTableData(sendRateObj, 'rate', row);
-    // console.log(`updateRate`, updateRate);
+    const updateWork = await api.updateTableData(sendWorkObj, tableWork, row);
+    console.log(`updateWork`, updateWork);
 
     // Показываем popUp об успешном обновлении данных на бэке
     this.setState({
