@@ -10,6 +10,8 @@ import { setDefaultValues } from './../../../../libs/table/setDefaultValues';
 const onUpdate = (row) =>
   async function() {
     const { values } = this.state;
+    const { work_id, article_id } = row;
+
     if (!structure.validate.values(values)) {
       console.log('NotValid !!!');
       // Показываем PopUp с ошибкой
@@ -19,17 +21,20 @@ const onUpdate = (row) =>
       });
       return;
     }
+    console.log('row', row);
     console.log('values', values);
+    console.log(`work_id ${work_id}, article_id ${article_id}`);
 
     // Обновляем данные сотрудника
-    // const sendEmployeeObj = structure.prepare.getObject(values, 'employee0');
-    // console.log('sendEmployeeObj', sendEmployeeObj);
-    // const updateEmployee = await api.updateTableData(
-    //   sendEmployeeObj,
-    //   'employee',
-    //   row
-    // );
-    // console.log(`updateEmployee`, updateEmployee);
+    const tableOne = 'article';
+    const sendArticleObj = structure.prepare.getObject(values, `${tableOne}0`);
+    console.log('sendArticleObj', sendArticleObj);
+    const updateArticle = await api.updateTableData(
+      sendArticleObj,
+      tableOne,
+      row
+    );
+    console.log(`updateArticle`, updateArticle);
 
     // Добавляем у данного сотрудника его ставки
     // let sendRateObj = structure.prepare.getObject(values, 'rate0');
@@ -52,21 +57,13 @@ const onUpdate = (row) =>
 
 const onDelete = (row) =>
   async function() {
-    const original = row._original;
-    console.log('onDelete', row);
-    console.log('onDelete', original);
-
     const articleId = row.article_id;
     const workId = row.work_id;
-    console.log('articleId', articleId);
-    console.log('workId', workId);
 
     const deleteArticleId = await api.deleteArticleId(articleId);
     console.log('deleteArticleId', deleteArticleId);
-    console.log('this.');
 
     const workAns = await api.selectArticleByWorkId(workId);
-
     console.log(`workAns`, workAns);
 
     // Проверяем если еще записи с таким же work_id, если нет, то удаляем этот work_id
@@ -80,7 +77,7 @@ const onDelete = (row) =>
       console.log(deletedWorkId);
     }
 
-    // Показываем popUp об успешном обновлении данных на бэке
+    // Показываем popUp об успешном удалении данных на бэке
     this.setState({
       openValidationMessage: true,
       validateMessageType: 'successfulDelete',
@@ -95,7 +92,7 @@ class WorkRow extends Component {
 
   render() {
     const { row } = this.props;
-    console.log('row', row);
+    console.log('row => ', row);
     console.log('schema.schema', schema);
 
     const schemaWithDefaultValues = setDefaultValues(schema, row.original);
@@ -107,8 +104,8 @@ class WorkRow extends Component {
         submitButtonTitle="Обновить"
         deleteButtonTitle="Удалить"
         // TODO: подумать как убрать каждоразовое создание функции onUpdate
-        onSubmit={onUpdate(row.row)}
-        onDelete={onDelete(row.row)}
+        onSubmit={onUpdate(row.original)}
+        onDelete={onDelete(row.original)}
         mode="mini"
       />
     );
